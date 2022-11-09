@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+
 class Staff extends Controller
 {
    public function designation(Request $req)
@@ -169,64 +170,78 @@ class Staff extends Controller
    }
    public function staff(Request $req)
    {
-      if($req->delid!=''){
-         $type=$req->input('type');
-          $delid=$req->input('delid');
-          $data=array(
-             $type=>''
-          );
-          
-          DB::table('staff')->where('id', $delid)->update($data);
-          $req->session()->flash('success', 'Document deleted successfully...');
-          return redirect($_SERVER['HTTP_REFERER']);
+      
+      if ($req->delid != '') {
+         $type = $req->input('type');
+         $delid = $req->input('delid');
+         $data = array(
+            $type => ''
+         );
+
+         DB::table('staff')->where('id', $delid)->update($data);
+         $req->session()->flash('success', 'Document deleted successfully...');
+         return redirect($_SERVER['HTTP_REFERER']);
          exit;
       }
       $data['role'] = DB::select('select * from roles order by id asc');
-      $data['list'] = DB::select('select id,name,employee_id,role,department,designation,qualification,image,email,contact_no,emergency_contact_no,commision,discount from staff order by id asc');
-      return view('staff.staff',$data);
+      if($_SERVER['REQUEST_METHOD']=='POST'){
+        $search_text=$req->input('search_text');
+        
+         $role=$req->input('role');
+         if($role!=''){
+            $data['list'] = DB::select('select id,name,employee_id,role,department,designation,qualification,image,email,contact_no,emergency_contact_no,commision,discount from staff where role='.$role.' order by id asc');
+         }
+         if($search_text!=''){
+            $data['list'] = DB::select('select id,name,employee_id,role,department,designation,qualification,image,email,contact_no,emergency_contact_no,commision,discount from staff where name like "%'.$search_text.'%" order by id asc');
+         }
+      }else{
+         $data['list'] = DB::select('select id,name,employee_id,role,department,designation,qualification,image,email,contact_no,emergency_contact_no,commision,discount from staff order by id asc');
+      }
+     
+      return view('staff.staff', $data);
    }
    public function staffCreate(Request $req)
    {
-     
+
 
       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-         if($req->file('photo')!=''){
+         if ($req->file('photo') != '') {
             $photo = $req->file('photo')->getClientOriginalName();
             $photo_url = $req->file('photo')->move('public/uploads/staff_documents', $photo);
-           }
-           if($req->file('resume')!=''){
+         }
+         if ($req->file('resume') != '') {
             $resume = $req->file('resume')->getClientOriginalName();
             $resume_url = $req->file('resume')->move('public/uploads/staff_documents', $resume);
-           }
-           if($req->file('other_doc')!=''){
+         }
+         if ($req->file('other_doc') != '') {
             $other_doc = $req->file('other_doc')->getClientOriginalName();
             $other_doc_url = $req->file('other_doc')->move('public/uploads/staff_documents', $other_doc);
-           }
-           if($req->file('joining_letter')!=''){
+         }
+         if ($req->file('joining_letter') != '') {
             $joining_letter = $req->file('joining_letter')->getClientOriginalName();
             $joining_letter_url = $req->file('joining_letter')->move('public/uploads/staff_documents', $joining_letter);
-           }
-           if($req->file('resignation_letter')!=''){
+         }
+         if ($req->file('resignation_letter') != '') {
             $resignation_letter = $req->file('resignation_letter')->getClientOriginalName();
             $resignation_letter_url = $req->file('resignation_letter')->move('public/uploads/staff_documents', $resignation_letter);
-           }
-         if($req->input('uid')!=''){
-           
-            $chek=DB::select('select * from staff where id='.$req->input('uid'));
-            if($req->file('photo')==''){
-               $photo_url=$chek[0]->image;
+         }
+         if ($req->input('uid') != '') {
+
+            $chek = DB::select('select * from staff where id=' . $req->input('uid'));
+            if ($req->file('photo') == '') {
+               $photo_url = $chek[0]->image;
             }
-            if($req->file('resume')==''){
-               $resume_url=$chek[0]->resume;
+            if ($req->file('resume') == '') {
+               $resume_url = $chek[0]->resume;
             }
-            if($req->file('other_doc')==''){
-               $other_doc_url=$chek[0]->other_document_file;
+            if ($req->file('other_doc') == '') {
+               $other_doc_url = $chek[0]->other_document_file;
             }
-            if($req->file('joining_letter')==''){
-               $joining_letter_url=$chek[0]->joining_letter;
+            if ($req->file('joining_letter') == '') {
+               $joining_letter_url = $chek[0]->joining_letter;
             }
-            if($req->file('resignation_letter')==''){
-               $resignation_letter_url=$chek[0]->resignation_letter;
+            if ($req->file('resignation_letter') == '') {
+               $resignation_letter_url = $chek[0]->resignation_letter;
             }
             $data = array(
                'role' => trim($req->input('role')),
@@ -249,7 +264,7 @@ class Staff extends Controller
                'work_exp' => trim($req->input('work_exp')),
                'note' => trim($req->input('note')),
                'commision' => trim($req->input('commision')),
-               'discount'=>trim($req->input('discount')),
+               'discount' => trim($req->input('discount')),
                'epf_no' => trim($req->input('epf_no')),
                'basic_salary' => trim($req->input('basic_salary')),
                'contract_type' => trim($req->input('contract_type')),
@@ -267,25 +282,25 @@ class Staff extends Controller
                'twitter' => trim($req->input('twitter')),
                'linkedin' => trim($req->input('linkedin')),
                'instagram' => trim($req->input('instagram')),
-               'image'=>$photo_url,
-               'resume'=>$resume_url,
-               'other_document_file'=>$other_doc_url,
-               'joining_letter'=>$joining_letter_url,
-               'resignation_letter'=>$resignation_letter_url,
+               'image' => $photo_url,
+               'resume' => $resume_url,
+               'other_document_file' => $other_doc_url,
+               'joining_letter' => $joining_letter_url,
+               'resignation_letter' => $resignation_letter_url,
             );
-             
+
             $insert =  DB::table('staff')->where('id', $req->input('uid'))->update($data);
             $req->session()->flash('success', 'Updated successfully...');
             return redirect('admin/staff');
             exit;
          }
-         
+
          $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890!$%^&!$%^&');
-           $password = substr($random, 0, 10);
-         
-           $data = array(
+         $password = substr($random, 0, 10);
+
+         $data = array(
             'role' => trim($req->input('role')),
-            'employee_id' => 'EWGE00'.rand(100,99999),
+            'employee_id' => 'EWGE00' . rand(100, 99999),
             'designation' => trim($req->input('designation')),
             'department' => trim($req->input('department')),
             'name' => trim($req->input('name')),
@@ -305,7 +320,7 @@ class Staff extends Controller
             'work_exp' => trim($req->input('work_exp')),
             'note' => trim($req->input('note')),
             'commision' => trim($req->input('commision')),
-            'discount'=>trim($req->input('discount')),
+            'discount' => trim($req->input('discount')),
             'epf_no' => trim($req->input('epf_no')),
             'basic_salary' => trim($req->input('basic_salary')),
             'contract_type' => trim($req->input('contract_type')),
@@ -323,28 +338,28 @@ class Staff extends Controller
             'twitter' => trim($req->input('twitter')),
             'linkedin' => trim($req->input('linkedin')),
             'instagram' => trim($req->input('instagram')),
-            'image'=>$photo_url,
-            'resume'=>$resume_url,
-            'other_document_file'=>$other_doc_url,
-            'joining_letter'=>$joining_letter_url,
-            'resignation_letter'=>$resignation_letter_url,
-            'password'=>Hash::make($password),
+            'image' => $photo_url,
+            'resume' => $resume_url,
+            'other_document_file' => $other_doc_url,
+            'joining_letter' => $joining_letter_url,
+            'resignation_letter' => $resignation_letter_url,
+            'password' => Hash::make($password),
          );
 
          $req->validate([
             'email' => 'required|unique:staff,email',
-            'role'=>'required',
-            'name'=>'required',
-            'dob'=>'required',
-            'gender'=>'required',
-            'commision'=>'required',
-            'discount'=>'required',
+            'role' => 'required',
+            'name' => 'required',
+            'dob' => 'required',
+            'gender' => 'required',
+            'commision' => 'required',
+            'discount' => 'required',
 
          ]);
-         
+
 
          $insert =  DB::table('staff')->insert($data);
-        
+
          if ($insert) {
             $req->session()->flash('success', 'Inserted successfully...');
             return redirect($_SERVER['HTTP_REFERER']);
@@ -352,21 +367,118 @@ class Staff extends Controller
             $req->session()->flash('error', 'Some error occured...');
             return redirect($_SERVER['HTTP_REFERER']);
          }
- 
       }
       $data['role'] = DB::select('select * from roles order by id asc');
       $data['designation'] = DB::select('select * from staff_designation order by id asc');
       $data['department'] = DB::select('select * from department order by id asc');
-      if($req->input('uid')!=''){
-         $data['res']=DB::select('select * from staff where id='.$req->input('uid'));
+      if ($req->input('uid') != '') {
+         $data['res'] = DB::select('select * from staff where id=' . $req->input('uid'));
       }
       return view('staff.staffCreate', $data);
    }
 
    public function profile(Request $req)
    {
-      $id=$req->input('id');
-      $data['res']=DB::select('select * from staff where id='.$id);
-      return view('staff.profile',$data);
+      $id = $req->input('id');
+      $data['res'] = DB::select('select * from staff where id=' . $id);
+      return view('staff.profile', $data);
+   }
+   public function payroll(Request $req)
+   {
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+         $data['role'] = $req->input('role');
+         $data['month'] = $req->input('month');
+         $data['year'] = $req->input('year');
+
+         $data['list'] = DB::select('select id,name,surname,employee_id,role,department,designation,contact_no from staff where role=' . $req->input('role'));
+      }
+      $data['roles'] = DB::select('select * from roles');
+      return view('staff.payroll', $data);
+   }
+   public function payrollCreate(Request $req, $month, $year, $id)
+   {
+
+      $data['res'] = DB::select('select * from staff where id=' . $id);
+      return view('staff.payrollCreate', $data);
+   }
+   public function payslip(Request $req)
+   {
+
+      $data = array(
+         'allowance_type' => trim(implode(",", $req->input('allowance_type'))),
+         'allowance_amount' => trim(implode(",", $req->input('allowance_amount'))),
+         'deduction_type' => trim(implode(",", $req->input('deduction_type'))),
+         'deduction_amount' => trim(implode(",", $req->input('deduction_amount'))),
+         'basic' => trim($req->input('basic')),
+         'total_allowance' => trim($req->input('total_allowance')),
+         'total_deduction' => trim($req->input('total_deduction')),
+         'gross_salary' => trim($req->input('gross_salary')),
+         'tax' => trim($req->input('tax')),
+         'net_salary' => trim($req->input('net_salary')),
+         'staff_id' => trim($req->input('staff_id')),
+         'month' => trim($req->input('month')),
+         'year' => trim($req->input('year')),
+         'status' => trim($req->input('status')),
+      );
+      $insert =  DB::table('staff_payslip')->insert($data);
+      if ($insert) {
+         $req->session()->flash('success', 'Payslip generated successfully...');
+         return redirect('admin/payroll');
+      } else {
+         $req->session()->flash('error', 'Some error occured...');
+         return redirect($_SERVER['HTTP_REFERER']);
+      }
+   }
+   public function paymentSuccess(Request $req)
+   {
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+         $paymentid = $req->input('paymentid');
+         $data = array(
+            'payment_mode' => trim($req->input('payment_mode')),
+            'payment_date' => trim($req->input('payment_date')),
+            'remark' => trim($req->input('remarks')),
+            'status' => 'Paid'
+         );
+         $insert =  DB::table('staff_payslip')->where('id', $paymentid)->update($data);
+         $req->session()->flash('success', 'Updated successfully...');
+         echo 'success';
+         //  return redirect($_SERVER['HTTP_REFERER']);
+      }
+   }
+
+   public function payrollRevert(Request $req, $month, $year, $id)
+   {
+
+      $staffid = $req->input('staff_id');
+      $check = DB::select('select role from staff where id=' . $staffid);
+      $role = $check[0]->role;
+      $status = $req->input('status');
+      if ($status == 'Paid') {
+         $status = 'generated';
+         $data = array(
+            'payment_mode' => 'null',
+            'payment_date' => 'null',
+            'remark' => 'null',
+            'status' => $status
+         );
+         $insert =  DB::table('staff_payslip')->where('id', $id)->update($data);
+      } else {
+         $deleted = DB::table('staff_payslip')->where('id', '=', $id)->delete();
+      }
+
+      $req->session()->flash('success', 'Payment reverted successfully...');
+
+
+      $data['role'] = $role;
+      $data['month'] = $month;
+      $data['year'] = $year;
+
+      $data['list'] = DB::select('select id,name,surname,employee_id,role,department,designation,contact_no from staff where role=' . $role);
+
+
+      $data['roles'] = DB::select('select * from roles');
+      return view('staff.payroll', $data);
+      //return redirect($_SERVER['HTTP_REFERER']);
    }
 }

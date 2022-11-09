@@ -57,7 +57,11 @@ Route::match(['get','post'],'/designation',[Staff::class,'designation']);
 Route::match(['get','post'],'/department',[Staff::class,'department']);
 Route::match(['get','post'],'/leavetypes',[Staff::class,'leavetype']);
 Route::match(['get','post'],'/roles',[Staff::class,'roles']);
-
+Route::match(['get','post'],'/payroll',[Staff::class,'payroll']);
+Route::match(['post'],'/payroll/payslip',[Staff::class,'payslip']);
+Route::match(['post'],'/payroll/paymentSuccess',[Staff::class,'paymentSuccess']);
+Route::match(['get','post'],'/payroll/create/{month}/{year}/{id}',[Staff::class,'payrollCreate']);
+Route::match(['get','post'],'/payroll/revert/{month}/{year}/{id}',[Staff::class,'payrollRevert']);
 });
 
 //master prefix

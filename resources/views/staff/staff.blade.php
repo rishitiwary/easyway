@@ -30,7 +30,7 @@
                                     <div class="col-md-6">
                                         <div class="row">
                                             <form role="form" action="{{url('admin/staff')}}" method="post" class="">
-                                                <input type='hidden' name='ci_csrf_token' value='' />
+                                               @csrf
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
                                                         <label>Role</label><small class="req"> *</small>
@@ -190,56 +190,5 @@
         </div>
         </section>
     </div>
-    <script type="text/javascript">
-        function getSectionByClass(class_id, section_id) {
-            if (class_id != "" && section_id != "") {
-                $('#section_id').html("");
-                var base_url = 'https://easywayglobal.in/';
-                var div_data = '<option value="">Select</option>';
-                $.ajax({
-                    type: "GET",
-                    url: base_url + "sections/getByClass",
-                    data: {
-                        'class_id': class_id
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        $.each(data, function(i, obj) {
-                            var sel = "";
-                            if (section_id == obj.section_id) {
-                                sel = "selected";
-                            }
-                            div_data += "<option value=" + obj.section_id + " " + sel + ">" + obj.section + "</option>";
-                        });
-                        $('#section_id').append(div_data);
-                    }
-                });
-            }
-        }
-        $(document).ready(function() {
-            var class_id = $('#class_id').val();
-            var section_id = '';
-            getSectionByClass(class_id, section_id);
-            $(document).on('change', '#class_id', function(e) {
-                $('#section_id').html("");
-                var class_id = $(this).val();
-                var base_url = 'https://easywayglobal.in/';
-                var div_data = '<option value="">Select</option>';
-                $.ajax({
-                    type: "GET",
-                    url: base_url + "sections/getByClass",
-                    data: {
-                        'class_id': class_id
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        $.each(data, function(i, obj) {
-                            div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
-                        });
-                        $('#section_id').append(div_data);
-                    }
-                });
-            });
-        });
-    </script>
+
     @include('admin.include.footer');
