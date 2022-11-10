@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 error_reporting(0);
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Hash;
 use function PHPSTORM_META\type;
 
 class Admin extends Controller
@@ -522,5 +523,38 @@ class Admin extends Controller
       $data['subjects']=DB::select('select * from subjects order by id asc');
 
          return view('academics.subjectgroup',$data);
+   }
+   public function login(Request $req)
+   {
+if($_SERVER['REQUEST_METHOD']=='POST')
+{
+   $req->validate([
+      'username' => 'required',
+      'password' => 'required',
+  ]);
+
+$users= DB::table('staff')->where('email', $req->input('username'))->first();
+
+ $passcheck=Hash::check(request('password'), $users->password);
+ if($passcheck){
+    $data=array(
+       'id'=>$users->id,
+     'name'=> $users->name,
+     'surname'=> $users->surname,
+      'email'=>$users->email,
+      'role'=>$users->role,
+      'employee_id'=>$users->employee_id,
+      'is_active'=>$users->is_active
+    );
+   $req->session()->put('userInfo', $data);
+ 
+return redirect('admin/dashboard');
+ }
+ 
+ $req->session()->flash('error', 'Some error occured');
+ return redirect('admin/login');
+     
+}
+      return view('home.login');
    }
 }

@@ -32,6 +32,7 @@ Route::get('/login',[Home::class,'login']);
 Route::get('/forgotpassword',[Home::class,'forgotpassword']);
 //admin prefix
 Route::group(['prefix'=>'admin'],function(){
+    Route::match(['get','post'],'/login',[Admin::class,'login']);  
 Route::get('/dashboard',[Admin::class,'index']);
 Route::get('/events',[Admin::class,'events']);
 Route::match(['get', 'post'],'/events/create',[Admin::class,'eventcreate']);
@@ -62,6 +63,13 @@ Route::match(['post'],'/payroll/payslip',[Staff::class,'payslip']);
 Route::match(['post'],'/payroll/paymentSuccess',[Staff::class,'paymentSuccess']);
 Route::match(['get','post'],'/payroll/create/{month}/{year}/{id}',[Staff::class,'payrollCreate']);
 Route::match(['get','post'],'/payroll/revert/{month}/{year}/{id}',[Staff::class,'payrollRevert']);
+Route::get('/payroll/payslipView',[Staff::class,'payslipView']);
+Route::match(['get','post'],'/staffattendance',[Staff::class,'attendance']);
+Route::match(['get','post'],'/staff/leaverequest',[Staff::class,'leaverequest']);
+Route::match(['post'],'/staff/changepassword',[Staff::class,'changepassword']);
+Route::match(['get','post'],'/staff/approve_leaverequest',[Staff::class,'approve_leaverequest']);
+
+
 });
 
 //master prefix

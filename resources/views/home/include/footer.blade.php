@@ -12,7 +12,7 @@
                         <li> <a href="syllabus.html"> Syllabus </a></li>
                         <li class="">
 
-                            <a href="login">Easyway Login</a>
+                            <a href="{{url('admin/login')}}">Easyway Login</a>
 
 
 

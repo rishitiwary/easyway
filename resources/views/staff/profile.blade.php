@@ -2697,66 +2697,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="myTimelineModal" role="dialog">
-            <div class="modal-dialog modal-sm400">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title title text-center transport_fees_title"></h4>
-                    </div>
-
-                    <form id="timelineform" name="timelineform" method="post"
-                        action="https://easywayglobal.in/admin/timeline/add_staff_timeline"
-                        enctype="multipart/form-data">
-                        <div class="modal-body pt0 pb0">
-                            <input type='hidden' name='ci_csrf_token' value='' />
-                            <div id='timeline_hide_show'>
-                                <input type="hidden" name="staff_id" value="2" id="staff_id">
-                                <h4></h4>
-                                <div class="">
-                                    <div class="form-group">
-                                        <label for="">Title</label><small class="req"> *</small>
-                                        <input id="timeline_title" name="timeline_title" placeholder="" type="text"
-                                            class="form-control" />
-                                        <span class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Date</label><small class="req"> *</small>
-                                        <input id="timeline_date" name="timeline_date" value="06.11.2022" placeholder=""
-                                            type="text" class="form-control date" />
-                                        <span class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Description</label>
-                                        <textarea id="timeline_desc" name="timeline_desc" placeholder=""
-                                            class="form-control"></textarea>
-                                        <span class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Attach Document</label>
-                                        <div class=""><input id="timeline_doc_id" name="timeline_doc" placeholder=""
-                                                type="file" class="filestyle form-control" data-height="40" value="" />
-                                            <span class="text-danger"></span></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="col-align--top">Visible to this person</label>
-                                        <input id="visible_check" checked="checked" name="visible_check" value="yes"
-                                            placeholder="" type="checkbox" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer" style="clear:both">
-                            <button type="submit" class="btn btn-info pull-right">Save</button>
-
-                            <button type="reset" id="reset" style="display: none"
-                                class="btn btn-info pull-right">Reset</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
+       
         <div id="scheduleModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -2795,6 +2736,8 @@
                         <h4 class="modal-title">Change Password</h4>
                     </div>
                     <form method="post" id="changepassbtn" action="">
+                    <input type="hidden" name="staff_id" value="<?=$res[0]->id?>" id="staff_id">
+                        @csrf
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="email">Password <small class="req"> *</small></label>
@@ -2802,7 +2745,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="pwd">Confirm Password <small class="req"> *</small></label>
-                                <input type="password" class="form-control" name="confirm_pass" id="pwd">
+                                <input type="password" class="form-control" name="password_confirmation" id="pwd">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -2949,28 +2892,26 @@
         $(document).ready(function(e) {
             $("#changepassbtn").on('submit', (function(e) {
                 var staff_id = $("#staff_id").val();
+                let url="{{url('admin/staff/changepassword')}}";
+
                 e.preventDefault();
                 $.ajax({
-                    url: "https://easywayglobal.in/admin/staff/change_password/" + staff_id,
+                    url: url,
                     type: "POST",
                     data: new FormData(this),
-                    dataType: 'json',
+                   // dataType: 'json',
                     contentType: false,
                     cache: false,
                     processData: false,
+                   
                     success: function(data) {
+                        if (data == "1") {
 
-                        if (data.status == "fail") {
-
-                            var message = "";
-                            $.each(data.error, function(index, value) {
-
-                                message += value;
-                            });
+                            var message = "The password confirmation and new pass must match";
                             errorMsg(message);
                         } else {
-                            successMsg(data.message);
-                            window.location.reload(true);
+                            successMsg("Password is changed successfully..");
+                          window.location.reload(true);
                         }
                     },
                     error: function(e) {
@@ -2981,33 +2922,7 @@
             }));
         });
 
-        function delete_timeline(id) {
-            var staff_id = $("#staff_id").val();
-            if (confirm('Delete Confirm?')) {
-
-                $.ajax({
-                    url: 'https://easywayglobal.in/admin/timeline/delete_staff_timeline/' + id,
-                    success: function(res) {
-                        $.ajax({
-                            url: 'https://easywayglobal.in/admin/timeline/staff_timeline/' +
-                                staff_id,
-                            success: function(res) {
-                                $('#timeline_list').html(res);
-
-                            },
-                            error: function() {
-                                alert("Fail")
-                            }
-                        });
-
-                    },
-                    error: function() {
-                        alert("Fail")
-                    }
-                });
-            }
-        }
-
+         
         $(document).ready(function() {
             $(document).on('click', '.change_password', function() {
 

@@ -244,7 +244,7 @@
 
 
                     <li class=""><a href="{{url('admin/payroll')}}"><i class="fa fa-angle-double-right"></i> Payroll</a></li>
-                    <li class=""><a href="{{url('admin/leaverequest')}}"><i class="fa fa-angle-double-right"></i> Approve
+                    <li class=""><a href="{{url('admin/staff/approve_leaverequest')}}"><i class="fa fa-angle-double-right"></i> Approve
                             Leave Request</a></li>
 
                     <li class=""><a href="{{url('admin/staff/leaverequest')}}"><i class="fa fa-angle-double-right"></i> Apply Leave</a>

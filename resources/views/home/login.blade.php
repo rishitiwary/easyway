@@ -56,31 +56,40 @@
                     <div class="bgoffsetbg">
 
 
-
+                    @if(session('success'))
+                <div class="alert alert-success">
+                        <strong>Success!</strong> <?= @session('success') ?>.
+                    </div>
+                    @endif
+                    @if(session('error'))
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> <?= @session('error') ?>.
+                    </div>
+                    @endif
                         <div class="col-lg-4 col-md-4 col-sm-12 nopadding  ">
                             <div class="loginbg loginradius login390">
                                 <div class="form-top">
                                     <div class="form-top-left logowidth">
-                                        <img src="https://easywayglobal.in/uploads/school_content/admin_logo/1.png">
+                                        <img src="{{asset('public/uploads/school_content/admin_logo/1.png')}}">
                                     </div>
                                     <!-- <div class="form-top-right"><i class="fa fa-key"></i></div> -->
                                 </div>
 
                                 <div class="form-bottom">
                                     <h3 class="font-white bolds">Admin Login</h3>
-                                    <form action="https://easywayglobal.in/site/login" method="post">
-                                        <input type="hidden" name="ci_csrf_token" value="">
+                                    <form action="{{url('admin/login')}}" method="post">
+                                       @csrf
                                         <div class="form-group has-feedback">
                                             <input type="text" name="username" placeholder="Username" value=""
                                                 class="form-username form-control" id="form-username">
                                             <span class="fa fa-envelope form-control-feedback"></span>
-                                            <span class="text-danger"></span>
+                                            <span class="text-danger">@error('username'){{$message}}@enderror</span>
                                         </div>
                                         <div class="form-group has-feedback">
                                             <input type="password" value="" name="password" placeholder="Password"
                                                 class="form-password form-control" id="form-password">
                                             <span class="fa fa-lock form-control-feedback"></span>
-                                            <span class="text-danger"></span>
+                                            <span class="text-danger">@error('password'){{$message}}@enderror</span>
                                         </div>
                                         <button type="submit" class="btn">Sign In</button>
                                     </form>

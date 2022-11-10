@@ -1,5 +1,17 @@
 @include('admin.include.head');
-
+<style>
+    @media print {
+        .moprintblack {
+            display: none;
+        }
+        .content{
+            display: none;
+        }
+      .modal-header{
+        display: none;
+      }
+    }
+    </style>
 <body class="hold-transition skin-blue fixed sidebar-mini">
     <div class="wrapper">
         @include('admin.include.header');
@@ -11,6 +23,17 @@
             <!-- Main content -->
             <section class="content">
                 <div class="row">
+                <div class="row">
+                    @if(session('success'))
+                <div class="alert alert-success">
+                        <strong>Success!</strong> <?= @session('success') ?>.
+                    </div>
+                    @endif
+                    @if(session('error'))
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> <?= @session('error') ?>.
+                    </div>
+                    @endif
                     <div class="col-md-12">
                         <div class="box box-primary">
                             <div class="box-header with-border">
@@ -204,7 +227,7 @@
                                                 @if($status=='generated')
                                                 <a href="#" onclick="getRecord(<?= $row->id ?>, <?= $year ?>,'<?= $month ?>',<?= $payslipId ?>,'<?= $row->name ?>','<?= $row->surname ?>','<?= $row->employee_id ?>',<?= $net_salary ?>)" role="button" class="btn btn-primary btn-xs checkbox-toggle edit_setting" data-toggle="tooltip" title="Proceed To Pay" data-original-title="">Proceed To Pay</a>
                                                 @elseif($status=='Paid')
-                                                <a href="#" onclick="getRecord(<?= $row->id ?>, <?= $year ?>,'<?= $month ?>',<?= $payslipId ?>,'<?= $row->name ?>','<?= $row->surname ?>','<?= $row->employee_id ?>',<?= $net_salary ?>)" role="button" class="btn btn-primary btn-xs checkbox-toggle edit_setting" data-toggle="tooltip" title="View Payslip" data-original-title="">View Payslip</a>
+                                                <a href="#" onclick="getPayslip(<?= $payslipId ?>)" role="button" class="btn btn-primary btn-xs checkbox-toggle edit_setting" data-toggle="tooltip" title="View Payslip" data-original-title="">View Payslip</a>
                                                 @else
                                                 <a class="btn btn-primary btn-xs checkbox-toggle" role="button" href="{{url('admin/payroll/create')}}/<?= $month ?>/<?= $year ?>/<?= $row->id ?>">
                                                     Generate Payroll
@@ -331,67 +354,17 @@
 
             };
 
-            function popup(data) {
-                var base_url = 'https://easywayglobal.in/';
-                var frame1 = $('<iframe />');
-                frame1[0].name = "frame1";
-                frame1.css({
-                    "position": "absolute",
-                    "top": "-1000000px"
-                });
-                $("body").append(frame1);
-                var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ?
-                    frame1[0].contentDocument.document : frame1[0].contentDocument;
-                frameDoc.document.open();
-                //Create a new HTML document.
-                frameDoc.document.write('<html>');
-                frameDoc.document.write('<head>');
-                frameDoc.document.write('<title></title>');
-                frameDoc.document.write('<link rel="stylesheet" href="' + base_url +
-                    'backend/bootstrap/css/bootstrap.min.css">');
-                frameDoc.document.write('<link rel="stylesheet" href="' + base_url +
-                    'backend/dist/css/font-awesome.min.css">');
-                frameDoc.document.write('<link rel="stylesheet" href="' + base_url + 'backend/dist/css/ionicons.min.css">');
-                frameDoc.document.write('<link rel="stylesheet" href="' + base_url + 'backend/dist/css/AdminLTE.min.css">');
-                frameDoc.document.write('<link rel="stylesheet" href="' + base_url +
-                    'backend/dist/css/skins/_all-skins.min.css">');
-                frameDoc.document.write('<link rel="stylesheet" href="' + base_url +
-                    'backend/plugins/iCheck/flat/blue.css">');
-                frameDoc.document.write('<link rel="stylesheet" href="' + base_url + 'backend/plugins/morris/morris.css">');
-                frameDoc.document.write('<link rel="stylesheet" href="' + base_url +
-                    'backend/plugins/jvectormap/jquery-jvectormap-1.2.2.css">');
-                frameDoc.document.write('<link rel="stylesheet" href="' + base_url +
-                    'backend/plugins/datepicker/datepicker3.css">');
-                frameDoc.document.write('<link rel="stylesheet" href="' + base_url +
-                    'backend/plugins/daterangepicker/daterangepicker-bs3.css">');
-                frameDoc.document.write('</head>');
-                frameDoc.document.write('<body>');
-                frameDoc.document.write(data);
-                frameDoc.document.write('</body>');
-                frameDoc.document.write('</html>');
-                frameDoc.document.close();
-                setTimeout(function() {
-                    window.frames["frame1"].focus();
-                    window.frames["frame1"].print();
-                    frame1.remove();
-                }, 500);
-
-
-                return true;
-            }
-
+             
             function getPayslip(id) {
-                var base_url = 'https://easywayglobal.in/';
                 $.ajax({
-                    url: base_url + 'admin/payroll/payslipView',
-                    type: 'POST',
+                    url: '{{url("admin/payroll/payslipView")}}',
+                    type: 'GET',
                     data: {
                         payslipid: id
                     },
                     success: function(result) {
                         $("#print1").html(
-                            "<a href='#'  class='pull-right modal-title moprintblack'  onclick='printData(" +
-                            id + ")'  title='Print' ><i class='fa fa-print'></i></a>");
+                            "<a href='#'  class='pull-right modal-title moprintblack'  onclick='printData("+id+")'  title='Print' ><i class='fa fa-print'></i></a>");
                         $("#testdata").html(result);
                     }
                 });
@@ -405,20 +378,9 @@
             };
 
             function printData(id) {
-                var base_url = 'https://easywayglobal.in/';
-                $('.noprint').hide();
-                $.ajax({
-                    url: base_url + 'admin/payroll/payslipView',
-                    type: 'POST',
-                    data: {
-                        payslipid: id
-                    },
-                    success: function(result) {
-                        $("#testdata").html(result);
-                        popup(result);
-                    }
-                });
-                //$('.noprint').show();
+                console.log('yes');
+                $("#testdata").show();
+    window.print();
             }
 
             function getEmployeeName(role) {

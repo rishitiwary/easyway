@@ -93,11 +93,8 @@ class Staff extends Controller
    public function leavetype(Request $req)
    {
       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-
          $data = array(
             'type' => trim($req->input('type')),
-
          );
          if ($req->input('uid') != '') {
             $insert =  DB::table('leave_types')->where('id', $req->input('uid'))->update($data);
@@ -170,7 +167,7 @@ class Staff extends Controller
    }
    public function staff(Request $req)
    {
-      
+
       if ($req->delid != '') {
          $type = $req->input('type');
          $delid = $req->input('delid');
@@ -184,20 +181,20 @@ class Staff extends Controller
          exit;
       }
       $data['role'] = DB::select('select * from roles order by id asc');
-      if($_SERVER['REQUEST_METHOD']=='POST'){
-        $search_text=$req->input('search_text');
-        
-         $role=$req->input('role');
-         if($role!=''){
-            $data['list'] = DB::select('select id,name,employee_id,role,department,designation,qualification,image,email,contact_no,emergency_contact_no,commision,discount from staff where role='.$role.' order by id asc');
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+         $search_text = $req->input('search_text');
+
+         $role = $req->input('role');
+         if ($role != '') {
+            $data['list'] = DB::select('select id,name,employee_id,role,department,designation,qualification,image,email,contact_no,emergency_contact_no,commision,discount from staff where role=' . $role . ' order by id asc');
          }
-         if($search_text!=''){
-            $data['list'] = DB::select('select id,name,employee_id,role,department,designation,qualification,image,email,contact_no,emergency_contact_no,commision,discount from staff where name like "%'.$search_text.'%" order by id asc');
+         if ($search_text != '') {
+            $data['list'] = DB::select('select id,name,employee_id,role,department,designation,qualification,image,email,contact_no,emergency_contact_no,commision,discount from staff where name like "%' . $search_text . '%" order by id asc');
          }
-      }else{
+      } else {
          $data['list'] = DB::select('select id,name,employee_id,role,department,designation,qualification,image,email,contact_no,emergency_contact_no,commision,discount from staff order by id asc');
       }
-     
+
       return view('staff.staff', $data);
    }
    public function staffCreate(Request $req)
@@ -379,6 +376,7 @@ class Staff extends Controller
 
    public function profile(Request $req)
    {
+
       $id = $req->input('id');
       $data['res'] = DB::select('select * from staff where id=' . $id);
       return view('staff.profile', $data);
@@ -480,5 +478,144 @@ class Staff extends Controller
       $data['roles'] = DB::select('select * from roles');
       return view('staff.payroll', $data);
       //return redirect($_SERVER['HTTP_REFERER']);
+   }
+
+   public function payslipView(Request $req)
+   {
+
+      $id = $req->input('payslipid');
+      $data['res'] = DB::select('select * from staff_payslip where id=' . $id);
+      return view('staff.payslipView', $data);
+   }
+
+
+   public function attendance(Request $req)
+   {
+
+      if ($req->input('staff_id') != '') {
+         $staffid = $req->input('staff_id');
+
+
+         foreach ($staffid as $val) {
+
+            $data = array(
+               'staff_id' => $val,
+               'staff_attendance_type_id' => $req->input('attendencetype' . $val),
+               'remark' => $req->input('remark' . $val),
+               'date' => $req->input('date'),
+               'role' => $req->input('user_id'),
+            );
+            if ($req->input('type') == '1') {
+               $uid = $req->input('uid' . $val);
+               $update =  DB::table('staff_attendance')->where('id', $uid)->update($data);
+            } else {
+               $insert =  DB::table('staff_attendance')->insert($data);
+            }
+         }
+
+         if (!$insert) {
+            $req->session()->flash('success', 'Updated successfully...');
+            return redirect($_SERVER['HTTP_REFERER']);
+         }
+         if ($insert) {
+            $req->session()->flash('success', 'Inserted successfully...');
+            return redirect($_SERVER['HTTP_REFERER']);
+         } else {
+            $req->session()->flash('error', 'Some error occured...');
+            return redirect($_SERVER['HTTP_REFERER']);
+         }
+      }
+      $role = $data['user_id'] = $req->input('user_id');
+      if ($req->input('date') == '') {
+         $data['date'] = date('Y-m-d');
+      } else {
+         $data['date'] = $req->input('date');
+      }
+
+
+      $data['role'] = DB::select('select * from roles where is_active=0');
+      if ($req->input('user_id') != '') {
+
+         $data['attendance'] = DB::select('select id,date from staff_attendance where  role=' . $req->input('user_id') . ' and date="' . $req->input("date") . '"');
+         $data['list'] = DB::select('select id,name,surname,employee_id,role from staff where role=' . $req->input('user_id'));
+      }
+
+      return view('staff.attendance', $data);
+   }
+   public function leaverequest(Request $req)
+   {
+      if ($req->input('delid') != '') {
+         $deleted = DB::table('staff_leave_request')->where('id', '=', $req->input('delid'))->delete();
+         $req->session()->flash('success', 'Deleted succesfully...');
+         return redirect($_SERVER['HTTP_REFERER']);
+         exit;
+      }
+      $userInfo = $req->session()->get('userInfo');
+
+      $id = $userInfo['id'];
+      $res = $data['res'] = DB::select('select festival_leave,emergency_leave,regular_leave ,id from staff where id=' . $id);
+
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+         $diff = (strtotime($req->input('leave_to_date')) - strtotime($req->input('leave_from_date'))) / 24 / 3600;
+         $leavetype = $req->input('leave_type');
+         $rest_leave = $res[0]->$leavetype - $diff;
+         if ($rest_leave <= 0) {
+            $req->session()->flash('error', 'Sorry you exceeded the leave...');
+            return redirect($_SERVER['HTTP_REFERER']);
+            exit;
+         }
+         if ($req->file('userfile') != '') {
+            $userfile = $req->file('userfile')->getClientOriginalName();
+            $document_file = $req->file('userfile')->move('public/uploads/staff_documents', $userfile);
+         }
+         $data = array(
+            'staff_id' => $id,
+            'leave_type' => $req->input('leave_type'),
+            'leave_from' => $req->input('leave_from_date'),
+            'leave_to' => $req->input('leave_to_date'),
+            'applieddate' => $req->input('applieddate'),
+            'leave_days' => $diff,
+            'employee_remark' => trim($req->input('reason')),
+            'document_file' => $document_file,
+            'status' => 'pending',
+            'applied_by' => $userInfo['name'] . ' ' . $userInfo['surname'],
+         );
+         $insert =  DB::table('staff_leave_request')->insert($data);
+         if ($insert) {
+            $req->session()->flash('success', 'Inserted successfully...');
+            return redirect($_SERVER['HTTP_REFERER']);
+         } else {
+            $req->session()->flash('error', 'Some error occured...');
+            return redirect($_SERVER['HTTP_REFERER']);
+         }
+      }
+      $data['list'] = DB::select('select * from staff_leave_request where staff_id=' . $id);
+      return view('staff.leaverequest', $data);
+   }
+
+   public function changepassword(Request $req)
+   {
+      $id = $req->input('staff_id');
+
+      $password = $req->input('new_pass');
+      $confirm_pass = $req->input('password_confirmation');
+      $req->validate(
+         ['password_confirmation' => 'required|same:new_pass']
+
+      );
+      if ($errors) {
+         echo '1';
+         exit;
+      }
+      $data = array(
+         'password' => Hash::make($password),
+      );
+      $insert =  DB::table('staff')->where('id', $id)->update($data);
+   }
+   public function approve_leaverequest(Request $req)
+   {
+      $data['list']=DB::select('select * from staff_leave_request');
+      return view('staff.approve_leavrequest',$data);
    }
 }
