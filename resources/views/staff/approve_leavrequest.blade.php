@@ -2,26 +2,34 @@
 
 <body class="hold-transition skin-blue fixed sidebar-mini">
 
-
-
     <div class="wrapper">
         @include('admin.include.header');
         @include('admin.include.sidebar');
         <div class="content-wrapper">
             <section class="content-header">
-                <h1><i class="fa fa-sitemap"></i> Human Resource <small class="pull-right"><a href="#addleave" onclick="addLeave()" role="button" class="btn btn-primary btn-sm checkbox-toggle pull-right edit_setting" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing">Add Leave Request</a></small>
-                </h1>
+               
 
 
             </section>
             <!-- Main content -->
             <section class="content">
                 <div class="row">
+                
+                    @if(session('success'))
+                <div class="alert alert-success">
+                        <strong>Success!</strong> <?= @session('success') ?>.
+                    </div>
+                    @endif
+                    @if(session('error'))
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> <?= @session('error') ?>.
+                    </div>
+                    @endif
                     <div class="col-md-12">
 
                         <div class="box box-primary">
                             <div class="box-header ptbnull">
-                                <h3 class="box-title titlefix">Approve Leave Request</h3> <small class="pull-right"><a href="#addleave" onclick="addLeave()" role="button" class="btn btn-primary btn-sm checkbox-toggle pull-right edit_setting" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing">Add Leave Request</a></small>
+                                <h3 class="box-title titlefix">Approve Leave Request</h3> </small>
                             </div><!-- /.box-header -->
                             <div class="box-body">
                                 <div class="row">
@@ -271,78 +279,11 @@
             </div>
         </div>
 
-        <script type="text/javascript">
-            /*--dropify--*/
-            $(document).ready(function() {
-                // Basic
-                $('.filestyle').dropify();
-            });
-            /*--end dropify--*/
-        </script>
+      
 
         <script type="text/javascript">
-            function getDelete(id) {
-                var result = confirm("Delete Confirm?");
-                if (result) {
-                    $.ajax({
-                        url: "https://easywayglobal.in/admin/leaverequest/remove/" + id,
-                        type: "POST",
-
-                        success: function(res) {
-                            successMsg('Record Delete Successfully');
-                            window.location.reload(true);
-                        },
-                        error: function(xhr) { // if error occured
-                            alert("Error occured.please try again");
-                        },
-                        complete: function() {
-
-                        }
-                    });
-                }
-            }
-
-            $(document).ready(function() {
-                $('.detail_popover').popover({
-                    placement: 'right',
-                    title: '',
-                    trigger: 'hover',
-                    container: 'body',
-                    html: true,
-                    content: function() {
-                        return $(this).closest('td').find('.fee_detail_popover').html();
-                    }
-                });
-
-
-                $('#reservation').daterangepicker({
-                    timePickerIncrement: 5,
-                    locale: {
-                        format: calendar_date_time_format
-                    }
-                });
-            });
-
-            function addLeave() {
-
-                $('input[type=text]').val('');
-                $('textarea[name="reason"]').text('');
-                $("#resetbutton").click();
-                $("#clearform").click();
-
-                var date_format = 'dd.mm.yyyy';
-
-
-                var date = '10.11.2022';
-                $('input[type=text][name=applieddate]').val(date);
-
-                $('#addleave').modal({
-                    show: true,
-                    backdrop: 'static',
-                    keyboard: false
-                });
-            }
-
+            
+ 
             function getRecord(id) {
 
                 $('input:radio[name=status]').attr('checked', false);
@@ -388,226 +329,6 @@
                 });
             };
 
-            $(document).on('click', '.submit_schsetting', function(e) {
-                var $this = $(this);
-                $this.button('loading');
-                $.ajax({
-                    url: 'https://easywayglobal.in/admin/leaverequest/leaveStatus',
-                    type: 'post',
-                    data: $('#leavedetails_form').serialize(),
-                    dataType: 'json',
-                    success: function(data) {
-
-                        if (data.status == "fail") {
-
-                            var message = "";
-                            $.each(data.error, function(index, value) {
-
-                                message += value;
-                            });
-                            errorMsg(message);
-                        } else {
-
-                            successMsg(data.message);
-                            window.location.reload(true);
-                        }
-
-                        $this.button('reset');
-                    }
-                });
-            });
-
-            function checkStatus(status) {
-                if (status == 'approve') {
-                    $("#reason").hide();
-                } else if (status == 'pending') {
-                    $("#reason").hide();
-                } else if (status == 'disapprove') {
-                    $("#reason").show();
-                }
-            }
-
-            $(document).ready(function(e) {
-                $("#addleave_form").on('submit', (function(e) {
-
-                    e.preventDefault();
-                    $.ajax({
-                        url: "https://easywayglobal.in/admin/leaverequest/addLeave",
-                        type: "POST",
-                        data: new FormData(this),
-                        dataType: 'json',
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        success: function(data) {
-                            if (data.status == "fail") {
-                                var message = "";
-                                $.each(data.error, function(index, value) {
-                                    message += value;
-                                });
-                                errorMsg(message);
-                            } else {
-                                successMsg(data.message);
-                                window.location.reload(true);
-                            }
-                        }
-                    });
-                }));
-            });
-
-            function getEmployeeName(role) {
-                var ne = "";
-                var base_url = 'https://easywayglobal.in/';
-                $("#empname").html('<option value=>Select</option>');
-                var div_data = "";
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "admin/staff/getEmployeeByRole",
-                    data: {
-                        'role': role
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        $.each(data, function(i, obj) {
-                            div_data += "<option value='" + obj.id + "' >" + obj.name + " " + obj.surname + " " + "(" + obj.employee_id + ")</option>";
-                        });
-
-                        $('#empname').append(div_data);
-                    }
-                });
-            }
-
-            function setEmployeeName(role, id = '') {
-                var ne = "";
-                var base_url = 'https://easywayglobal.in/';
-                $("#empname").html("<option value=>Select</option>");
-                var div_data = "";
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "admin/staff/getEmployeeByRole",
-                    data: {
-                        'role': role
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        $.each(data, function(i, obj) {
-                            if (obj.employee_id == id) {
-                                ne = 'selected';
-                            } else {
-                                ne = "";
-                            }
-
-                            div_data += "<option value='" + obj.id + "' " + ne + " >" + obj.name + " " + obj.surname + " " + "(" + obj.employee_id + ")</option>";
-                        });
-
-                        $('#empname').append(div_data);
-                    }
-                });
-            }
-
-            function getLeaveTypeDDL(id, lid = '') {
-                var base_url = 'https://easywayglobal.in/';
-                $.ajax({
-                    url: base_url + 'admin/leaverequest/countLeave/' + id,
-                    type: 'POST',
-                    data: {
-                        lid: lid
-                    },
-                    success: function(result) {
-                        $("#leavetypeddl").html(result);
-                    }
-                });
-            }
-
-            function editRecord(id) {
-                var leave_from = '05/01/2018';
-                var leave_to = '05/10/2018';
-                $('textarea[name="reason"]').text('');
-                $('textarea[name="remark"]').text('');
-                $('input:radio[name=addstatus]').attr('checked', false);
-
-                var base_url = 'https://easywayglobal.in/';
-                $.ajax({
-                    url: base_url + 'admin/leaverequest/leaveRecord',
-                    type: 'POST',
-                    data: {
-                        id: id
-                    },
-                    dataType: "json",
-                    success: function(result) {
-
-                        leave_from = result.leavefrom;
-                        leave_to = result.leaveto;
-
-                        setEmployeeName(result.staff_role, result.employee_id);
-                        getLeaveTypeDDL(result.staff_id, result.lid);
-                        $('#role').val(result.staff_role);
-
-                        $('input[name="applieddate"]').val(result.date);
-                        $('input[name="leavefrom"]').val(new Date(result.leave_from).toString(calendar_date_time_format));
-                        $('input[name="filename"]').val(result.document_file);
-
-                        $('#leave_from_date').val(result.leavefrom);
-                        $('#leave_to_date').val(result.leaveto);
-
-                        $('input[name="leaverequestid"]').val(id);
-                        $('textarea[name="reason"]').text(result.employee_remark);
-                        $('textarea[name="remark"]').text(result.admin_remark);
-
-                        if (result.status == 'approve') {
-                            $('input:radio[name=addstatus]')[1].checked = true;
-
-                        } else if (result.status == 'pending') {
-                            $('input:radio[name=addstatus]')[0].checked = true;
-
-                        } else if (result.status == 'disapprove') {
-                            $('input:radio[name=addstatus]')[2].checked = true;
-
-                        }
-
-                        $('#reservation').daterangepicker({
-                            startDate: leave_from,
-                            endDate: leave_to,
-                            timePickerIncrement: 5,
-                            locale: {
-                                format: calendar_date_time_format
-                            }
-                        });
-                    }
-                });
-                var date_format = 'dd.mm.yyyy';
-
-
-                $('#addleave').modal({
-                    show: true,
-                    backdrop: 'static',
-                    keyboard: false
-                });
-            };
-
-            function clearForm(oForm) {
-                var elements = oForm.elements;
-                for (i = 0; i < elements.length; i++) {
-                    field_type = elements[i].type.toLowerCase();
-                    switch (field_type) {
-
-                        case "text":
-                        case "password":
-
-                        case "hidden":
-
-                            elements[i].value = "";
-                            break;
-
-                        case "select-one":
-                        case "select-multi":
-                            elements[i].selectedIndex = "";
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-            }
+          
         </script>
         @include('admin.include.footer');
