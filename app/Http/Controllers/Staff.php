@@ -615,6 +615,17 @@ class Staff extends Controller
    }
    public function approve_leaverequest(Request $req)
    {
+      if($_SERVER['REQUEST_METHOD']=='POST'){
+ 
+$data=array(
+   'status'=>$req->input('status'),
+   'admin_remark'=>$req->input('detailremark'),
+);
+$update =  DB::table('staff_leave_request')->where('id', $req->input('leave_request_id'))->update($data);
+$req->session()->flash('success', $req->input('status').' successfully...');
+return redirect('admin/staff/approve_leaverequest');
+exit;
+      }
       $data['list']=DB::select('select * from staff_leave_request');
       return view('staff.approve_leavrequest',$data);
    }
