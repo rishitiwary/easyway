@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#424242" />
     <title>Login : Easy Way Global</title>
-    <link href="{{asset('public/uploads/school_content/admin_small_logo/1.png')}}" rel="shortcut icon"
-        type="image/x-icon">
+    <link href="{{asset('public/uploads/school_content/admin_small_logo/1.png')}}" rel="shortcut icon" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
     <link rel="stylesheet" href="{{asset('public/backend/usertemplate/assets/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('public/backend/usertemplate/assets/font-awesome/css/font-awesome.min.css')}}">
@@ -16,33 +15,33 @@
     <link rel="stylesheet" href="{{asset('public/backend/usertemplate/assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('public/backend/usertemplate/assets/css/jquery.mCustomScrollbar.min.css')}}">
     <style type="text/css">
-    .top-content {
-        position: relative;
-    }
+        .top-content {
+            position: relative;
+        }
 
-    body {
-        background: #fff;
-    }
+        body {
+            background: #fff;
+        }
 
-    .inner-bg {
-        border: 1px solid #ccc;
-    }
+        .inner-bg {
+            border: 1px solid #ccc;
+        }
 
-    .form-top-left {
-        padding: 20px;
-    }
+        .form-top-left {
+            padding: 20px;
+        }
 
-    .logowidth img {
-        height: 80px;
-    }
+        .logowidth img {
+            height: 80px;
+        }
 
-    .nav-tabs.nav-justified>.active>a,
-    .nav-tabs.nav-justified>.active>a:focus,
-    .nav-tabs.nav-justified>.active>a:hover {
-        border: 1px solid #ddd;
-        background: #c72016;
-        color: #fff;
-    }
+        .nav-tabs.nav-justified>.active>a,
+        .nav-tabs.nav-justified>.active>a:focus,
+        .nav-tabs.nav-justified>.active>a:hover {
+            border: 1px solid #ddd;
+            background: #c72016;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -51,29 +50,38 @@
         <div class="inner-bg">
             <div class="container">
                 <div class="row">
+
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> <?= @session('success') ?>.
+                    </div>
+                    @endif
+                    @if(session('error'))
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> <?= @session('error') ?>.
+                    </div>
+                    @endif
                     <div class="col-md-12" style="border-bottom: 1px solid #ccc;">
                         <div class="form-top-left logowidth">
-                            <a href="index.html"> <img
-                                    src="{{asset('public/uploads/school_content/admin_logo/1.png')}}" /></a>
+                            <a href="index.html"> <img src="{{asset('')}}<?= $setting[0]->admin_logo ?>" /></a>
                         </div>
                     </div>
+
                     <div class="col-lg-4 col-md-4 col-sm-12">
                         <div class="loginbg loginradius">
                             <div class="form-bottom">
                                 <h3 class="font-white">Already Registered ? Login</h3>
-                                <form action="https://easywayglobal.in/site/userlogin" method="post">
-                                    <input type='hidden' name='ci_csrf_token' value='' />
+                                <form action="{{url('userlogin')}}" method="post">
+                                    @csrf
                                     <div class="form-group has-feedback">
-                                        <input type="text" name="username" value="" placeholder="Username"
-                                            class="form-username form-control" id="email">
+                                        <input type="text" name="username" value="" placeholder="Username" class="form-username form-control" id="email" required>
                                         <span class="fa fa-envelope form-control-feedback"></span>
-                                        <span class="text-danger"></span>
+                                        <span class="text-danger">@error('username'){{$message}}@enderror</span>
                                     </div>
                                     <div class="form-group has-feedback">
-                                        <input type="password" name="password" value="" placeholder="Password"
-                                            class="form-password form-control" id="password" required>
+                                        <input type="password" name="password" value="" placeholder="Password" class="form-password form-control" id="password" required>
                                         <span class="fa fa-lock form-control-feedback"></span>
-                                        <span class="text-danger"></span>
+                                        <span class="text-danger">@error('password'){{$message}}@enderror</span>
                                     </div>
                                     <button type="submit" class="btn">Sign In</button>
                                 </form>
@@ -90,144 +98,85 @@
                             <li><a data-toggle="tab" href="userlogin.html#offlinecourses">For Offline Courses </a></li>
                         </ul>
                         <div class="tab-content" style="border: 1px solid #ccc;border-top: none;">
-                            <div class="tab-pane fade in active" id="onlinecourses" role="tabpanel"
-                                aria-labelledby="onlinecourses">
+                            <div class="tab-pane fade in active" id="onlinecourses" role="tabpanel" aria-labelledby="onlinecourses">
 
                                 <style>
-                                .req {
-                                    color: red;
-                                }
+                                    .req {
+                                        color: red;
+                                    }
                                 </style>
-                                <form id="onlineclass" class="spaceb60 spacet60"
-                                    action="https://easywayglobal.in/createonlineclass" id="employeeform"
-                                    name="employeeform" method="post" accept-charset="utf-8"
-                                    enctype="multipart/form-data">
+                                <form id="onlineclass" class="spaceb60 spacet60" action="{{url('registration')}}" id="employeeform" name="employeeform" method="post" accept-charset="utf-8" enctype="multipart/form-data">
                                     <div class="row" style="padding: 10px;">
                                         <div class="col-md-6">
+                                            @csrf
+                                            <input type="hidden" name="type" value="1">
                                             <div class="form-group">
-                                                <select id="tradegroup" name="tradegroup" class="form-control">
+                                                <select id="tradegroup" name="tradegroup" class="form-control" required>
                                                     <option value="">Select Course</option>
-                                                    <option value="3">ITI</option>
+                                                    @foreach($tradegroup as $run)
+                                                    <option value="{{$run->id}}">{{$run->name}}</option>
+                                                    @endforeach
 
-                                                    <div
-                                                        style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
-
-                                                        <h4>A PHP Error was encountered</h4>
-
-                                                        <p>Severity: Notice</p>
-                                                        <p>Message: Undefined variable: count</p>
-                                                        <p>Filename: views/userlogin.php</p>
-                                                        <p>Line Number: 106</p>
-
-
-                                                        <p>Backtrace:</p>
-
-
-
-
-
-
-                                                        <p style="margin-left:10px">
-                                                            File:
-                                                            /home/easywayglobal/public_html/application/views/userlogin.php<br />
-                                                            Line: 106<br />
-                                                            Function: _error_handler </p>
-
-
-
-
-
-
-
-
-                                                        <p style="margin-left:10px">
-                                                            File:
-                                                            /home/easywayglobal/public_html/application/controllers/Site.php<br />
-                                                            Line: 359<br />
-                                                            Function: view </p>
-
-
-
-
-
-
-                                                        <p style="margin-left:10px">
-                                                            File: /home/easywayglobal/public_html/index.php<br />
-                                                            Line: 308<br />
-                                                            Function: require_once </p>
-
-
-
-
-                                                    </div>
-                                                    <option value="5">CITS</option>
-                                                    <option value="6">UPSSSC</option>
                                                 </select>
-                                                <span class="text-danger"></span>
+                                                <span class="text-danger">@error('tradegroup'){{$message}}@enderror</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-
+                                        <input type="hidden" name="rollno" id="rollno1" value="">
                                             <div class="form-group">
-                                                <select id="trade" name="trade" class="form-control">
+                                                <select id="trade" name="trade" class="form-control" required>
                                                     <option value="">Select Trade</option>
                                                 </select>
-                                                <span class="text-danger"></span>
+                                                <span class="text-danger">@error('trade'){{$message}}@enderror</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="firstname" name="firstname" placeholder="Name*" type="text"
-                                                    class="form-control" value="" required />
-                                                <span class="text-danger"></span>
+                                                <input id="firstname" name="firstname" placeholder="Name*" type="text" class="form-control" value="" required />
+                                                <span class="text-danger">@error('firstname'){{$message}}@enderror</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" value="" id="mobileno"
-                                                    name="mobileno" placeholder="Mobile Number *" required />
-                                                <span class="text-danger"></span>
+                                                <input type="text" class="form-control mobileno" value="" id="mobileno" name="mobileno" placeholder="Mobile Number *" maxlength="10" required />
+                                                <span class="text-danger">@error('mobileno'){{$message}}@enderror</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" value="" id="email" name="email"
-                                                    placeholder="Email *" />
-                                                <span class="text-danger"></span>
+                                                <input type="email" class="form-control" value="" id="email" name="email" placeholder="Email *" required />
+                                                <span class="text-danger">@error('email'){{$message}}@enderror</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <select class="form-control" name="gender">
+                                                <select class="form-control" name="gender" required>
                                                     <option value="">Select Gender</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
                                                 </select>
-                                                <span class="text-danger"></span>
+                                                <span class="text-danger">@error('gender'){{$message}}@enderror</span>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="hidden" class="form-control" value="06/10/2022" id="dob"
-                                                    name="dob" placeholder="Date of Birth" />
-                                                <input type="file" class="filestyle form-control" value="" id="file"
-                                                    name="file" placeholder="Photo" />
-                                                <span class="text-danger"></span>
+
+                                                <input type="file" class="filestyle form-control" value="" id="file" name="file" placeholder="Photo" />
+                                                <span class="text-danger">@error('file'){{$message}}@enderror</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <!-- <div class="col-md-6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" value="" id="username"
                                                     name="username" placeholder="Username" />
-                                                <span class="text-danger"></span>
+                                                    <span class="text-danger">@error('username'){{$message}}@enderror</span>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="password" class="form-control" value="" id="password"
-                                                    name="password" placeholder="Password" required />
-                                                <span class="text-danger"></span>
+                                                <input type="password" class="form-control" value="" id="password" name="password" placeholder="Password" required />
+                                                <span class="text-danger">@error('password'){{$message}}@enderror</span>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -238,227 +187,82 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="tab-pane fade" id="offlinecourses" role="tabpanel"
-                                aria-labelledby="offlinecourses">
-                                <form id="offlineclass" class="spaceb60 spacet60"
-                                    action="https://easywayglobal.in/online_admission" id="employeeform"
-                                    name="employeeform" method="post" accept-charset="utf-8"
-                                    enctype="multipart/form-data">
+                            <div class="tab-pane fade" id="offlinecourses" role="tabpanel" aria-labelledby="offlinecourses">
+                                <form id="offlineclass" class="spaceb60 spacet60" action="{{url('registration')}}" id="employeeform" name="employeeform" method="post" accept-charset="utf-8" enctype="multipart/form-data">
                                     <div class="row" style="padding: 10px;">
                                         <div class="col-md-6">
+                                            @csrf
+                                            <input type="hidden" name="type" value="0">
+                                            <input type="hidden" name="rollno" id="rollno" value="">
                                             <div class="form-group">
-                                                <select id="class_id" name="class_id" class="form-control">
+                                                <select id="class_id" name="class_id" class="form-control" required>
                                                     <option value="">Select Class</option>
 
-                                                    <div
-                                                        style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+                                                    @foreach($class as $run)
+                                                    <option value="{{$run->id}}">{{$run->class}}</option>
+                                                    @endforeach
 
-                                                        <h4>A PHP Error was encountered</h4>
 
-                                                        <p>Severity: Notice</p>
-                                                        <p>Message: Trying to access array offset on value of type null
-                                                        </p>
-                                                        <p>Filename: libraries/Customlib.php</p>
-                                                        <p>Line Number: 1222</p>
-
-
-                                                        <p>Backtrace:</p>
-
-
-
-
-
-
-                                                        <p style="margin-left:10px">
-                                                            File:
-                                                            /home/easywayglobal/public_html/application/libraries/Customlib.php<br />
-                                                            Line: 1222<br />
-                                                            Function: _error_handler </p>
-
-
-
-
-                                                        <p style="margin-left:10px">
-                                                            File:
-                                                            /home/easywayglobal/public_html/application/models/Class_model.php<br />
-                                                            Line: 42<br />
-                                                            Function: getUserData </p>
-
-
-
-
-                                                        <p style="margin-left:10px">
-                                                            File:
-                                                            /home/easywayglobal/public_html/application/views/userlogin.php<br />
-                                                            Line: 192<br />
-                                                            Function: get </p>
-
-
-
-
-
-
-
-
-                                                        <p style="margin-left:10px">
-                                                            File:
-                                                            /home/easywayglobal/public_html/application/controllers/Site.php<br />
-                                                            Line: 359<br />
-                                                            Function: view </p>
-
-
-
-
-
-
-                                                        <p style="margin-left:10px">
-                                                            File: /home/easywayglobal/public_html/index.php<br />
-                                                            Line: 308<br />
-                                                            Function: require_once </p>
-
-
-
-
-                                                    </div>
-                                                    <div
-                                                        style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
-
-                                                        <h4>A PHP Error was encountered</h4>
-
-                                                        <p>Severity: Notice</p>
-                                                        <p>Message: Undefined index: role_id</p>
-                                                        <p>Filename: models/Class_model.php</p>
-                                                        <p>Line Number: 43</p>
-
-
-                                                        <p>Backtrace:</p>
-
-
-
-
-
-
-                                                        <p style="margin-left:10px">
-                                                            File:
-                                                            /home/easywayglobal/public_html/application/models/Class_model.php<br />
-                                                            Line: 43<br />
-                                                            Function: _error_handler </p>
-
-
-
-
-                                                        <p style="margin-left:10px">
-                                                            File:
-                                                            /home/easywayglobal/public_html/application/views/userlogin.php<br />
-                                                            Line: 192<br />
-                                                            Function: get </p>
-
-
-
-
-
-
-
-
-                                                        <p style="margin-left:10px">
-                                                            File:
-                                                            /home/easywayglobal/public_html/application/controllers/Site.php<br />
-                                                            Line: 359<br />
-                                                            Function: view </p>
-
-
-
-
-
-
-                                                        <p style="margin-left:10px">
-                                                            File: /home/easywayglobal/public_html/index.php<br />
-                                                            Line: 308<br />
-                                                            Function: require_once </p>
-
-
-
-
-                                                    </div>
-                                                    <option value="13">EASYWAY </option>
-                                                    <option value="14">TURNER</option>
-                                                    <option value="15">MACHINIST</option>
-                                                    <option value="16">WIREMAN</option>
-                                                    <option value="17">ELECTRICIAN</option>
-                                                    <option value="18">FITTER</option>
-                                                    <option value="19">COPA</option>
-                                                    <option value="20">MATH </option>
-                                                    <option value="21">REASONING</option>
-                                                    <option value="22">ELECTRONIC </option>
-                                                    <option value="23">Business Module</option>
-                                                    <option value="24">UPSSSC</option>
-                                                    <option value="25">TRAINING METHODOLOGY (POT)</option>
                                                 </select>
-                                                <span class="text-danger"></span>
+                                                <span class="text-danger">@error('class_id'){{$message}}@enderror</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
 
                                             <div class="form-group">
-                                                <select id="section_id" name="section_id" class="form-control">
+                                                <select id="section_id" name="batch_id" class="form-control" required>
                                                     <option value="">Select Batch</option>
                                                 </select>
-                                                <span class="text-danger"></span>
+                                                <span class="text-danger">@error('batch_id'){{$message}}@enderror</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="firstname" name="firstname" placeholder="Name*" type="text"
-                                                    class="form-control" value="" required />
-                                                <span class="text-danger"></span>
+                                                <input id="firstname" name="firstname" placeholder="Name*" type="text" class="form-control" value="" required />
+                                                <span class="text-danger">@error('firstname'){{$message}}@enderror</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" value="" id="mobileno"
-                                                    name="mobileno" placeholder="Mobile Number *" required />
-                                                <span class="text-danger"></span>
+                                                <input type="text" class="form-control mobileno" value="" id="mobileno" name="mobileno" placeholder="Mobile Number *" maxlength='10' required />
+                                                <span class="text-danger">@error('mobileno'){{$message}}@enderror</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" value="" id="email" name="email"
-                                                    placeholder="Email *" />
-                                                <span class="text-danger"></span>
+                                                <input type="email" class="form-control" value="" id="email" name="email" placeholder="Email *" required />
+                                                <span class="text-danger">@error('email'){{$message}}@enderror</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <select class="form-control" name="gender">
+                                                <select class="form-control" name="gender" required>
                                                     <option value="">Select Gender</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
                                                 </select>
-                                                <span class="text-danger"></span>
+                                                <span class="text-danger">@error('gender'){{$message}}@enderror</span>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="hidden" class="form-control" value="06/10/2022" id="dob"
-                                                    name="dob" placeholder="Date of Birth" />
-                                                <input type="file" class="filestyle form-control" value="" id="file"
-                                                    name="file" placeholder="Photo" />
-                                                <span class="text-danger"></span>
+
+                                                <input type="file" class="filestyle form-control" value="" id="file" name="file" placeholder="Photo" />
+                                                <span class="text-danger">@error('file'){{$message}}@enderror</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <!-- <div class="col-md-6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" value="" id="username"
-                                                    name="username" placeholder="Username" />
-                                                <span class="text-danger"></span>
+                                                    name="username" placeholder="Username" required/>
+                                                    <span class="text-danger">@error('username'){{$message}}@enderror</span>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="password" class="form-control" value="" id="password"
-                                                    name="password" placeholder="Password" required />
-                                                <span class="text-danger"></span>
+                                                <input type="password" class="form-control" value="" id="password" name="password" placeholder="Password" required />
+                                                <span class="text-danger">@error('password'){{$message}}@enderror</span>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -467,6 +271,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </form>
                             </div>
                         </div>
@@ -484,110 +289,61 @@
     <script src="{{asset('public/backend/usertemplate/assets/js/jquery.mCustomScrollbar.min.js')}}"></script>
 
     <script src="{{asset('public/backend/usertemplate/assets/js/jquery.mousewheel.min.js')}}"></script>
-    <script type="text/javascript">
-    $(document).ready(function() {
-
-        $('.login-form input[type="text"], .login-form input[type="password"], .login-form textarea').on(
-            'focus',
-            function() {
-
-                $(this).removeClass('input-error');
-
-            });
-
-        $('.login-form').on('submit', function(e) {
-
-            $(this).find('input[type="text"], input[type="password"], textarea').each(function() {
-
-                if ($(this).val() == "") {
-
-                    e.preventDefault();
-
-                    $(this).addClass('input-error');
-
-                } else {
-
-                    $(this).removeClass('input-error');
-
-                }
-
-            });
-
-        });
-
-    });
-    </script>
 
     <script type="text/javascript">
-    var base_url = "https://easywayglobal.in/";
-    $(document).ready(function() {
+        $(document).ready(function() {
 
-        var class_id = $('#class_id').val();
-        var section_id = '0';
 
-        getSectionByClass(class_id, section_id);
-
-        $(document).on('change', '#class_id', function(e) {
-            $('#section_id').html("");
-            var class_id = $(this).val();
-            getSectionByClass(class_id, 0);
-        });
-        $(document).on('change', '#tradegroup', function(e) {
-            var tradegroup = $('#tradegroup').val();
-            $.ajax({
-                url: "https://easywayglobal.in/welcome/gettrades",
-                type: "POST",
-                data: {
-                    tradegroup: tradegroup
-                },
-                dataType: 'html',
-                success: function(res) {
-                    $('#trade').html(res);
-                }
+            $('#class_id').change(function() {
+                let classtext = $("#class_id option:selected").text().substring(0, 2);
+                $('#rollno').val(classtext);
             });
-        });
+            $('#tradegroup').change(function() {
+                let classtext = $("#tradegroup option:selected").text().substring(0, 2);
+                $('#rollno1').val(classtext);
+            });
 
+            $('.mobileno').on('keypress change', function() {
+                $(this).val(function(index, value) {
+                    return value.replace(/[^0-9]/g, "");
+                });
+            });
 
-
-
-
-        function getSectionByClass(class_id, section_id) {
-
-            if (class_id !== "") {
-                $('#section_id').html("");
-
-                var div_data = '';
-                var url = "";
-
+            $(document).on('change', '#tradegroup', function(e) {
+                var tradegroup = $('#tradegroup').val();
                 $.ajax({
-                    type: "POST",
-                    url: base_url + "welcome/getSections",
+                    url: "{{url('ajax/gettrades')}}",
+                    type: "GET",
                     data: {
-                        'class_id': class_id
+                        tradegroup: tradegroup
                     },
-                    dataType: "json",
-                    beforeSend: function() {
-                        $('#section_id').addClass('dropdownloading');
-                    },
-                    success: function(data) {
-                        $.each(data, function(i, obj) {
-                            var sel = "";
-                            if (section_id === obj.section_id) {
-                                sel = "selected";
-                            }
-                            div_data += "<option value=" + obj.id + " " + sel + ">" + obj
-                                .section + "</option>";
-                        });
-                        $('#section_id').append(div_data);
-                    },
-                    complete: function() {
-                        $('#section_id').removeClass('dropdownloading');
+                    dataType: 'html',
+                    success: function(res) {
+                        $('#trade').html(res);
                     }
                 });
-            }
-        }
+            });
 
-    });
+            $(document).on('change', '#class_id', function(e) {
+                var classid = $(this).val();
+                $.ajax({
+                    url: "{{url('ajax/class_batches')}}",
+                    type: "GET",
+                    data: {
+                        classid: classid
+                    },
+                    dataType: 'html',
+                    success: function(res) {
+                        $('#section_id').empty();
+                        $('#section_id').append(res);
+
+                    }
+                });
+            });
+
+
+
+        });
     </script>
 
 </body>

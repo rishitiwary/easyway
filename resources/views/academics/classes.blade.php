@@ -36,7 +36,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Class</label><small class="req"> *</small>
                                         <input autofocus="" id="class" name="class" placeholder="" type="text" class="form-control" value="<?= $res[0]->class ?>" required />
-                                        <span class="text-danger"></span>
+                                        <span class="text-danger">@error('class'){{$message}}@enderror</span>
                                     </div>
 
                                     <div class="form-group">

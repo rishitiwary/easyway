@@ -19,9 +19,7 @@
     <link href="{{asset('public/backend/dist/css/course_addon.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('public/backend/themes/yellow/datepicker/bootstrap-datepicker3.css')}}" />
     <script src="{{asset('public/backend/themes/yellow/js/jquery.min.js')}}"></script>
-    <script type="text/javascript">
-    var base_url = "https://easywayglobal.in/";
-    </script>
+ 
 
     <style type="text/css">
     .header-top-right {

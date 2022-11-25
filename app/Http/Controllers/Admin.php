@@ -262,16 +262,17 @@ class Admin extends Controller
       return view('admin.banner', $data);
    }
 
- 
-  
-   public function roomtype(Request $req){
-      if($_SERVER['REQUEST_METHOD']=='POST'){
-         
-         $data=array(
-            'room_type'=>trim($req->input('room_type')),
-            'description'=>trim($req->input('description')),
+
+
+   public function roomtype(Request $req)
+   {
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+         $data = array(
+            'room_type' => trim($req->input('room_type')),
+            'description' => trim($req->input('description')),
          );
-         if($req->input('uid')!=''){
+         if ($req->input('uid') != '') {
             $insert =  DB::table('room_types')->where('id', $req->input('uid'))->update($data);
             $req->session()->flash('success', 'Updated successfully...');
             return redirect('admin/roomtype');
@@ -284,35 +285,35 @@ class Admin extends Controller
             $req->session()->flash('error', 'Some error occured...');
             return redirect('admin/roomtype');
          }
-         
       }
-      if($req->input('uid')!=''){
-         $data['res']=DB::select('select * from room_types where id='.$req->input('uid'));
+      if ($req->input('uid') != '') {
+         $data['res'] = DB::select('select * from room_types where id=' . $req->input('uid'));
       }
-     if($req->input('delid')!=''){
-      $deleted = DB::table('room_types')->where('id', '=', $req->input('delid'))->delete();
-      $req->session()->flash('success', 'Deleted succesfully...');
-      return redirect('admin/roomtype');
-     }
-      $data['list']=DB::select('select * from room_types order by id asc');
-      return view('admin.roomtype',$data);
+      if ($req->input('delid') != '') {
+         $deleted = DB::table('room_types')->where('id', '=', $req->input('delid'))->delete();
+         $req->session()->flash('success', 'Deleted succesfully...');
+         return redirect('admin/roomtype');
+      }
+      $data['list'] = DB::select('select * from room_types order by id asc');
+      return view('admin.roomtype', $data);
    }
-   public function hostel(Request $req){
-      if($_SERVER['REQUEST_METHOD']=='POST'){
-        
-         $data=array(
-            'hostel_name'=>trim($req->input('hostel_name')),
-            'type'=>trim($req->input('type')),
-            'address'=>trim($req->input('address')),
-            'intake'=>trim($req->input('intake')),
-            'description'=>trim($req->input('description')),
+   public function hostel(Request $req)
+   {
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+         $data = array(
+            'hostel_name' => trim($req->input('hostel_name')),
+            'type' => trim($req->input('type')),
+            'address' => trim($req->input('address')),
+            'intake' => trim($req->input('intake')),
+            'description' => trim($req->input('description')),
          );
-         if($req->input('uid')!=''){
+         if ($req->input('uid') != '') {
             $insert =  DB::table('hostel')->where('id', $req->input('uid'))->update($data);
             $req->session()->flash('success', 'Updated successfully...');
             return redirect('admin/hostel');
          }
-          
+
          $insert =  DB::table('hostel')->insert($data);
          if ($insert) {
             $req->session()->flash('success', 'Inserted successfully...');
@@ -321,36 +322,36 @@ class Admin extends Controller
             $req->session()->flash('error', 'Some error occured...');
             return redirect('admin/hostel');
          }
-         
       }
-      if($req->input('uid')!=''){
-         $data['res']=DB::select('select * from hostel where id='.$req->input('uid'));
+      if ($req->input('uid') != '') {
+         $data['res'] = DB::select('select * from hostel where id=' . $req->input('uid'));
       }
-     if($req->input('delid')!=''){
-      $deleted = DB::table('hostel')->where('id', '=', $req->input('delid'))->delete();
-      $req->session()->flash('success', 'Deleted succesfully...');
-      return redirect('admin/hostel');
-     }
-      $data['list']=DB::select('select * from hostel order by id asc');
-      return view('admin.hostel',$data);
+      if ($req->input('delid') != '') {
+         $deleted = DB::table('hostel')->where('id', '=', $req->input('delid'))->delete();
+         $req->session()->flash('success', 'Deleted succesfully...');
+         return redirect('admin/hostel');
+      }
+      $data['list'] = DB::select('select * from hostel order by id asc');
+      return view('admin.hostel', $data);
    }
-   public function hostelroom(Request $req){
-      if($_SERVER['REQUEST_METHOD']=='POST'){
-       
-         $data=array(
-            'room_no'=>trim($req->input('room_no')),
-            'hostel_id'=>trim($req->input('hostel_id')),
-            'room_type_id'=>trim($req->input('room_type_id')),
-            'no_of_bed'=>trim($req->input('no_of_bed')),
-            'cost_per_bed'=>trim($req->input('cost_per_bed')),
-            'description'=>trim($req->input('description')),
+   public function hostelroom(Request $req)
+   {
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+         $data = array(
+            'room_no' => trim($req->input('room_no')),
+            'hostel_id' => trim($req->input('hostel_id')),
+            'room_type_id' => trim($req->input('room_type_id')),
+            'no_of_bed' => trim($req->input('no_of_bed')),
+            'cost_per_bed' => trim($req->input('cost_per_bed')),
+            'description' => trim($req->input('description')),
          );
-         if($req->input('uid')!=''){
+         if ($req->input('uid') != '') {
             $insert =  DB::table('hostel_rooms')->where('id', $req->input('uid'))->update($data);
             $req->session()->flash('success', 'Updated successfully...');
             return redirect('admin/hostelroom');
          }
-          
+
          $insert =  DB::table('hostel_rooms')->insert($data);
          if ($insert) {
             $req->session()->flash('success', 'Inserted successfully...');
@@ -359,30 +360,30 @@ class Admin extends Controller
             $req->session()->flash('error', 'Some error occured...');
             return redirect('admin/hostelroom');
          }
-         
       }
-      if($req->input('uid')!=''){
-         $data['res']=DB::select('select * from hostel_rooms where id='.$req->input('uid'));
+      if ($req->input('uid') != '') {
+         $data['res'] = DB::select('select * from hostel_rooms where id=' . $req->input('uid'));
       }
-     if($req->input('delid')!=''){
-      $deleted = DB::table('hostel_rooms')->where('id', '=', $req->input('delid'))->delete();
-      $req->session()->flash('success', 'Deleted succesfully...');
-      return redirect('admin/hostelroom');
-     }
-      $data['list']=DB::select('select * from hostel_rooms order by id asc');
-      $data['hostel']=DB::select('select * from hostel order by id asc');
-      $data['room']=DB::select('select * from room_types order by id asc');
-      return view('admin.hostelroom',$data);
+      if ($req->input('delid') != '') {
+         $deleted = DB::table('hostel_rooms')->where('id', '=', $req->input('delid'))->delete();
+         $req->session()->flash('success', 'Deleted succesfully...');
+         return redirect('admin/hostelroom');
+      }
+      $data['list'] = DB::select('select * from hostel_rooms order by id asc');
+      $data['hostel'] = DB::select('select * from hostel order by id asc');
+      $data['room'] = DB::select('select * from room_types order by id asc');
+      return view('admin.hostelroom', $data);
    }
 
-   public function batches(Request $req){
-      if($_SERVER['REQUEST_METHOD']=='POST'){
-         
-         $data=array(
-            'batch'=>trim($req->input('batch')),
-             
+   public function batches(Request $req)
+   {
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+         $data = array(
+            'batch' => trim($req->input('batch')),
+
          );
-         if($req->input('uid')!=''){
+         if ($req->input('uid') != '') {
             $insert =  DB::table('batches')->where('id', $req->input('uid'))->update($data);
             $req->session()->flash('success', 'Updated successfully...');
             return redirect('admin/batches');
@@ -395,33 +396,38 @@ class Admin extends Controller
             $req->session()->flash('error', 'Some error occured...');
             return redirect('admin/batches');
          }
-         
       }
-      if($req->input('uid')!=''){
-         $data['res']=DB::select('select * from batches where id='.$req->input('uid'));
+      if ($req->input('uid') != '') {
+         $data['res'] = DB::select('select * from batches where id=' . $req->input('uid'));
       }
-     if($req->input('delid')!=''){
-      $deleted = DB::table('batches')->where('id', '=', $req->input('delid'))->delete();
-      $req->session()->flash('success', 'Deleted succesfully...');
-      return redirect('admin/batches');
-     }
-      $data['list']=DB::select('select * from batches order by id asc');
-      return view('academics.batches',$data);
+      if ($req->input('delid') != '') {
+         $deleted = DB::table('batches')->where('id', '=', $req->input('delid'))->delete();
+         $req->session()->flash('success', 'Deleted succesfully...');
+         return redirect('admin/batches');
+      }
+      $data['list'] = DB::select('select * from batches order by id asc');
+      return view('academics.batches', $data);
    }
 
-   public function classes(Request $req){
-      if($_SERVER['REQUEST_METHOD']=='POST'){
+   public function classes(Request $req)
+   {
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-      
-         $data=array(
-            'class'=>trim($req->input('class')),
-            'batches'=>implode(",",$req->input('batches'))
+
+         $data = array(
+            'class' => trim($req->input('class')),
+            'batches' => implode(",", $req->input('batches'))
          );
-         if($req->input('uid')!=''){
+         if ($req->input('uid') != '') {
             $insert =  DB::table('classes')->where('id', $req->input('uid'))->update($data);
             $req->session()->flash('success', 'Updated successfully...');
             return redirect('admin/classes');
+         } else {
+            $req->validate([
+               'class' => 'required|unique:classes,class',
+            ]);
          }
+
          $insert =  DB::table('classes')->insert($data);
          if ($insert) {
             $req->session()->flash('success', 'Inserted successfully...');
@@ -430,39 +436,39 @@ class Admin extends Controller
             $req->session()->flash('error', 'Some error occured...');
             return redirect('admin/classes');
          }
-         
       }
-      if($req->input('uid')!=''){
-         $data['res']=DB::select('select * from classes where id='.$req->input('uid'));
+      if ($req->input('uid') != '') {
+         $data['res'] = DB::select('select * from classes where id=' . $req->input('uid'));
       }
-     if($req->input('delid')!=''){
-      $deleted = DB::table('classes')->where('id', '=', $req->input('delid'))->delete();
-      $req->session()->flash('success', 'Deleted succesfully...');
-      return redirect('admin/classes');
-     }
-         
-      
-      $data['class']=DB::select('select * from classes order by id asc');
-      $data['batches']=DB::select('select * from batches order by id asc');
+      if ($req->input('delid') != '') {
+         $deleted = DB::table('classes')->where('id', '=', $req->input('delid'))->delete();
+         $req->session()->flash('success', 'Deleted succesfully...');
+         return redirect('admin/classes');
+      }
 
-         return view('academics.classes',$data);
+
+      $data['class'] = DB::select('select * from classes order by id asc');
+      $data['batches'] = DB::select('select * from batches order by id asc');
+
+      return view('academics.classes', $data);
    }
 
-   public function subject(Request $req){
-      if($_SERVER['REQUEST_METHOD']=='POST'){
-    
-         $data=array(
-            'name'=>trim($req->input('name')),
-            'type'=>trim($req->input('type')),
-            'code'=>trim($req->input('code')),
-           
+   public function subject(Request $req)
+   {
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+         $data = array(
+            'name' => trim($req->input('name')),
+            'type' => trim($req->input('type')),
+            'code' => trim($req->input('code')),
+
          );
-         if($req->input('uid')!=''){
+         if ($req->input('uid') != '') {
             $insert =  DB::table('subjects')->where('id', $req->input('uid'))->update($data);
             $req->session()->flash('success', 'Updated successfully...');
             return redirect('admin/subject');
          }
-          
+
          $insert =  DB::table('subjects')->insert($data);
          if ($insert) {
             $req->session()->flash('success', 'Inserted successfully...');
@@ -471,29 +477,29 @@ class Admin extends Controller
             $req->session()->flash('error', 'Some error occured...');
             return redirect('admin/subject');
          }
-         
       }
-      if($req->input('uid')!=''){
-         $data['res']=DB::select('select * from subjects where id='.$req->input('uid'));
+      if ($req->input('uid') != '') {
+         $data['res'] = DB::select('select * from subjects where id=' . $req->input('uid'));
       }
-     if($req->input('delid')!=''){
-      $deleted = DB::table('subjects')->where('id', '=', $req->input('delid'))->delete();
-      $req->session()->flash('success', 'Deleted succesfully...');
-      return redirect('admin/subject');
-     }
-      $data['list']=DB::select('select * from subjects order by id asc');
-    
-      return view('academics.subject',$data);
+      if ($req->input('delid') != '') {
+         $deleted = DB::table('subjects')->where('id', '=', $req->input('delid'))->delete();
+         $req->session()->flash('success', 'Deleted succesfully...');
+         return redirect('admin/subject');
+      }
+      $data['list'] = DB::select('select * from subjects order by id asc');
+
+      return view('academics.subject', $data);
    }
-   public function subjectgroup(Request $req){
-      if($_SERVER['REQUEST_METHOD']=='POST'){
-         $data=array(
-            'name'=>trim($req->input('name')),
-            'class'=>trim($req->input('class')),
-            'batches'=>implode(",",$req->input('batches')),
-            'subjects'=>implode(",",$req->input('subject'))
+   public function subjectgroup(Request $req)
+   {
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+         $data = array(
+            'name' => trim($req->input('name')),
+            'class' => trim($req->input('class')),
+            'batches' => implode(",", $req->input('batches')),
+            'subjects' => implode(",", $req->input('subject'))
          );
-         if($req->input('uid')!=''){
+         if ($req->input('uid') != '') {
             $insert =  DB::table('subjectgroup')->where('id', $req->input('uid'))->update($data);
             $req->session()->flash('success', 'Updated successfully...');
             return redirect('admin/subjectgroup');
@@ -506,55 +512,142 @@ class Admin extends Controller
             $req->session()->flash('error', 'Some error occured...');
             return redirect('admin/subjectgroup');
          }
-         
       }
-      if($req->input('uid')!=''){
-         $data['res']=DB::select('select * from subjectgroup where id='.$req->input('uid'));
+      if ($req->input('uid') != '') {
+         $data['res'] = DB::select('select * from subjectgroup where id=' . $req->input('uid'));
       }
-     if($req->input('delid')!=''){
-      $deleted = DB::table('subjectgroup')->where('id', '=', $req->input('delid'))->delete();
-      $req->session()->flash('success', 'Deleted succesfully...');
-      return redirect('admin/subjectgroup');
-     }
-         
-      $data['list']=DB::select('select * from subjectgroup order by id asc');
-      $data['class']=DB::select('select * from classes order by id asc');
-      $data['batches']=DB::select('select * from batches order by id asc');
-      $data['subjects']=DB::select('select * from subjects order by id asc');
+      if ($req->input('delid') != '') {
+         $deleted = DB::table('subjectgroup')->where('id', '=', $req->input('delid'))->delete();
+         $req->session()->flash('success', 'Deleted succesfully...');
+         return redirect('admin/subjectgroup');
+      }
 
-         return view('academics.subjectgroup',$data);
+      $data['list'] = DB::select('select * from subjectgroup order by id asc');
+      $data['class'] = DB::select('select * from classes order by id asc');
+      $data['batches'] = DB::select('select * from batches order by id asc');
+      $data['subjects'] = DB::select('select * from subjects order by id asc');
+
+      return view('academics.subjectgroup', $data);
    }
    public function login(Request $req)
    {
-if($_SERVER['REQUEST_METHOD']=='POST')
-{
-   $req->validate([
-      'username' => 'required',
-      'password' => 'required',
-  ]);
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+         $req->validate([
+            'username' => 'required',
+            'password' => 'required',
+         ]);
 
-$users= DB::table('staff')->where('email', $req->input('username'))->first();
+         $users = DB::table('staff')->where('email', $req->input('username'))->first();
 
- $passcheck=Hash::check(request('password'), $users->password);
- if($passcheck){
-    $data=array(
-       'id'=>$users->id,
-     'name'=> $users->name,
-     'surname'=> $users->surname,
-      'email'=>$users->email,
-      'role'=>$users->role,
-      'employee_id'=>$users->employee_id,
-      'is_active'=>$users->is_active
-    );
-   $req->session()->put('userInfo', $data);
- 
-return redirect('admin/dashboard');
- }
- 
- $req->session()->flash('error', 'Some error occured');
- return redirect('admin/login');
-     
-}
-      return view('home.login');
+         $passcheck = Hash::check(request('password'), $users->password);
+         if ($passcheck) {
+            $data = array(
+               'id' => $users->id,
+               'name' => $users->name,
+               'surname' => $users->surname,
+               'email' => $users->email,
+               'role' => $users->role,
+               'employee_id' => $users->employee_id,
+               'is_active' => $users->is_active
+            );
+            $req->session()->put('userInfo', $data);
+
+            return redirect('admin/dashboard');
+         }
+
+         $req->session()->flash('error', 'Some error occured');
+         return redirect('admin/login');
+      }
+      $data['res'] = DB::select('select admin_logo from general_setting where id=1');
+      return view('home.login', $data);
+   }
+
+   public function logout(Request $req)
+   {
+      $userInfo = $req->session()->get('userInfo');
+      $req->session()->forget('userInfo');
+      return redirect('admin/login');
+   }
+   public function general_settings(Request $req)
+   {
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+         $check = DB::select('select print_logo,admin_logo,small_logo from general_setting where id=' . $req->input('id'));
+         $print_logo_url = $check[0]->print_logo;
+         $admin_logo_url = $check[0]->admin_logo;
+         $small_logo_url = $check[0]->small_logo;
+         if ($req->file('print_logo') != '') {
+            $print_logo = $req->file('print_logo')->getClientOriginalName();
+            $print_logo_url = $req->file('print_logo')->move('public/uploads/certificate', $print_logo);
+         }
+         if ($req->file('admin_logo') != '') {
+            $admin_logo = $req->file('admin_logo')->getClientOriginalName();
+            $admin_logo_url = $req->file('admin_logo')->move('public/uploads/certificate', $admin_logo);
+         }
+         if ($req->file('small_logo') != '') {
+            $small_logo = $req->file('small_logo')->getClientOriginalName();
+            $small_logo_url = $req->file('small_logo')->move('public/uploads/certificate', $small_logo);
+         }
+
+         $data = array(
+            'title' => trim($req->input('title')),
+            'address' => trim($req->input('address')),
+            'phone' => trim($req->input('phone')),
+            'whatsapp' => trim($req->input('whatsapp')),
+            'email' => trim($req->input('email')),
+            'facebook' => trim($req->input('facebook')),
+            'twitter' => trim($req->input('twitter')),
+            'google' => trim($req->input('google')),
+            'instagram' => trim($req->input('instagram')),
+            'linkedin' => trim($req->input('linkedin')),
+            'adm_prefix' => trim($req->input('adm_prefix')),
+            'adm_no_digit' => trim($req->input('adm_no_digit')),
+            'adm_start_from' => trim($req->input('adm_start_from')),
+            'staffid_prefix' => trim($req->input('staffid_prefix')),
+            'staffid_no_digit' => trim($req->input('staffid_no_digit')),
+            'staffid_start_from' => trim($req->input('staffid_start_from')),
+            'print_logo' => $print_logo_url,
+            'admin_logo' => $admin_logo_url,
+            'small_logo' => $small_logo_url,
+         );
+         $update =  DB::table('general_setting')->where('id', $req->input('id'))->update($data);
+         $req->session()->flash('success', 'Updated successfully...');
+         return redirect('admin/general_settings');
+      }
+      $data['res'] = DB::select('select * from general_setting where id=1');
+      return view('admin/general_setting', $data);
+   }
+
+   public function disable_reason(Request $req)
+   {
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+         $data = array(
+            'reason' => trim($req->input('reason')),
+
+         );
+         if ($req->input('uid') != '') {
+            $insert =  DB::table('disable_reason')->where('id', $req->input('uid'))->update($data);
+            $req->session()->flash('success', 'Updated successfully...');
+            return redirect('admin/disable_reason');
+         }
+         $insert =  DB::table('disable_reason')->insert($data);
+         if ($insert) {
+            $req->session()->flash('success', 'Inserted successfully...');
+            return redirect('admin/disable_reason');
+         } else {
+            $req->session()->flash('error', 'Some error occured...');
+            return redirect('admin/disable_reason');
+         }
+      }
+      if ($req->input('uid') != '') {
+         $data['res'] = DB::select('select * from disable_reason where id=' . $req->input('uid'));
+      }
+      if ($req->input('delid') != '') {
+         $deleted = DB::table('disable_reason')->where('id', '=', $req->input('delid'))->delete();
+         $req->session()->flash('success', 'Deleted succesfully...');
+         return redirect('admin/disable_reason');
+      }
+      $data['list'] = DB::select('select * from disable_reason order by id asc');
+      return view('student.disable_reason', $data);
    }
 }

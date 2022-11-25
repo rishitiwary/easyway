@@ -6,39 +6,7 @@
     <div class="wrapper">
         @include('admin.include.header');
         @include('admin.include.sidebar');
-        <script>
-            function defoult(id) {
-                var defoult = $('#languageSwitcher').val();
-
-
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "admin/language/default_language/" + id,
-                    data: {},
-                    success: function(data) {
-                        successMsg("Status Change Successfully");
-                        $('#languageSwitcher').html(data);
-
-                    }
-                });
-
-                window.location.reload('true');
-            }
-
-            function set_languages(lang_id) {
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "admin/language/user_language/" + lang_id,
-                    data: {},
-                    success: function(data) {
-                        successMsg("Status Change Successfully");
-                        window.location.reload('true');
-
-                    }
-                });
-
-            }
-        </script>
+        
 
 
         <div class="content-wrapper">

@@ -39,11 +39,10 @@
                             <div class="box-header with-border">
                                 <h3 class="box-title"><i class="fa fa-search"></i> Select Criteria</h3>
                             </div>
-                            <form id='form1' action="{{url('admin/payroll')}}" method="post" accept-charset="utf-8">
+                            <form id='form1' action="{{url('admin/payroll')}}" method="get" accept-charset="utf-8">
                                 <div class="box-body">
                                     <div class="row">
-                                       
-                                        @csrf
+                             
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">
@@ -220,7 +219,7 @@
 
                                             <td class="pull-right no-print">
                                                 @if($status!='')
-                                                <a href="{{url('admin/payroll/revert')}}/<?= $month ?>/<?= $year ?>/<?= $payslipId ?>?status=<?= $status ?>&staff_id=<?= $row->id ?>" class="btn btn-default btn-xs" onclick="return confirm('Are you sure you want to revert this record')" title="Revert">
+                                                <a href="{{url('admin/payroll/revert')}}/<?= $month ?>/<?= $year ?>/<?= $payslipId ?>?status=<?= $status ?>&staff_id=<?= $row->id ?>&role=<?=$_GET['role']?>" class="btn btn-default btn-xs" onclick="return confirm('Are you sure you want to revert this record')" title="Revert">
                                                     <i class="fa fa-undo"> </i>
                                                 </a>
                                                 @endif
@@ -383,31 +382,12 @@
     window.print();
             }
 
-            function getEmployeeName(role) {
-                var base_url = 'https://easywayglobal.in/';
-                $("#name").html("<option value=''>select</option>");
-                var div_data = "";
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "admin/staff/getEmployeeByRole",
-                    data: {
-                        'role': role
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        $.each(data, function(i, obj) {
-                            div_data += "<option value='" + obj.name + "'>" + obj.name + "</option>";
-                        });
-
-                        $('#name').append(div_data);
-                    }
-                });
-            }
-
 
             $(document).on('click', '.submit_schsetting', function(e) {
                 var $this = $(this);
                 $this.button('loading');
+               //let redirectUrl='{{url("admin/payroll/")}}'+$('#redirectUrl').val();
+                
                 $.ajax({
                     url: '{{url("admin/payroll/paymentSuccess")}}',
                     type: 'post',

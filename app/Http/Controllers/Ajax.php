@@ -232,5 +232,53 @@ public function batches(Request $req){
   </div>';  
   }
 }
+public function class_batches(Request $req){
+     $classid= $req->input('classid');
+
+  $data=DB::select('select batches from classes where id='.$classid);
+  $batch_arr = explode(",", $data[0]->batches);
+$batchesid=$req->input('batchesid');
+echo '<option value="">Select Batch</option>';
+  for ($i = 0; $i < count($batch_arr); $i++) {
+     $bid = $batch_arr[$i];
+     $bname = DB::select('select id,batch from batches where id=' . $bid);
+     echo '<option value="'.$bname[0]->id.'">'.$bname[0]->batch.'</option>';  
+ }
 }
-  
+
+public function gettrades(Request $req){
+   $tradegroup= $req->input('tradegroup');
+  $data=DB::select('select * from trade where tradegroup='.$tradegroup);
+ 
+echo '<option value="">Select Trade</option>';
+foreach($data as $trun){
+   echo '<option value="'.$trun->id.'">'.$trun->name.'</option>';
+}
+
+}
+
+
+public function hostel_room(Request $req){
+   $hostel_id= $req->input('hostel_id');
+  $data=DB::select('select * from hostel_rooms where hostel_id='.$hostel_id);
+  echo '<option value="">Select </option>';
+ foreach($data as $rooms){
+     echo '<option value="'.$rooms->id.'">'.$rooms->room_no.'</option>';  
+ }
+}
+public function district(Request $req){
+  echo $state_id= $req->input('state_id');
+  $data=DB::select('select * from cities where state_id='.$state_id);
+  echo '<option value="">Select City</option>';
+ foreach($data as $district){
+     echo '<option value="'.$district->id.'">'.$district->city.'</option>';  
+ }
+}
+
+public function studentsearch(Request $req)
+{
+   $data=DB::select('select * from students where class_id='.$req->input('classid').' and batch_id='.$req->input('batchid'));
+ 
+}
+}
+ 

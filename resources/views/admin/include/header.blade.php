@@ -10,12 +10,12 @@
         }
     }
 </style>
- 
+ <?php $general_setting=DB::select('select * from general_setting');?>
 <header class="main-header" id="alert">
     <a href="admin/dashboard" class="logo">
-        <span class="logo-mini"><img src="{{asset('public/uploads/school_content/admin_small_logo/1.png')}}"
+        <span class="logo-mini"><img src="{{asset('')}}<?=$general_setting[0]->small_logo;?>"
                 alt="Easy Way Global" /></span>
-        <span class="logo-lg"><img src="{{asset('public/uploads/school_content/admin_logo/1.png')}}"
+        <span class="logo-lg"><img src="{{asset('')}}<?=$general_setting[0]->admin_logo;?>"
                 alt="Easy Way Global" /></span>
     </a>
     <nav class="navbar navbar-static-top" role="navigation">
@@ -34,7 +34,7 @@
 
                 <form id="header_search_form" class="navbar-form navbar-left search-form" role="search"
                     action="admin/search" method="POST">
-                    <input type='hidden' name='ci_csrf_token' value='' />
+                    @csrf
                     <div class="input-group">
                         <input type="text" value="" name="search_text1" id="search_text1"
                             class="form-control search-form search-form3"
@@ -111,7 +111,7 @@
                                             <a class="pl25" href="/admin/admin/changepass" data-toggle="tooltip"
                                                 title="" data-original-title="Change Password"><i
                                                     class="fa fa-key"></i>Password</a> <a class="pull-right"
-                                                href="/site/logout"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                                                href="{{url('admin/logout')}}"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
                                         </div>
                                     </div>
                                     <!--./sstopuser-->

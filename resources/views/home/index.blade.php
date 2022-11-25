@@ -1,319 +1,24 @@
+@include('home.include.head')
 
- @include('home.include.head')
 <body>
-    <div style="position:fixed;top: 0;z-index: 999999;width: 100%;">
-        <style type="text/css">
-        h2 {
-            font-size: 18px;
-        }
+    @include('home.include.header')
+    @include('home.include.menu')
 
-        @media(max-width: 767px) {
-            h2 {
-                font-size: 12px;
-            }
-        }
 
-        .mobileonly,
-        .mobtab {
-            display: none;
-        }
-
-        .bredcrumb {
-            height: 300px;
-        }
-
-        .mt80 {
-            margin-top: 70px;
-        }
-
-        .newscontent {
-            padding: 5px;
-        }
-
-        iframe {
-            width: 100%;
-            height: 500px;
-        }
-
-        @media(max-width: 767px) {
-            .mt80 {
-                margin-top: 85px;
-            }
-
-            iframe {
-                width: 100%;
-                height: 200px;
-            }
-
-            .mobileonly {
-                display: block;
-                border: 2px solid #000;
-                border-right: none;
-                border-left: none;
-                padding: 10px;
-            }
-
-            .bredcrumb {
-                height: 150px;
-            }
-
-            .mobtab {
-                display: inline-block;
-                list-style: none;
-                padding: 0;
-                margin: 0;
-            }
-
-            .mobtab li {
-                margin-top: 5px;
-            }
-
-            .mobtab li .btn {
-                padding: 3px;
-            }
-
-            .sticky-top .col-md-3,
-            .sticky-top .col-md-9 {
-                padding: 0 5px;
-            }
-        }
-
-        .newsticker a p {
-            color: blue;
-        }
-        </style>
-        <header class="sticky-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3 col-xs-5">
-                        <a class="logo" href="index.html"><img
-                                src="{{asset('public/uploads/school_content/logo/front_logo-611a2f452e2f07.50817368.png')}}" alt=""
-                                style="max-width: 100%;"></a>
-                    </div>
-                    <!--./col-md-4-->
-                    <div class="col-md-9 col-sm-12 col-xs-7">
-                        <ul class="header-extras">
-                            <li><a href="live-test.html" class="btn btn-outline-success "><img
-                                        src="https://www.madeeasy.in/images/blink-im.gif" alt="Live Classes"
-                                        class="img-fluid"> <i class="fad fa-computer-speaker"></i> Live Test</a></li>
-                            <li> <a href="video-lecture.html" class="btn btn-outline-primary "><i class="fad fa-video"
-                                        aria-hidden="true"></i> Video Lecture </a></li>
-                            <li> <a href="study-material.html" class="btn btn-outline-danger "><i
-                                        class="fad fa-book-reader" aria-hidden="true"></i> Study Material </a></li>
-                            <li> <a href="online-test-series.html" class="btn btn-outline-warning "><i
-                                        class="fad fa-chalkboard-teacher" aria-hidden="true"></i> Online Test Series</a>
-                            </li>
-                            <li><a href="site/userlogin.html" class="btn btn-outline-success "><i class="fad fa-lock"
-                                        aria-hidden="true"></i> Login / Register</a></li>
-                        </ul>
-                        <ul class="header-extras minpad">
-
-                            <li><a href="liveclass.html" class="btn btn-outline-success "><img
-                                        src="https://www.madeeasy.in/images/blink-im.gif" alt="Live Classes"
-                                        class="img-fluid"> Live Classes</a></li>
-                            <li><a href="quiz.html" class="btn btn-outline-success "> <i class="fad fa-keyboard"></i>
-                                    Quiz</a></li>
-                            <li><a href="tel:8409938540" class="btn btn-outline-success "><i class="fad fa-phone-alt"
-                                        aria-hidden="true"></i>+91-8409938540</a></li>
-                            <li> <a href="tel:8409973354" class="btn btn-outline-success "><i class="fad fa-phone-alt"
-                                        aria-hidden="true"></i> + 91 - 8409973354 </a></li>
-                            <li> <a href="mailto:24easyway@gmail.com" class="btn btn-outline-success "><i
-                                        class="fad fa-at" aria-hidden="true"></i> 24easyway@gmail.com </a></li>
-
-
-                        </ul>
-                        <ul class="minpad mobtab">
-                            <li style="margin-left:20px;"><a href="frontend.html#" target="_blank"
-                                    class="btn btn-outline-success "><img
-                                        src="https://www.madeeasy.in/images/blink-im.gif" alt="Live Classes"
-                                        class="img-fluid"> Live Classes</a></li>
-                            <li><a href="tel:8409938540" class="btn btn-outline-success "><i class="fad fa-phone-alt"
-                                        aria-hidden="true"></i> 8409938540 / 8409973354</a></li>
-
-
-
-                        </ul>
-
-
-                    </div>
-                    <!--./col-md-8-->
-                </div>
-                <!--./row-->
-            </div>
-            <!--./container-->
-        </header>
-        <div class="header_menu">
-            <div class="container">
-                <div class="row">
-                    <nav class="navbar">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                                data-target="#navbar-collapse-3">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-
-                        </div>
-
-                        <div class="collapse navbar-collapse" id="navbar-collapse-3">
-                            <ul class="nav navbar-nav">
-
-                                <li class="active ">
-
-                                    <a href="frontend.html">HOME</a>
-
-
-
-                                </li>
-
-                                <li class=" dropdown">
-                                    <a href="frontend.html#" class="dropdown-toggle" data-toggle="dropdown">ABOUT US <b
-                                            class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="page/about-us.html">About Us</a></li>
-                                        <li><a href="page/board-of-directors.html">Board Of Director</a></li>
-                                        <li><a href="page/faculty-panel.html">Faculty Panel</a></li>
-                                        <li><a href="page/our-social-media.html">Our Social Media</a></li>
-
-                                    </ul>
-
-
-
-                                </li>
-
-                                <li class=" dropdown">
-                                    <a href="frontend.html#" class="dropdown-toggle" data-toggle="dropdown">GALLERY <b
-                                            class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="page/image-gallery.html">IMAGE GALLERY</a></li>
-                                        <li><a href="page/video-gallery.html">VIDEO GALLERY</a></li>
-
-                                    </ul>
-
-
-
-                                </li>
-
-                                <li class=" dropdown">
-                                    <a href="frontend.html#" class="dropdown-toggle" data-toggle="dropdown">ITI JOB <b
-                                            class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="govt-jobs.html">GOVERMENT JOB</a></li>
-                                        <li><a href="apprenticeship.html">APPRENTICESHIP</a></li>
-
-                                    </ul>
-
-
-
-                                </li>
-
-                                <li class=" ">
-
-                                    <a href="syllabus.html">SYLLABUS</a>
-
-
-
-                                </li>
-
-                                <li class=" ">
-
-                                    <a href="latest-news.html">ITI NEWS</a>
-
-
-
-                                </li>
-
-                                <li class=" ">
-
-                                    <a href="important-links.html">Important Links</a>
-
-
-
-                                </li>
-
-                                <li class=" ">
-
-                                    <a href="page/contact-us.html">CONTACT US</a>
-
-
-
-                                </li>
-
-
-                            </ul>
-                        </div><!-- /.navbar-collapse -->
-                    </nav><!-- /.navbar -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container mt80" style="border-top: 1px solid #ccc;">
-        <div class="row">
-            <div class="mobileonly">
-                <ul class="mob-extra-menu">
-                    <li class="nav-item active text-center ">
-                        <a href="video-lecture.html" style="color:#c82319"><i class="fad fa-video fa-2x"></i>
-                            <p>Video Courses</p>
-                        </a>
-                    </li>
-                    <li class="nav-item active text-center ">
-                        <a href="study-material.html" style="color:#c82319"><i class="fad fa-book-open fa-2x"></i>
-                            <p>Study Material</p>
-                        </a>
-                    </li>
-                    <li class="nav-item active text-center ">
-                        <a href="online-test-series.html" style="color:#c82319"><i
-                                class="fad fa-chalkboard-teacher fa-2x"></i>
-                            <p>Online Test</p>
-                        </a>
-                    </li>
-                    <li class="nav-item active text-center ">
-                        <a href="quiz.html" style="color:#c82319"><i class="fad fa-keyboard fa-2x"></i>
-                            <p>Quiz</p>
-                        </a>
-                    </li>
-                    <li class="nav-item active text-center ">
-                        <a href="live-test.html" style="color:#c82319"><i class="fad fa-computer-speaker fa-2x"></i>
-                            <p>Live Test</p>
-                        </a>
-                    </li>
-                    <li class="nav-item active text-center ">
-                        <a href="site/userlogin.html" style="color:#c82319"><i class="fad fa-user fa-2x"></i>
-                            <p>Login / Register</p>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
     <div class="toper">
         <div class="container-fluid">
             <div class="row">
                 <div id="bootstrap-touch-slider" class="carousel bs-slider slide  control-round" data-ride="carousel"
                     data-interval="5000">
                     <div class="carousel-inner">
-                        <div class="item active">
-                            <img src="{{asset('public/uploads/gallery/media/railway-driver-alp-railway-technician-easyway-iti-coaching-iti-course-iti-online-class-iti-college-iti-admission-ncvt-dgt-iti-job-iti-government-job.jpg')}}"
-                                alt="" />
+                        <?php $i=1;
+                         foreach($banner as $row){?>
+
+                        <div class="item <?php if($i==1){echo 'active';} ?>">
+                            <img src="{{asset('public/uploads/gallery/media')}}/<?=$row->image?>" alt="" />
                         </div>
-                        <div class="item ">
-                            <img src="{{asset('public/uploads/gallery/media/railway-technician-raja-easyway-iti-coaching-iti-course-iti-online-class-iti-college-iti-admission-ncvt-dgt-iti-job-iti-government-job.jpg')}}"
-                                alt="" />
-                        </div>
-                        <div class="item ">
-                            <img src="{{asset('public/uploads/gallery/media/igcar-suraj-easyway-iti-coaching-iti-course-iti-online-class-iti-college-iti-admission-ncvt-dgt-iti-job-iti-government-job.jpg')}}"
-                                alt="" />
-                        </div>
-                        <div class="item ">
-                            <img src="{{asset('public/uploads/gallery/media/railway-technician-ashutosh-easyway-iti-coaching-iti-course-iti-online-class-iti-college-iti-admission-ncvt-dgt-iti-job-iti-government-job.jpg')}}"
-                                alt="" />
-                        </div>
-                        <div class="item ">
-                            <img src="{{asset('public/uploads/gallery/media/LMRC-Topper-CITS-ITI-syllabus-easyway-iti-coaching-iti-course-iti-online-class-iti-college-iti-admission-ncvt-dgt-iti-job-iti-government-job.jpg')}}"
-                                alt="" />
-                        </div>
+                        <? $i++;}?>
+
                     </div>
                     <!--./carousel-inner-->
                     <a class="left carousel-control" href="frontend.html#bootstrap-touch-slider" data-slide="prev">
@@ -367,18 +72,15 @@
                         <div class="" style="height:auto;border: none;">
                             <marquee class="" behavior="scroll" direction="left" onmouseover="this.stop();"
                                 onmouseout="this.start();" style="padding: 5px;">
-                                <a href="read/offline-new-batch-12th-batch-starting-from-04-april-2022.html"
+                                @foreach($news as $news_row)
+                                <a href="{{$news_row->importantlinks}}"
                                     style="color:white;font-weight: bold;margin-right:10px;"><span
-                                        style="font-weight: normal;">Offline New Batch ( 12th Batch) Starting from 04
-                                        April-2022 <span
+                                        style="font-weight: normal;">{{$news_row->title}} <span
                                             style="color:red;font-weight: bold;text-decoration: underline;">Click
-                                            here</span> <img src="{{asset('public/uploads/gallery/media/New_icons-f.gif')}}"></span>
-                                    <a href="read/easyway-online-class-available-for-electrician-fitter-wireman-turner-machinist-copa.html"
-                                        style="color:white;font-weight: bold;margin-right:10px;"><span
-                                            style="font-weight: normal;">Easyway Online CLass Available For Electrician,
-                                            Fitter, Wireman, Turner, Machinist, Copa <span
-                                                style="color:red;font-weight: bold;text-decoration: underline;">Click
-                                                here</span> <img src="{{asset('public/uploads/gallery/media/New_icons-f.gif')}}"></span>
+                                            here</span> <img src="{{$news_row->image}}"
+                                            style="height:20px; width:20px;"></span>
+                                </a>
+                                @endforeach
                             </marquee>
                         </div>
                     </div>
@@ -830,7 +532,8 @@
                                             <a
                                                 href="read/nfl-non-executive-workers-recruitment-2021-apply-online-for-183-vacancy.html">
                                                 <p style="margin:0">NFL Non Executive (Workers) Recruitment 2021 – Apply
-                                                    Online for 183 <img src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
+                                                    Online for 183 <img
+                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
                                                         style="height:16px"></p>
                                             </a>
                                         </li>
@@ -838,7 +541,8 @@
                                             <a
                                                 href="read/iocl-recruitment-2021-apply-online-for-2437-trade-technician-apprentice-posts.html">
                                                 <p style="margin:0">IOCL Recruitment 2021 – Apply Online for 2437 Trade
-                                                    & Technician App <img src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
+                                                    & Technician App <img
+                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
                                                         style="height:16px"></p>
                                             </a>
                                         </li>
@@ -862,7 +566,8 @@
                                             <a
                                                 href="read/name-of-the-post-bsf-constable-tradesman-online-form-2022.html">
                                                 <p style="margin:0">Name of the Post: BSF Constable (Tradesman) Online
-                                                    Form 2022 <img src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
+                                                    Form 2022 <img
+                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
                                                         style="height:16px"></p>
                                             </a>
                                         </li>

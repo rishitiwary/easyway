@@ -150,7 +150,7 @@
                     <li class=""><a href="{{url('student/bulkdelete')}}"><i class="fa fa-angle-double-right"></i> Bulk Delete</a>
                     </li>
                   
-                    <li class=""><a href="{{url('student/disable_reason')}}"><i class="fa fa-angle-double-right"></i> Disable Reason</a>
+                    <li class=""><a href="{{url('admin/disable_reason')}}"><i class="fa fa-angle-double-right"></i> Disable Reason</a>
                     </li>
 
                 </ul>
@@ -318,8 +318,8 @@
                     <i class="fa fa-gears ftlayer"></i> <span>System Settings</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li class=""><a href="schsettings"><i class="fa fa-angle-double-right"></i> General Setting</a></li>
-                    <li class=""><a href="sessions"><i class="fa fa-angle-double-right"></i> Session Setting</a></li>
+                    <li class=""><a href="{{url('admin/general_settings')}}"><i class="fa fa-angle-double-right"></i> General Setting</a></li>
+ 
                     <li class=""><a href="notification/setting"><i class="fa fa-angle-double-right"></i> Notification
                             Setting</a></li>
                     <li class=""><a href="smsconfig"><i class="fa fa-angle-double-right"></i> SMS Setting</a></li>

@@ -33,7 +33,6 @@ class Master extends Controller
             } else {
                 $req->validate([
                     'name' => 'required|unique:tradegroup,name',
-
                 ]);
 
 

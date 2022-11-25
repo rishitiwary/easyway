@@ -1,15 +1,9 @@
 @include('admin.include.head');
-
 <body class="hold-transition skin-blue fixed sidebar-mini">
-
     <div class="wrapper">
-
         @include('admin.include.header');
         @include('admin.include.sidebar');
-
-
         <div class="content-wrapper">
-
             <section class="content">
                 <div class="row">
                     <div class="col-md-3">
@@ -81,8 +75,7 @@
                                 <li class=""><a href="#mysales" data-toggle="tab" aria-expanded="true">My Sales</a></li>
                                 <li class=""><a href="#documents" data-toggle="tab" aria-expanded="true">Documents</a>
                                 </li>
-                                <li class=""><a href="#timelineh" data-toggle="tab" aria-expanded="true">Timeline</a>
-                                </li>
+                                
 
                                 <li class="pull-right"><a class="text-red" data-toggle="tooltip" data-placement="bottom"
                                         title="Disable" onclick="disable_staff(<?=$res[0]->id?>);"> <i
@@ -256,7 +249,7 @@
                                             <div class="staffprofile">
 
                                                 <h5>Total Net Salary Paid</h5>
-                                                <h4>₹7,000.00</h4>
+                                                <h4>₹<?=$payroll[0]->net_salary?></h4>
                                                 <div class="icon mt12font40">
                                                     <i class="fa fa-money"></i>
                                                 </div>
@@ -268,7 +261,7 @@
                                             <div class="staffprofile">
 
                                                 <h5>Total Gross Salary</h5>
-                                                <h4>₹7,000.00</h4>
+                                                <h4>₹<?=$payroll[0]->gross_salary?></h4>
                                                 <div class="icon mt12font40">
                                                     <i class="fa fa-money"></i>
                                                 </div>
@@ -280,7 +273,7 @@
                                             <div class="staffprofile">
 
                                                 <h5>Total Earning</h5>
-                                                <h4>₹2,000.00</h4>
+                                                <h4>₹<?=$payroll[0]->total_allowance?></h4>
                                                 <div class="icon mt12font40">
                                                     <i class="fa fa-money"></i>
                                                 </div>
@@ -290,7 +283,7 @@
                                         <div class="col-md-3 col-sm-6">
                                             <div class="staffprofile">
                                                 <h5>Total Deduction</h5>
-                                                <h4>₹0.00 </h4>
+                                                <h4>₹<?=$payroll[0]->total_deduction?> </h4>
                                                 <div class="icon mt12font40">
                                                     <i class="fa fa-money"></i>
                                                 </div>
@@ -314,25 +307,27 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            @foreach($payslip as $row)
                                                 <tr>
                                                     <td>
                                                         <a data-toggle="popover" href="#" class="detail_popover"
-                                                            data-original-title="" title="">2</a>
-                                                        <div class="fee_detail_popover" style="display: none"></div>
+                                                            data-original-title="" title=""><?=$row->id?></a>
+                                                        
                                                     </td>
-                                                    <td>October - 2021</td>
-                                                    <td>17.11.2021</td>
-                                                    <td>Cash</td>
-                                                    <td><span class='label label-success'>Paid</span></td>
-                                                    <td>7000.00</td>
+                                                    <td><?=$row->month?> - <?=$row->year?></td>
+                                                    <td><?=$row->payment_date?></td>
+                                                    <td><?=$row->payment_mode?></td>
+                                                    <td><span class='label label-success'><?=$row->status?></span></td>
+                                                    <td><?=$row->net_salary?></td>
                                                     <td class="text-right">
 
-                                                        <a href="#" onclick="getPayslip('2')" role="button"
+                                                        <a href="#" onclick="getPayslip(<?=$row->id?>)" role="button"
                                                             class="btn btn-primary btn-xs checkbox-toggle edit_setting"
                                                             data-toggle="tooltip" title="">View Payslip</a>
 
                                                     </td>
                                                 </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -440,22 +435,7 @@
                                     </table>
                                 </div>
 
-                                <div class="tab-pane" id="timelineh">
-                                    <div> <input type="button" id="myTimelineButton"
-                                            class="btn btn-sm btn-primary pull-right " value="Add" />
-                                    </div>
-                                    <br />
-
-                                    <div class="timeline-header no-border">
-
-                                        <div id="timeline_list">
-                                            <br />
-                                            <div class="alert alert-info">No Record Found</div>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                                 <div class="tab-pane" id="attendance">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-3 col-sm-6 col20per">
@@ -2569,9 +2549,14 @@
                                     <div class="row">
                                         <div class="col-md-3 col-sm-6">
                                             <div class="staffprofile">
-                                                <h5>Festival (5)</h5>
-                                                <p>Used: 4</p>
-                                                <p>Available: 1</p>
+                                                <h5>Festival (<?=$res[0]->festival_leave?>)</h5>
+                                                <p>Used: <?php if($leave_request[0]->leave_type=='festival_leave'){
+echo $leave_request[0]->leave_days;
+$available=$res[0]->festival_leave-$leave_request[0]->leave_days;
+                                                }else{
+                                                    echo '0';
+                                                }?></p>
+                                                <p>Available: <?=$res[0]->festival_leave?></p>
                                                 <div class="icon">
                                                     <i class="fa fa-plane"></i>
                                                 </div>
@@ -2580,9 +2565,14 @@
                                         <!--./col-md-3-->
                                         <div class="col-md-3 col-sm-6">
                                             <div class="staffprofile">
-                                                <h5>Emergency (5)</h5>
-                                                <p>Used: 0</p>
-                                                <p>Available: 5</p>
+                                                <h5>Emergency (<?=$res[0]->emergency_leave?>)</h5>
+                                                <p>Used: <?php if($leave_request[0]->leave_type=='emergency_leave'){
+echo $leave_request[0]->leave_days;
+$available=$res[0]->emergency_leave-$leave_request[0]->leave_days;
+                                                }else{
+                                                    echo '0';
+                                                }?></p>
+                                                <p>Available: <?=$res[0]->emergency_leave?></p>
                                                 <div class="icon">
                                                     <i class="fa fa-plane"></i>
                                                 </div>
@@ -2591,9 +2581,14 @@
                                         <!--./col-md-3-->
                                         <div class="col-md-3 col-sm-6">
                                             <div class="staffprofile">
-                                                <h5>Regular (5)</h5>
-                                                <p>Used: 0</p>
-                                                <p>Available: 5</p>
+                                                <h5>Regular (<?=$res[0]->regular_leave?>)</h5>
+                                                <p>Used: <?php if($leave_request[0]->leave_type=='regular_leave'){
+echo $leave_request[0]->leave_days;
+$available=$res[0]->regular_leave-$leave_request[0]->leave_days;
+                                                }else{
+                                                    echo '0';
+                                                }?></p>
+                                                <p>Available: <?=$res[0]->regular_leave?></p>
                                                 <div class="icon">
                                                     <i class="fa fa-plane"></i>
                                                 </div>
@@ -2603,7 +2598,7 @@
 
                                     </div>
                                     <div class="timeline-header no-border">
-                                        <div class="download_label">Details For Er. Abhishek raj</div>
+                                      
                                         <div class="table-responsive" style="clear: both;">
                                             <table class="table table-striped table-bordered table-hover example">
                                                 <thead>
@@ -2615,19 +2610,21 @@
                                                     <th class="text-right">Action</th>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach($leave_request as $row2)
                                                     <tr>
-                                                        <td>Festival </td>
-                                                        <td>16.10.2021 - 19.10.2021</td>
-                                                        <td>4</td>
-                                                        <td>15.10.2021</td>
+                                                        <td><?=$row2->leave_type?> </td>
+                                                        <td><?=$row2->leave_from?> - <?=$row2->leave_to?></td>
+                                                        <td><?=$row2->leave_days?></td>
+                                                        <td><?=$row2->applieddate?></td>
                                                         <td><small style="text-transform: capitalize;"
-                                                                class='label label-success'>Approve</small></td>
+                                                                class='label label-success'><?=$row2->status?></small></td>
                                                         <td class="text-right"><a href="#leavedetails"
-                                                                onclick="getRecord('1')" role="button"
+                                                                onclick="getRecord('<?= $row2->id ?>','<?=$row2->applied_by?>','<?= $row2->leave_type ?>','<?= $row2->leave_days ?>','<?= $row2->applieddate ?>','<?= $row2->status ?>','<?= $row2->employee_remark ?>','<?= $row2->admin_remark ?>','<?= $row2->staff_id ?>')" role="button"
                                                                 class="btn btn-default btn-xs" data-toggle="tooltip"
                                                                 title="View"><i class="fa fa-eye"></i></a>
                                                         </td>
                                                     </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
@@ -2815,41 +2812,7 @@
             });
         });
 
-        $(document).ready(function(e) {
-            $("#timelineform").on('submit', (function(e) {
-                var staff_id = $("#staff_id").val();
-
-                e.preventDefault();
-                $.ajax({
-                    url: "https://easywayglobal.in/admin/timeline/add_staff_timeline",
-                    type: "POST",
-                    data: new FormData(this),
-                    dataType: 'json',
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(data) {
-                        if (data.status == "fail") {
-                            var message = "";
-                            $.each(data.error, function(index, value) {
-                                message += value;
-                            });
-                            errorMsg(message);
-                        } else {
-
-                            successMsg(data.message);
-                            window.location.reload(true);
-                        }
-
-                    },
-                    error: function(e) {
-                        alert("Fail");
-                        console.log(e);
-                    }
-                });
-            }));
-        });
-
+    
         $(document).ready(function(e) {
             $("#disablebtn").on('submit', (function(e) {
                 var staff_id = $("#staff_id").val();
@@ -3023,39 +2986,39 @@
             });
         });
 
-        function getRecord(id) {
-            $('input:radio[name=status]').attr('checked', false);
-            var base_url = 'https://easywayglobal.in/';
-            $.ajax({
-                url: base_url + 'admin/leaverequest/leaveRecord',
-                type: 'POST',
-                data: {
-                    id: id
-                },
-                dataType: "json",
-                success: function(result) {
+        function getRecord(id,applied_by,leave_type,leave_days,applieddate,status,employee_remark,admin_remark,staff_id) {
+               
+               $('input:radio[name=status]').attr('checked', false);
 
-                    $('inputs[name="leave_request_id"]').val(result.id);
-                    $('#name').html(result.name + ' ' + result.surname);
-                    $('#leave_from').html(result.leavefrom);
-                    $('#leave_to').html(result.leaveto);
-                    $('#leave_type').html(result.type);
-                    $('#reason').html(result.employee_remark);
-                    $('#applied_date').html(result.date);
-                    $('#days').html(result.leave_days + ' Days');
-                    $("#remark").html(result.admin_remark);
-                    $("#employee_id").html(' ' + result.employee_id);
-                    $("#status").html(' ' + result.status);
+               $('input[name="leave_request_id"]').val(id);
+           
+               $('#name').html(applied_by);
+              
+               $('#leave_type').html(leave_type);
+               $('#days').html(leave_days + ' Days');
+               $('#reason').html(employee_remark);
+               $('#applied_date').html(applieddate);
+               $("#detailremark").html(admin_remark);
+               $("#status").html(status);
+               $('#remark').html(admin_remark);
+               $('#employee_id').html(staff_id);
+             
+            //    if (status == 'approve') {
+            //        $('input:radio[name=status]')[1].checked = true;
 
-                }
-            });
+            //    } else if (status == 'pending') {
+            //        $('input:radio[name=status]')[0].checked = true;
 
-            $('#leavedetails').modal({
-                show: true,
-                backdrop: 'static',
-                keyboard: false
-            });
-        };
+            //    } else if (status == 'disapprove') {
+            //        $('input:radio[name=status]')[2].checked = true;
+
+            //    }
+               $('#leavedetails').modal({
+                   show: true,
+                   backdrop: 'static',
+                   keyboard: false
+               });
+           };
 
         function ajax_attendance(id, year) {
             var base_url = 'https://easywayglobal.in/';
@@ -3076,48 +3039,33 @@
 
 
         function getPayslip(id) {
-            var base_url = 'https://easywayglobal.in/';
-            $.ajax({
-                url: base_url + 'admin/payroll/payslipView',
-                type: 'POST',
-                data: {
-                    payslipid: id
-                },
+                $.ajax({
+                    url: '{{url("admin/payroll/payslipView")}}',
+                    type: 'GET',
+                    data: {
+                        payslipid: id
+                    },
+                    success: function(result) {
+                        $("#print1").html(
+                            "<a href='#'  class='pull-right modal-title moprintblack'  onclick='printData("+id+")'  title='Print' ><i class='fa fa-print'></i></a>");
+                        $("#testdata").html(result);
+                    }
+                });
 
-                success: function(result) {
-                    $("#print").html(
-                        "<a href='#' class='pull-right modal-title moprintblack ' onclick='printData(" +
-                        id + ")'  title='Print'><i class='fa fa-print'></i></a>");
-                    $("#testdata").html(result);
+                $('#payslipview').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
 
-                }
-            });
+            };
 
-            $('#payslipview').modal({
-                show: true,
-                backdrop: 'static',
-                keyboard: false
-            });
-
-        };
-
-        function printData(id) {
-
-            var base_url = 'https://easywayglobal.in/';
-            $.ajax({
-                url: base_url + 'admin/payroll/payslipView',
-                type: 'POST',
-                data: {
-                    payslipid: id
-                },
-                //dataType: "json",
-                success: function(result) {
-
-                    $("#testdata").html(result);
-                    popup(result);
-                }
-            });
-        }
+      
+            function printData(id) {
+          
+                $("#testdata").show();
+    window.print();
+            }
 
         function popup(data) {
             var base_url = 'https://easywayglobal.in/';

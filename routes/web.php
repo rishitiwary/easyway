@@ -8,7 +8,7 @@ use App\Http\Controllers\Ajax;
 use App\Http\Controllers\Master;
 use App\Http\Controllers\Student;
 use App\Http\Controllers\Staff;
-
+use App\Http\Controllers\RazorpayPaymentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,16 +23,16 @@ use App\Http\Controllers\Staff;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/',[Home::class,'index']);
 
 //admin urls
 
-Route::get('/userlogin',[Home::class,'userlogin']);
+
 Route::get('/login',[Home::class,'login']);
 Route::get('/forgotpassword',[Home::class,'forgotpassword']);
+
 //admin prefix
-Route::group(['prefix'=>'admin'],function(){
-    Route::match(['get','post'],'/login',[Admin::class,'login']);  
+Route::group(['prefix'=>'admin','middleware'=>'checkAdmin'],function(){
+Route::get('/',[Admin::class,'index']);
 Route::get('/dashboard',[Admin::class,'index']);
 Route::get('/events',[Admin::class,'events']);
 Route::match(['get', 'post'],'/events/create',[Admin::class,'eventcreate']);
@@ -68,10 +68,14 @@ Route::match(['get','post'],'/staffattendance',[Staff::class,'attendance']);
 Route::match(['get','post'],'/staff/leaverequest',[Staff::class,'leaverequest']);
 Route::match(['post'],'/staff/changepassword',[Staff::class,'changepassword']);
 Route::match(['get','post'],'/staff/approve_leaverequest',[Staff::class,'approve_leaverequest']);
+Route::get('/logout',[Admin::class,'logout']);
+Route::match(['get','post'],'/general_settings',[Admin::class,'general_settings']);
+Route::match(['get','post'],'/disable_reason',[Admin::class,'disable_reason']);
+
 
 
 });
-
+Route::match(['get','post'],'/admin/login',[Admin::class,'login']);  
 //master prefix
 Route::group(['prefix'=>'master'],function(){
     Route::match(['get'],'/tradegroup',[Master::class,'tradegroup']);
@@ -93,9 +97,17 @@ Route::group(['prefix'=>'master'],function(){
    
 });
 //student
-Route::group(['prefix'=>'student'],function(){
-    Route::get('/create',[Student::class,'create']);
- 
+Route::group(['prefix'=>'student','middleware'=>'checkAdmin'],function(){
+    Route::match(['get','post'],'/create',[Student::class,'create']);
+    Route::match(['get','post'],'/search',[Student::class,'search']);
+    Route::get('/view/{id}',[Student::class,'view']);
+    Route::match(['get','post'],'/disable_reason',[Student::class,'disable_reason']);
+    Route::match(['get','post'],'/disablestudentslist',[Student::class,'disablestudentslist']);
+    Route::get('/onlinestudent',[Student::class,'onlinestudent']);
+    Route::get('/edit/{id}',[Student::class,'edit']);
+    Route::match(['get','post'],'/multiclass',[Student::class,'multiclass']);
+    Route::post('savemulticlass',[Student::class,'savemulticlass']);
+    Route::match(['get','post'],'bulkdelete',[Student::class,'bulkdelete']);
 });
 //end student routes
 
@@ -108,4 +120,24 @@ Route::group(['prefix'=>'ajax'],function(){
     Route::get('/chapter',[Ajax::class,'chapter']);
     Route::get('/topic',[Ajax::class,'topic']);
     Route::get('/batches',[Ajax::class,'batches']);
+    Route::get('/class_batches',[Ajax::class,'class_batches']);
+    Route::get('/gettrades',[Ajax::class,'gettrades']);
+    Route::get('/hostel_room',[Ajax::class,'hostel_room']);
+    Route::get('/district',[Ajax::class,'district']);
+    Route::get('/studentsearch',[Ajax::class,'studentsearch']);
 });
+
+
+//home urls
+Route::get('/',[Home::class,'index']);
+Route::match(['get','post'],'/userlogin',[Home::class,'userlogin']);
+Route::post('/registration',[Home::class,'registration']);
+Route::get('/online_admission_review',[Home::class,'online_admission_review'])->middleware('loginCheck');
+Route::get('/online_admission_review/{id}',[Home::class,'online_admission_print']);
+Route::get('/editonlineadmission',[Home::class,'editonlineadmission'])->middleware('loginCheck');
+Route::get('/onlineadmission/checkout',[Home::class,'onlineadmission_checkout'])->middleware('loginCheck');
+
+Route::post('payment/checkout', [RazorpayPaymentController::class, 'index']);
+Route::post('payment/response', [RazorpayPaymentController::class, 'store'])->name('razorpay.payment.store');
+Route::get('payment/response', [RazorpayPaymentController::class, 'response']);
+ 

@@ -1,15 +1,9 @@
 @include('admin.include.head');
 
 <body class="hold-transition skin-blue fixed sidebar-mini">
-
     <div class="wrapper">
-
         @include('admin.include.header');
-
         @include('admin.include.sidebar');
-
-
-
         <div class="content-wrapper">
             <section class="content-header">
                 <h1><i class="fa fa-sitemap"></i> Human Resource </h1>
@@ -34,7 +28,10 @@
                             <div class="box-header ptbnull">
                                 <h3 class="box-title titlefix">Leaves </h3>
                                 <div class="box-tools pull-right">
-                                    <small class="pull-right"><a href="#addleave" onclick="addLeave()" role="button" class="btn btn-primary btn-sm checkbox-toggle pull-right edit_setting" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing">Apply Leave</a></small>
+                                    <small class="pull-right"><a href="#addleave" onclick="addLeave()" role="button"
+                                            class="btn btn-primary btn-sm checkbox-toggle pull-right edit_setting"
+                                            data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing">Apply
+                                            Leave</a></small>
                                 </div>
                             </div><!-- /.box-header -->
                             <div class="box-body">
@@ -58,7 +55,9 @@
                                                     @foreach($list as $row)
                                                     <tr>
 
-                                                        <td><span data-toggle="popover" class="detail_popover" data-original-title="" title=""><?= $row->applied_by ?></span>
+                                                        <td><span data-toggle="popover" class="detail_popover"
+                                                                data-original-title=""
+                                                                title=""><?= $row->applied_by ?></span>
 
                                                         </td>
                                                         <td><?= $row->leave_type ?> </td>
@@ -66,13 +65,19 @@
 
                                                         <td><?= $row->leave_days ?></td>
                                                         <td><?= $row->applieddate ?></td>
-                                                        <td><span data-toggle="popover" class="detail_popover" data-original-title="" title="<?=$row->employee_remark?>"><small class='label label-warning'><?= $row->status ?></small></span>
+                                                        <td><span data-toggle="popover" class="detail_popover"
+                                                                data-original-title=""
+                                                                title="<?= $row->employee_remark ?>"
+                                                                style="text-transform:capitalize"><small
+                                                                    class='label label-warning'><?= $row->status ?></small></span>
                                                         </td>
-                                                        <td><?=$row->admin_remark?></span>
+                                                        <td><?= $row->admin_remark ?></span>
                                                         </td>
                                                         <td class="pull-right no-print">
 
-                                                            <a href="{{url('admin/staff/leaverequest?delid=')}}<?= $row->id ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Delete"><i class="fa fa-remove"></i></a>
+                                                            <a href="{{url('admin/staff/leaverequest?delid=')}}<?= $row->id ?>"
+                                                                class="btn btn-default btn-xs" data-toggle="tooltip"
+                                                                title="Delete"><i class="fa fa-remove"></i></a>
                                                         </td>
 
                                                     </tr>
@@ -101,20 +106,25 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <form role="form" id="addleave_form" method="post" enctype="multipart/form-data" action="{{url('admin/staff/leaverequest')}}">
+                            <form role="form" id="addleave_form" method="post" enctype="multipart/form-data"
+                                action="{{url('admin/staff/leaverequest')}}">
                                 @csrf
                                 <div class="form-group  col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                     <label>Apply Date</label>
-                                    <input type="date" id="applieddate" name="applieddate" value="" class="form-control date" required>
+                                    <input type="date" id="applieddate" name="applieddate" value=""
+                                        class="form-control date" required>
                                 </div>
                                 <div class="form-group  col-xs-12 col-sm-12 col-md-12 col-lg-6 ">
                                     <label>
                                         Available Leave</label><small class="req"> *</small>
                                     <div id="leavetypeddl">
                                         <select name="leave_type" id="leave_type1" class="form-control">
-                                            <option value="festival_leave">Festival (<?= $res[0]->festival_leave ?>)</option>
-                                            <option value="emergency_leave">Emergency (<?= $res[0]->emergency_leave ?>)</option>
-                                            <option value="regular_leave">Regular (<?= $res[0]->regular_leave ?>)</option>
+                                            <option value="festival_leave">Festival (<?= $res[0]->festival_leave ?>)
+                                            </option>
+                                            <option value="emergency_leave">Emergency (<?= $res[0]->emergency_leave ?>)
+                                            </option>
+                                            <option value="regular_leave">Regular (<?= $res[0]->regular_leave ?>)
+                                            </option>
 
                                         </select>
                                     </div>
@@ -123,20 +133,23 @@
                                 <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                     <label>Leave From Date</label><small class="req"> *</small>
 
-                                    <input type="date" id="leave_from_date" name="leave_from_date" class="form-control date" required>
+                                    <input type="date" id="leave_from_date" name="leave_from_date"
+                                        class="form-control date" required>
 
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                     <label>Leave To Date</label><small class="req"> *</small>
 
-                                    <input type="date" id="leave_to_date" name="leave_to_date" class="form-control date" required>
+                                    <input type="date" id="leave_to_date" name="leave_to_date" class="form-control date"
+                                        required>
 
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <label>Reason</label><br />
-                                    <textarea name="reason" id="reason" style="resize: none;" rows="4" class="form-control"></textarea>
+                                    <textarea name="reason" id="reason" style="resize: none;" rows="4"
+                                        class="form-control"></textarea>
 
                                 </div>
                                 <div class="form-group  col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -146,9 +159,9 @@
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <button type="submit" class="btn btn-primary submit_addLeave pull-right" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing"> Save</button>
-
-
+                                    <button type="submit" class="btn btn-primary submit_addLeave pull-right"
+                                        data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing">
+                                        Save</button>
                                 </div>
                             </form>
                         </div>
@@ -156,16 +169,14 @@
                 </div>
             </div>
         </div>
-
-
         <script type="text/javascript">
-            function addLeave() {
-                $('#addleave').modal({
-                    show: true,
-                    backdrop: 'static',
-                    keyboard: false
-                });
-            }
+        function addLeave() {
+            $('#addleave').modal({
+                show: true,
+                backdrop: 'static',
+                keyboard: false
+            });
+        }
         </script>
 
 

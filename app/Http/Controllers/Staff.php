@@ -379,16 +379,20 @@ class Staff extends Controller
 
       $id = $req->input('id');
       $data['res'] = DB::select('select * from staff where id=' . $id);
+      $data['payroll'] = DB::select('select * from staff_payslip where staff_id='.$id.' order by id desc limit 1');
+      $data['payslip'] = DB::select('select * from staff_payslip where staff_id='.$id);
+      
+      $data['leave_request'] = DB::select('select * from staff_leave_request where staff_id=' . $id. ' and status="approve"');
+      $data['staff_attendance'] = DB::select('select * from staff_attendance where staff_id='.$id);
       return view('staff.profile', $data);
    }
    public function payroll(Request $req)
    {
-      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
+       
+      if ($req->input('role')!='' && $req->input('month')!=''&& $req->input('year')!='') {
          $data['role'] = $req->input('role');
          $data['month'] = $req->input('month');
          $data['year'] = $req->input('year');
-
          $data['list'] = DB::select('select id,name,surname,employee_id,role,department,designation,contact_no from staff where role=' . $req->input('role'));
       }
       $data['roles'] = DB::select('select * from roles');
@@ -431,6 +435,7 @@ class Staff extends Controller
    public function paymentSuccess(Request $req)
    {
       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
          $paymentid = $req->input('paymentid');
          $data = array(
             'payment_mode' => trim($req->input('payment_mode')),
@@ -452,31 +457,32 @@ class Staff extends Controller
       $check = DB::select('select role from staff where id=' . $staffid);
       $role = $check[0]->role;
       $status = $req->input('status');
-      if ($status == 'Paid') {
-         $status = 'generated';
-         $data = array(
-            'payment_mode' => 'null',
-            'payment_date' => 'null',
-            'remark' => 'null',
-            'status' => $status
-         );
-         $insert =  DB::table('staff_payslip')->where('id', $id)->update($data);
-      } else {
-         $deleted = DB::table('staff_payslip')->where('id', '=', $id)->delete();
-      }
-
-      $req->session()->flash('success', 'Payment reverted successfully...');
-
-
+      
+         if ($status == 'Paid') {
+            $status = 'generated';
+            $data = array(
+               'payment_mode' => 'null',
+               'payment_date' => 'null',
+               'remark' => 'null',
+               'status' => $status
+            );
+            $update =  DB::table('staff_payslip')->where('id', $id)->update($data);
+         } else {
+            $deleted = DB::table('staff_payslip')->where('id', '=', $id)->delete();
+         }
+   
+         $req->session()->flash('success', 'Payment reverted successfully...');
+   
       $data['role'] = $role;
       $data['month'] = $month;
       $data['year'] = $year;
+      return redirect('admin/payroll?role='.$role.'&month='.$month.'&year='.$year);
+      exit;
+      // $data['list'] = DB::select('select id,name,surname,employee_id,role,department,designation,contact_no from staff where role=' . $role);
 
-      $data['list'] = DB::select('select id,name,surname,employee_id,role,department,designation,contact_no from staff where role=' . $role);
 
-
-      $data['roles'] = DB::select('select * from roles');
-      return view('staff.payroll', $data);
+      // $data['roles'] = DB::select('select * from roles');
+     // return view('staff.payroll', $data);
       //return redirect($_SERVER['HTTP_REFERER']);
    }
 
@@ -590,6 +596,7 @@ class Staff extends Controller
             return redirect($_SERVER['HTTP_REFERER']);
          }
       }
+      
       $data['list'] = DB::select('select * from staff_leave_request where staff_id=' . $id);
       return view('staff.leaverequest', $data);
    }

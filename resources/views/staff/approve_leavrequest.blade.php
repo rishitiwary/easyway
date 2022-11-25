@@ -60,7 +60,7 @@
 
                                                         <td><?= $row->leave_days ?></td>
                                                         <td><?= $row->applieddate ?></td>
-                                                        <td><span data-toggle="popover" class="detail_popover" data-original-title="" title="<?= $row->employee_remark ?>"><small class='label label-<?php if($row->status=='approve'){echo 'success';}else{echo 'warning';} ?>'><?= $row->status ?></small></span>
+                                                        <td><span data-toggle="popover" class="detail_popover" data-original-title="" title="<?= $row->employee_remark ?>" style="text-transform:capitalize"><small class='label label-<?php if($row->status=='approve'){echo 'success';}else{echo 'warning';} ?>'><?= $row->status ?></small></span>
 
 
                                                         </td>
