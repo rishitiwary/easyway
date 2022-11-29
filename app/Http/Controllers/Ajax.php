@@ -280,5 +280,24 @@ public function studentsearch(Request $req)
    $data=DB::select('select * from students where class_id='.$req->input('classid').' and batch_id='.$req->input('batchid'));
  
 }
+
+public function addvideo(Request $req)
+{
+   $data=array(
+      'course_id'=>trim($req->input('course_id')),
+      'folder_id'=>trim($req->input('folder_id')),
+      'video_id'=>trim($req->input('video_id')),
+   );
+   $insert =  DB::table('videos')->insert($data);
+   if ($insert) {
+      echo '<div class="alert alert-success" role="alert">
+     Video added succesfully.
+    </div>';
+ } else {
+   echo '<div class="alert alert-error" role="alert">
+   Some error occured.
+  </div>';
+ }
+}
 }
  

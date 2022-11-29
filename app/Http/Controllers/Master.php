@@ -478,4 +478,224 @@ class Master extends Controller
         }
         return view('admin.studymaterialsCreate', $data);
     }
+    public function feetype(Request $req)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $data = array(
+                'type' => $req->input('name'),
+                'code' => $req->input('code'),
+                'description' => $req->input('description'),
+            );
+            if ($req->input('uid') != '') {
+                $update =  DB::table('feetype')->where('id', $req->input('uid'))->update($data);
+
+                $req->session()->flash('success', 'Updated successfully...');
+                return redirect('master/feetype');
+            }
+            $insert =  DB::table('feetype')->insert($data);
+            if ($insert) {
+                $req->session()->flash('success', 'Inserted successfully...');
+                return redirect($_SERVER['HTTP_REFERER']);
+            } else {
+                $req->session()->flash('error', 'Some error occured...');
+                return redirect($_SERVER['HTTP_REFERER']);
+            }
+        }
+        if ($req->input('uid') != '') {
+            $data['res'] = DB::table('feetype')->where('id', $req->input('uid'))->get()->first();
+        }
+        if ($req->input('delid') != '') {
+            $deleted = DB::table('feetype')->where('id', '=', $req->input('delid'))->delete();
+            $req->session()->flash('success', 'Deleted succesfully...');
+            return redirect('master/feetype');
+        }
+        $data['list'] = DB::table('feetype')->get();
+        return view('fee.feetype', $data);
+    }
+
+    public function feegroup(Request $req)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $data = array(
+                'name' => $req->input('name'),
+
+                'description' => $req->input('description'),
+            );
+            if ($req->input('uid') != '') {
+                $update =  DB::table('fee_groups')->where('id', $req->input('uid'))->update($data);
+
+                $req->session()->flash('success', 'Updated successfully...');
+                return redirect('master/feegroup');
+            }
+            $insert =  DB::table('fee_groups')->insert($data);
+            if ($insert) {
+                $req->session()->flash('success', 'Inserted successfully...');
+                return redirect($_SERVER['HTTP_REFERER']);
+            } else {
+                $req->session()->flash('error', 'Some error occured...');
+                return redirect($_SERVER['HTTP_REFERER']);
+            }
+        }
+        if ($req->input('uid') != '') {
+            $data['res'] = DB::table('fee_groups')->where('id', $req->input('uid'))->get()->first();
+        }
+        if ($req->input('delid') != '') {
+            $deleted = DB::table('fee_groups')->where('id', '=', $req->input('delid'))->delete();
+            $req->session()->flash('success', 'Deleted succesfully...');
+            return redirect('master/feegroup');
+        }
+        $data['list'] = DB::table('fee_groups')->get();
+        return view('fee.feegroup', $data);
+    }
+
+    public function feediscount(Request $req)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $data = array(
+                'name' => $req->input('name'),
+                'code' => $req->input('code'),
+                'amount' => $req->input('amount'),
+                'description' => $req->input('description'),
+            );
+            if ($req->input('uid') != '') {
+                $update =  DB::table('fees_discounts')->where('id', $req->input('uid'))->update($data);
+
+                $req->session()->flash('success', 'Updated successfully...');
+                return redirect('master/feediscount');
+            }
+            $insert =  DB::table('fees_discounts')->insert($data);
+            if ($insert) {
+                $req->session()->flash('success', 'Inserted successfully...');
+                return redirect($_SERVER['HTTP_REFERER']);
+            } else {
+                $req->session()->flash('error', 'Some error occured...');
+                return redirect($_SERVER['HTTP_REFERER']);
+            }
+        }
+        if ($req->input('uid') != '') {
+            $data['res'] = DB::table('fees_discounts')->where('id', $req->input('uid'))->get()->first();
+        }
+        if ($req->input('delid') != '') {
+            $deleted = DB::table('fees_discounts')->where('id', '=', $req->input('delid'))->delete();
+            $req->session()->flash('success', 'Deleted succesfully...');
+            return redirect('master/feediscount');
+        }
+        $data['list'] = DB::table('fees_discounts')->get();
+        return view('fee.feediscount', $data);
+    }
+
+    public function feediscount_assign(Request $req, $id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+
+            if ($req->input('save') == 'save') {
+
+                $deleted = DB::table('student_fees_discounts')->where('fees_discount_id', '=', $req->input('feediscount_id'))->delete();
+                for ($i = 0; count($req->input('student_session_id')) > $i; $i++) {
+
+                    $data = array(
+                        'student_id' => $req->input('student_session_id')[$i],
+                        'fees_discount_id' => $req->input('feediscount_id'),
+                    );
+                    $insert =  DB::table('student_fees_discounts')->insert($data);
+                }
+                if ($insert) {
+                    $req->session()->flash('success', 'Inserted successfully...');
+                    return redirect('master/feediscount');
+                } else {
+                    $req->session()->flash('error', 'Some error occured...');
+                    return redirect($_SERVER['HTTP_REFERER']);
+                }
+            }
+
+            $data['rows'] = DB::select('select * from students where (class_id=' . $req->input('class_id') . ' and batch_id=' . $req->input('batch_id') . ' and type=1 and status=0) order by firstname asc');
+        }
+        $data['fees'] = DB::table('fees_discounts')->where('id', $id)->get()->first();
+        $data['class'] = DB::table('classes')->where('is_active', 'yes')->get();
+        return view('fee/feediscount_assign', $data);
+    }
+
+    public function feemaster(Request $req)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+
+            $data = array(
+                'fee_groups_id' => trim($req->input('fee_groups_id')),
+                'feetype_id' => trim($req->input('feetype_id')),
+                'due_date' => trim($req->input('due_date')),
+                'amount' => trim($req->input('amount')),
+                'account_type' => trim($req->input('account_type')),
+                'fine_percentage' => trim($req->input('fine_percentage')),
+                'fine_amount' => trim($req->input('fine_amount')),
+            );
+            if ($req->input('uid') != '') {
+                $update =  DB::table('feemasters')->where('id', $req->input('uid'))->update($data);
+
+                $req->session()->flash('success', 'Updated successfully...');
+                return redirect('master/feemaster');
+            }
+
+            $check = DB::table('feemasters')->where('fee_groups_id', $req->input('fee_groups_id'))->where('feetype_id', $req->input('feetype_id'))->count();
+            if ($check > 0) {
+                $req->session()->flash('error', 'This combination is already exists...');
+                return redirect($_SERVER['HTTP_REFERER']);
+            }
+            $insert =  DB::table('feemasters')->insert($data);
+            if ($insert) {
+                $req->session()->flash('success', 'Inserted successfully...');
+                return redirect($_SERVER['HTTP_REFERER']);
+            } else {
+                $req->session()->flash('error', 'Some error occured...');
+                return redirect($_SERVER['HTTP_REFERER']);
+            }
+        }
+        if ($req->input('delid') != '') {
+            $deleted = DB::table('feemasters')->where('id', '=', $req->input('delid'))->delete();
+            $req->session()->flash('success', 'Deleted succesfully...');
+            return redirect('master/feemaster');
+        }
+        if ($req->input('uid') != '') {
+            $data['res'] = DB::table("feemasters")->get()->first();
+        }
+
+        $data['group'] = DB::table("fee_groups")->get();
+        $data['feetype'] = DB::table("feetype")->get();
+        $data['list'] = DB::table("feemasters")->get();
+        return view('fee.feemaster', $data);
+    }
+
+    public function feemaster_assign(Request $req, $id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($req->input('save') == 'save') {
+  
+                $deleted = DB::table('student_fees_master')->where('fee_group_id', '=', $req->input('feegroup_id'))->delete();
+                for ($i = 0; count($req->input('student_id')) > $i; $i++) {
+                    $data = array(
+                        'student_id' => $req->input('student_id')[$i],
+                        'fee_group_id' => $req->input('feegroup_id'),
+                        'amount' => $req->input('amount'),
+                    );
+                    $insert =  DB::table('student_fees_master')->insert($data);
+                }
+                if ($insert) {
+                    $req->session()->flash('success', 'Inserted successfully...');
+                    return redirect('master/feemaster');
+                } else {
+                    $req->session()->flash('error', 'Some error occured...');
+                    return redirect($_SERVER['HTTP_REFERER']);
+                }
+            }
+
+            $data['rows'] = DB::select('select * from students where (class_id=' . $req->input('class_id') . ' and batch_id=' . $req->input('batch_id') . ' and type=1 and status=0) order by firstname asc');
+        }
+        $data['fees'] = DB::table('feemasters')->where('id', $id)->get()->first();
+        $data['class'] = DB::table('classes')->where('is_active', 'yes')->get();
+        return view('fee/feemaster_assign', $data);
+    }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Ajax;
 use App\Http\Controllers\Master;
 use App\Http\Controllers\Student;
 use App\Http\Controllers\Staff;
+use App\Http\Controllers\Course;
 use App\Http\Controllers\RazorpayPaymentController;
 /*
 |--------------------------------------------------------------------------
@@ -71,13 +72,15 @@ Route::match(['get','post'],'/staff/approve_leaverequest',[Staff::class,'approve
 Route::get('/logout',[Admin::class,'logout']);
 Route::match(['get','post'],'/general_settings',[Admin::class,'general_settings']);
 Route::match(['get','post'],'/disable_reason',[Admin::class,'disable_reason']);
-
-
-
+Route::get('course',[Course::class,'index']);
+Route::match(['get','post'],'addcourse',[Course::class,'addcourse']);
+Route::get('addcontent/{id}',[Course::class,'addcontent']);
+Route::post('createfolder',[Course::class,'createfolder']);
+Route::post('adddocument',[Course::class,'adddocument']);
 });
 Route::match(['get','post'],'/admin/login',[Admin::class,'login']);  
 //master prefix
-Route::group(['prefix'=>'master'],function(){
+Route::group(['prefix'=>'master','middleware'=>'checkAdmin'],function(){
     Route::match(['get'],'/tradegroup',[Master::class,'tradegroup']);
     Route::match(['get', 'post'],'/tradegroup/create',[Master::class,'tradegroupCreate']);
     Route::match(['get'],'/trade',[Master::class,'trade']);
@@ -93,8 +96,15 @@ Route::group(['prefix'=>'master'],function(){
     Route::match(['get'],'/videolibrary/read',[Master::class,'videolibraryview']);
     Route::match(['get'],'/studymaterials',[Master::class,'studymaterials']);
     Route::match(['get', 'post'],'/studymaterial/create',[Master::class,'studymaterialsCreate']);
-  
-   
+    Route::match(['get', 'post'],'/feetype',[Master::class,'feetype']);
+    Route::match(['get', 'post'],'/feegroup',[Master::class,'feegroup']);
+    Route::match(['get', 'post'],'/feediscount',[Master::class,'feediscount']);
+    Route::match(['get', 'post'],'/feediscount/assign/{id}',[Master::class,'feediscount_assign']);
+    Route::match(['get', 'post'],'/feemaster',[Master::class,'feemaster']);
+    Route::match(['get', 'post'],'/feemaster/assign/{id}',[Master::class,'feemaster_assign']);
+ 
+
+
 });
 //student
 Route::group(['prefix'=>'student','middleware'=>'checkAdmin'],function(){
@@ -125,6 +135,7 @@ Route::group(['prefix'=>'ajax'],function(){
     Route::get('/hostel_room',[Ajax::class,'hostel_room']);
     Route::get('/district',[Ajax::class,'district']);
     Route::get('/studentsearch',[Ajax::class,'studentsearch']);
+    Route::get('/addvideo',[Ajax::class,'addvideo']);
 });
 
 

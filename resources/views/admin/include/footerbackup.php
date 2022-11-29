@@ -46,6 +46,7 @@
 </script>
 <!--language js-->
 <script type="text/javascript" src="{{asset('public/backend/dist/js/bootstrap-select.min.js')}}"></script>
+
 <script type="text/javascript">
     $(function () {
         $('.languageselectpicker').selectpicker();
@@ -71,6 +72,7 @@
     });
 </script>
 
+
 <script src="{{asset('public/backend/plugins/iCheck/icheck.min.js')}}"></script>
 <script src="{{asset('public/backend/plugins/datepicker/bootstrap-datepicker.js')}}"></script>
 <script src="{{asset('public/backend/datepicker/js/bootstrap-datetimepicker.js')}}"></script>
@@ -92,11 +94,12 @@
 <script type="text/javascript" src="{{asset('public/backend/dist/datatables/js/buttons.colVis.min.js')}}" ></script>
 <script type="text/javascript" src="{{asset('public/backend/dist/datatables/js/dataTables.responsive.min.js')}}" ></script>
 <script type="text/javascript" src="{{asset('public/backend/dist/datatables/js/ss.custom.js')}}" ></script>
+<!-- <script src="{{asset('public/backend/dist/datatables/js/datetime-moment.js')}}"></script>
 -->
 </body>
 </html>
 <!-- jQuery 3 -->
-<!--script src="https://easywayglobal.in/backend/dist/js/pages/dashboard2.js"></script-->
+<!--script src="{{asset('public/backend/dist/js/pages/dashboard2.js')}}"></script-->
 <script src="{{asset('public/backend/fullcalendar/dist/fullcalendar.min.js')}}"></script>
 <script src="{{asset('public/backend/fullcalendar/dist/locale-all.js')}}"></script>
 <script type="text/javascript">
@@ -108,7 +111,7 @@
 
     function complete_event(id, status) {
         $.ajax({
-            url: "https://easywayglobal.in/admin/calendar/markcomplete/" + id,
+            url: "{{asset('public/admin/calendar/markcomplete/" + id,
             type: "POST",
             data: {id: id, active: status},
             dataType: 'json',
@@ -149,7 +152,7 @@
 <!-- Modal -->
 <div class="row">
     <div class="modal fade" id="sessionModal" tabindex="-1" role="dialog" aria-labelledby="sessionModalLabel">
-        <form action="https://easywayglobal.in/admin/admin/activeSession" id="form_modal_session" class="">
+        <form action="{{asset('public/admin/admin/activeSession" id="form_modal_session" class="">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -177,7 +180,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Register your purchase code</h4>
             </div>
-            <form action="https://easywayglobal.in/admin/admin/updatePurchaseCode" method="POST" id="purchase_code">
+            <form action="{{asset('public/admin/admin/updatePurchaseCode" method="POST" id="purchase_code">
                 <div class="modal-body lic_modal-body">
                     <div class="form-group">
 						<div class="req"><b>Important:</b> Smart School Regular License allows to use Smart School for single school/branch/end/client but for customer convenience registering Smart School allows to register Smart School licence purchase code on upto 3 urls e.g. 1. For localhost 2. For testing environment and 3. For your production url (testing and production url should be on same domain).</div>
@@ -211,7 +214,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Register your Addon</h4>
             </div>
-            <form action="https://easywayglobal.in/admin/admin/updateaddon" method="POST" id="addon_verify">
+            <form action="{{asset('public/admin/admin/updateaddon" method="POST" id="addon_verify">
                 <div class="modal-body addon_modal-body">
                     <div class="error_message">
 
@@ -246,7 +249,7 @@
 
 
     function savedata(eventData) {
-        var base_url = 'https://easywayglobal.in/';
+        var base_url = '{{asset('public/';
         $.ajax({
             url: base_url + 'admin/calendar/saveevent',
             type: 'POST',
@@ -260,13 +263,13 @@
     }
 
     $calendar = $('#calendar');
-    var base_url = 'https://easywayglobal.in/';
+    var base_url = '{{asset('public/';
     today = new Date();
     y = today.getFullYear();
     m = today.getMonth();
     d = today.getDate();
     var viewtitle = 'month';
-    var pagetitle = "";
+    var pagetitle = "Dashboard";
 
     if (pagetitle == "Dashboard") {
 
@@ -344,7 +347,7 @@
     function view_event(id) {
 
         $('.selectevent').find('.cpicker-big').removeClass('cpicker-big').addClass('cpicker-small');
-        var base_url = 'https://easywayglobal.in/';
+        var base_url = '{{asset('public/';
         if (typeof (id) == 'undefined') {
             return;
         }
@@ -398,7 +401,7 @@
 
             e.preventDefault();
             $.ajax({
-                url: "https://easywayglobal.in/admin/calendar/saveevent",
+                url: "{{asset('public/admin/calendar/saveevent",
                 type: "POST",
                 data: new FormData(this),
                 dataType: 'json',
@@ -436,7 +439,7 @@
 
             e.preventDefault();
             $.ajax({
-                url: "https://easywayglobal.in/admin/calendar/updateevent",
+                url: "{{asset('public/admin/calendar/updateevent",
                 type: "POST",
                 data: new FormData(this),
                 dataType: 'json',
@@ -581,8 +584,8 @@
 
     function showdate(type) {
 
-            var date_from = '28.11.2022';
-            var date_to = '28.11.2022';
+            var date_from = '25.10.2022';
+            var date_to = '25.10.2022';
     
         if (type == 'period') {
 
