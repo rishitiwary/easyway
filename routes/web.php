@@ -77,6 +77,8 @@ Route::match(['get','post'],'addcourse',[Course::class,'addcourse']);
 Route::get('addcontent/{id}',[Course::class,'addcontent']);
 Route::post('createfolder',[Course::class,'createfolder']);
 Route::post('adddocument',[Course::class,'adddocument']);
+Route::post('subfolder',[Course::class,'subfolder']);
+Route::get('viewcontents/{id}',[Course::class,'viewcontents']);
 });
 Route::match(['get','post'],'/admin/login',[Admin::class,'login']);  
 //master prefix
@@ -136,6 +138,8 @@ Route::group(['prefix'=>'ajax'],function(){
     Route::get('/district',[Ajax::class,'district']);
     Route::get('/studentsearch',[Ajax::class,'studentsearch']);
     Route::get('/addvideo',[Ajax::class,'addvideo']);
+    Route::get('/update_doc_status',[Ajax::class,'update_doc_status']);
+    Route::get('/update_video_status',[Ajax::class,'update_video_status']);
 });
 
 

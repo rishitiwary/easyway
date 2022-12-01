@@ -287,6 +287,8 @@ public function addvideo(Request $req)
       'course_id'=>trim($req->input('course_id')),
       'folder_id'=>trim($req->input('folder_id')),
       'video_id'=>trim($req->input('video_id')),
+      'title'=>trim($req->input('title')),
+      'description'=>trim($req->input('description')),
    );
    $insert =  DB::table('videos')->insert($data);
    if ($insert) {
@@ -298,6 +300,56 @@ public function addvideo(Request $req)
    Some error occured.
   </div>';
  }
+}
+
+public function update_doc_status(Request $req)
+{
+
+   
+   $id=$req->input('id');
+   $status=$req->input('status');
+   if($status=='delete'){
+   echo  $delete= DB::table('course_document')->where('id', $id)->delete();
+   }else{
+      if($status==0){
+         $status=1;
+      }else{
+         $status=0;
+      }
+      $data=array(
+         'status'=>$status
+      );
+      
+     echo $update =  DB::table('course_document')->where('id', $id)->update($data);
+      
+   }
+  
+
+}
+
+public function update_video_status(Request $req)
+{
+
+   
+   $id=$req->input('id');
+   $status=$req->input('status');
+   if($status=='delete'){
+   echo  $delete= DB::table('videos')->where('id', $id)->delete();
+   }else{
+      if($status==0){
+         $status=1;
+      }else{
+         $status=0;
+      }
+      $data=array(
+         'status'=>$status
+      );
+      
+     echo $update =  DB::table('videos')->where('id', $id)->update($data);
+      
+   }
+  
+
 }
 }
  

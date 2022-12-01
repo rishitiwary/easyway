@@ -13,7 +13,6 @@ class Course extends Controller
     public function index(Request $req)
     {
         $course = CourseModel::all();
-
         return view('course.index', ['data' => $course]);
     }
     public function addcourse(Request $req)
@@ -38,10 +37,8 @@ class Course extends Controller
                 'description' => trim($req->input('description')),
                 'course_thumbnail' => $course_thumbnail_url
             );
-
             $insert =  DB::table('courses')->insert($data);
             $id = DB::getPdo()->lastInsertId();
-
             if ($insert) {
                 $req->session()->flash('success', 'Inserted successfully...');
                 return redirect('admin/addcontent/' . $id);
@@ -53,11 +50,10 @@ class Course extends Controller
         $data['tradegroup'] = DB::table('tradegroup')->where('status', '1')->get();
         return view('course.addcourse', $data);
     }
-
     public function addcontent(Request $req, $id)
     {
         $data['list'] = DB::table("courses")->where("id", $id)->get();
-        $data['folder'] = DB::table("folders")->where("courseid", $id)->get();
+        $data['folder'] = DB::table("folders")->where("courseid", $id)->where('parent_folder_id','0')->get();
         if ($req->input('delfolder') != '') {
             $deleted = DB::table('folders')->where('id', '=', $req->input('delfolder'))->delete();
             $req->session()->flash('success', 'Folder Deleted succesfully...');
@@ -76,7 +72,6 @@ class Course extends Controller
         );
         if ($req->input('folderid') != '') {
             $update =  DB::table('folders')->where('id', $req->input('folderid'))->update($data);
-
             $req->session()->flash('success', 'Folder updated successfully...');
             return redirect('admin/addcontent/' . $req->input('id'));
             exit;
@@ -114,5 +109,33 @@ class Course extends Controller
             $req->session()->flash('error', 'Some error occured while uploading documents...');
             return redirect($_SERVER['HTTP_REFERER']);
         }
+    }
+    public function subfolder(Request $req)
+    {
+        if($_SERVER['REQUEST_METHOD']=='POST')
+        {
+            
+            $data = array(
+                'courseid' => trim($req->input('course_id')),
+                'folders' => trim($req->input('folder_id')),
+                'parent_folder_id' => trim($req->input('parent_folder_id')),
+            );
+            $insert =  DB::table('folders')->insert($data);
+            if ($insert) {
+                $req->session()->flash('success', 'Folder created successfully...');
+                return redirect($_SERVER['HTTP_REFERER']);
+            } else {
+                $req->session()->flash('error', 'Some error occured while creating folders...');
+                return redirect($_SERVER['HTTP_REFERER']);
+            }
+        }
+    }
+    public function viewcontents(Request $req,$id)
+    {
+        $data['list'] = DB::table("courses")->where("id", $id)->get();
+        $data['folder'] = DB::table("folders")->where("courseid", $id)->where('parent_folder_id','0')->get();
+        $data['videos']=DB::table("videos")->where("course_id",$id)->where('folder_id','')->get();
+        $data['document']=DB::table("course_document")->where("course_id",$id)->where('folder_id','')->get();
+        return view('course/viewcontent',$data);
     }
 }
