@@ -140,6 +140,7 @@ Route::group(['prefix'=>'ajax'],function(){
     Route::get('/addvideo',[Ajax::class,'addvideo']);
     Route::get('/update_doc_status',[Ajax::class,'update_doc_status']);
     Route::get('/update_video_status',[Ajax::class,'update_video_status']);
+    Route::get('/dynamic_folder',[Ajax::class,'dynamic_folder']);
 });
 
 

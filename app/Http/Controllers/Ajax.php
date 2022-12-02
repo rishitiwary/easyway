@@ -69,33 +69,32 @@ class Ajax extends Controller
       
       </ul></div>';
     ?>
-    <script>
-$(document).ready(function(){
- 
- $(document).on('click', '.pagination a', function(event){
-    
-  event.preventDefault(); 
-  var page = $(this).attr('href').split('page=')[1];
-   
-  fetch_data(page);
- });
+<script>
+$(document).ready(function() {
 
- function fetch_data(page)
- {
-    
-  $.ajax({
-   url:"<?=url("ajax/media")?>?page="+page,
-   success:function(data)
-   {
-    $('#media_div').empty(data);
-    $('#media_div').append(data);
-   }
-  });
- }
- 
+    $(document).on('click', '.pagination a', function(event) {
+
+        event.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
+
+        fetch_data(page);
+    });
+
+    function fetch_data(page) {
+
+        $.ajax({
+            url: "<?=url("
+            ajax / media ")?>?page=" + page,
+            success: function(data) {
+                $('#media_div').empty(data);
+                $('#media_div').append(data);
+            }
+        });
+    }
+
 });
 </script>
-    <?
+<?
      
     }
     public function getmedia(Request $req){
@@ -126,7 +125,6 @@ $(document).ready(function(){
           src="'.asset("public/uploads/gallery/media/$row->img_name").'">
           </div><i class="fa fa-picture-o videoicon"></i>
           <p class="">'.$row->img_name.'</p></div></div>';
-
         
           
       }
@@ -143,35 +141,31 @@ $(document).ready(function(){
     
     </ul></div>';
   ?>
-  <script>
-$(document).ready(function(){
+<script>
+$(document).ready(function() {
+    $(document).on('click', '.pagination a', function(event) {
 
-$(document).on('click', '.pagination a', function(event){
- 
-event.preventDefault(); 
-var page = $(this).attr('href').split('page=')[1];
- 
-fetch_data(page);
-});
+        event.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
 
-function fetch_data(page)
-{
-   
+        fetch_data(page);
+    });
 
-$.ajax({
- url:"<?=url("ajax/getmedia")?>?page="+page,
- method:'GET',
- success:function(data)
- {
-  $('.modal-media-body').empty(data);
-  $('.modal-media-body').append(data);
- }
-});
-}
+    function fetch_data(page) {
 
+        $.ajax({
+            url: "<?=url("
+            ajax / getmedia ")?>?page=" + page,
+            method: 'GET',
+            success: function(data) {
+                $('.modal-media-body').empty(data);
+                $('.modal-media-body').append(data);
+            }
+        });
+    }
 });
 </script>
-  <?
+<?
     }
 public function trade(Request $req){
    $groupid= $req->input('groupid');
@@ -234,7 +228,6 @@ public function batches(Request $req){
 }
 public function class_batches(Request $req){
      $classid= $req->input('classid');
-
   $data=DB::select('select batches from classes where id='.$classid);
   $batch_arr = explode(",", $data[0]->batches);
 $batchesid=$req->input('batchesid');
@@ -254,9 +247,7 @@ echo '<option value="">Select Trade</option>';
 foreach($data as $trun){
    echo '<option value="'.$trun->id.'">'.$trun->name.'</option>';
 }
-
 }
-
 
 public function hostel_room(Request $req){
    $hostel_id= $req->input('hostel_id');
@@ -304,7 +295,6 @@ public function addvideo(Request $req)
 
 public function update_doc_status(Request $req)
 {
-
    
    $id=$req->input('id');
    $status=$req->input('status');
@@ -324,12 +314,10 @@ public function update_doc_status(Request $req)
       
    }
   
-
 }
 
 public function update_video_status(Request $req)
 {
-
    
    $id=$req->input('id');
    $status=$req->input('status');
@@ -349,7 +337,59 @@ public function update_video_status(Request $req)
       
    }
   
+}
 
+public function dynamic_folder(Request $req)
+{
+   if($req->input('type')=='doc'){
+      $id=$req->input('id');
+      $status=$req->input('status');
+      if($status=='delete'){
+         $delete= DB::table('course_document')->where('id', $id)->delete();
+      }else{
+         if($status==0){
+            $status=1;
+         }else{
+            $status=0;
+         }
+         $data=array(
+            'status'=>$status
+         );
+         
+          $update =  DB::table('course_document')->where('id', $id)->update($data);
+         
+      }
+   }
+   if($req->input('type')=='video'){
+      $id=$req->input('id');
+      $status=$req->input('status');
+      if($status=='delete'){
+        $delete= DB::table('videos')->where('id', $id)->delete();
+      }else{
+         if($status==0){
+            $status=1;
+         }else{
+            $status=0;
+         }
+         $data=array(
+            'status'=>$status
+         );
+         
+         $update =  DB::table('videos')->where('id', $id)->update($data);
+         
+      }
+   }
+   
+
+ $folderid=$data['folderid']=$req->input('folderid');
+$coursid=$data['coursid']=$req->input('coursid');
+
+$data['folder'] = DB::table("folders")->where("courseid", $coursid)->where('parent_folder_id',$folderid)->get();
+$data['videos']=DB::table("videos")->where("course_id",$coursid)->where('folder_id',$folderid)->get();
+$data['document']=DB::table("course_document")->where("course_id",$coursid)->where('folder_id',$folderid)->get();
+
+return view('course.ajax_folders',$data);
+    
 }
 }
  
