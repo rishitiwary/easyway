@@ -17,7 +17,8 @@
                                     </div>
                                     <div class="col-lg-8 col-md-9 col-sm-8">
                                         <div class="nav-tabs-custom mb0 pull-right">
-                                            <a type="button" class="btn btn-sm btn-primary miusttop5" href="{{url('admin/addcourse')}}"><i class="fa fa-plus"></i> Create Course</a>
+                                            <a type="button" class="btn btn-sm btn-primary miusttop5" href="{{url('admin/addcourse')}}"><i class="fa fa-plus"></i> Create
+                                                Course</a>
                                         </div>
                                         <!--./nav-tabs-custom -->
                                         <form class="navbar-form pull-right miusttop5" id="search_area" role="search" action="{{url('admin/course')}}" method="GET">
@@ -50,6 +51,7 @@
                                                             <th>Validity(In Month)</th>
                                                             <th>Expiry</th>
                                                             <th>Type</th>
+
                                                             <th>Status</th>
 
                                                             <th class="text-right no-print">Action</th>
@@ -70,16 +72,19 @@
                                                                 <td><?= date('d/m/Y', strtotime($row->expiry)); ?></td>
                                                                 <td><?= $row->free_course ? 'Free' : 'Paid' ?></td>
 
-                                                                <td><small class='label label-<?php if ($row->status == '1') {
+                                                                <td><a href="{{url('admin/course/?id=')}}{{$row->id}}&status={{$row->status}}"><small class='label label-<?php if ($row->status == '1') {
                                                                                                     echo 'success';
                                                                                                 } else {
                                                                                                     echo 'warning';
                                                                                                 } ?>'><?= $row->status ? 'Published' : 'Unpublished' ?></small></span>
-                                                                </td>
+                                                            </a>   
+                                                            
+                                                            </td>
+
                                                                 <td class="pull-right no-print">
                                                                     <a data-placement="left" href="{{url('admin/addcontent')}}/{{$row->id}}" role="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Add Content"><i class="fa fa-plus"></i></a>
-                                                                    <a data-placement="left" href="#leavedetails" onclick="getRecord('<?= $row->id ?>','<?= $row->applied_by ?>','<?= $row->leave_type ?>','<?= $row->leave_days ?>','<?= $row->applieddate ?>','<?= $row->status ?>','<?= $row->employee_remark ?>','<?= $row->admin_remark ?>')" role="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="View"><i class="fa fa-reorder"></i></a>
-                                                                    <a href="{{url('admin/staff/leaverequest?delid=')}}<?= $row->id ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Delete"><i class="fa fa-remove"></i></a>
+                                                            
+                                                                    <a href="{{url('admin/course?delid=')}}<?= $row->id ?>" onclick="return confirm ('Are you sure...?')" class="btn btn-default btn-xs" data-toggle="tooltip" title="Delete"><i class="fa fa-remove"></i></a>
                                                                 </td>
                                                             </tr>
                                                             @endforeach
@@ -99,9 +104,12 @@
     </div>
     </div>
 
+
     <script>
         $(document).ready(function() {
+
             $('#course_detail_tab').show();
+
         });
     </script>
 

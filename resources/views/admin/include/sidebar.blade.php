@@ -124,7 +124,7 @@
                             Library</a></li>
                     <li class=""><a href="{{url('master/studymaterials')}}"><i class="fa fa-angle-double-right"></i> Study
                             Material</a></li>
-                            <li class=""><a href="{{url('admin/roles')}}"><i class="fa fa-angle-double-right"></i> Roles Permissions</a></li>
+                    <li class=""><a href="{{url('admin/roles')}}"><i class="fa fa-angle-double-right"></i> Roles Permissions</a></li>
                 </ul>
             </li>
             <li class="treeview ">
@@ -149,7 +149,7 @@
                             Student</a></li>
                     <li class=""><a href="{{url('student/bulkdelete')}}"><i class="fa fa-angle-double-right"></i> Bulk Delete</a>
                     </li>
-                  
+
                     <li class=""><a href="{{url('admin/disable_reason')}}"><i class="fa fa-angle-double-right"></i> Disable Reason</a>
                     </li>
 
@@ -200,8 +200,8 @@
                     <i class="fa fa-rss ftlayer"></i> <span>Online Examinations</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li class=""><a href="onlineexam"><i class="fa fa-angle-double-right"></i> Online Exam</a></li>
-                    <li class=""><a href="question"><i class="fa fa-angle-double-right"></i> Question Bank</a></li>
+                    <li class=""><a href="{{url('admin/onlineexam')}}"><i class="fa fa-angle-double-right"></i> Online Exam</a></li>
+                    <li class=""><a href="{{url('admin/question')}}"><i class="fa fa-angle-double-right"></i> Question Bank</a></li>
 
 
 
@@ -293,7 +293,7 @@
                     <li class=""><a href="{{url('admin/offlinepayment')}}"><i class="fa fa-angle-double-right"></i>Offline
                             Payment</a></li>
                     <li class=""><a href="{{url('coursereport/report')}}"><i class="fa fa-angle-double-right"></i>Online Course Report</a></li>
-                   
+
                 </ul>
             </li>
 
@@ -319,7 +319,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li class=""><a href="{{url('admin/general_settings')}}"><i class="fa fa-angle-double-right"></i> General Setting</a></li>
- 
+
                     <li class=""><a href="notification/setting"><i class="fa fa-angle-double-right"></i> Notification
                             Setting</a></li>
                     <li class=""><a href="smsconfig"><i class="fa fa-angle-double-right"></i> SMS Setting</a></li>
@@ -329,7 +329,7 @@
                     <li class=""><a href="print_headerfooter"><i class="fa fa-angle-double-right"></i> Print Header
                             Footer</a></li>
                     <li class=""><a href="frontcms"><i class="fa fa-angle-double-right"></i> Front CMS Setting</a></li>
-                   
+
                     <li class=""><a href="backup"><i class="fa fa-angle-double-right"></i> Backup / Restore</a></li>
                     <li class=""><a href="language"><i class="fa fa-angle-double-right"></i> Languages</a></li>
                     <li class=""><a href="users"><i class="fa fa-angle-double-right"></i> Users</a></li>

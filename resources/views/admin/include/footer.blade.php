@@ -92,7 +92,7 @@
 <script type="text/javascript" src="{{asset('public/backend/dist/datatables/js/buttons.colVis.min.js')}}" ></script>
 <script type="text/javascript" src="{{asset('public/backend/dist/datatables/js/dataTables.responsive.min.js')}}" ></script>
 <script type="text/javascript" src="{{asset('public/backend/dist/datatables/js/ss.custom.js')}}" ></script>
--->
+ 
 </body>
 </html>
 <!-- jQuery 3 -->
@@ -101,10 +101,7 @@
 <script src="{{asset('public/backend/fullcalendar/dist/locale-all.js')}}"></script>
 <script type="text/javascript">
 
-    $(document).ready(function () {
-
-    });
-
+ 
 
     function complete_event(id, status) {
         $.ajax({

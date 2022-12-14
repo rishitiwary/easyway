@@ -10,6 +10,7 @@ use App\Http\Controllers\Student;
 use App\Http\Controllers\Staff;
 use App\Http\Controllers\Course;
 use App\Http\Controllers\RazorpayPaymentController;
+use App\Http\Controllers\Exam;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -79,6 +80,11 @@ Route::post('createfolder',[Course::class,'createfolder']);
 Route::post('adddocument',[Course::class,'adddocument']);
 Route::post('subfolder',[Course::class,'subfolder']);
 Route::get('viewcontents/{id}',[Course::class,'viewcontents']);
+Route::get('importcontents/{id}',[Course::class,'importcontents']);
+Route::post('import',[Course::class,'import']);
+Route::match(['get','post'],'onlineexam',[Exam::class,'index']);
+Route::match(['get','post'],'question',[Exam::class,'question']);
+
 });
 Route::match(['get','post'],'/admin/login',[Admin::class,'login']);  
 //master prefix
@@ -141,8 +147,15 @@ Route::group(['prefix'=>'ajax'],function(){
     Route::get('/update_doc_status',[Ajax::class,'update_doc_status']);
     Route::get('/update_video_status',[Ajax::class,'update_video_status']);
     Route::get('/dynamic_folder',[Ajax::class,'dynamic_folder']);
+    Route::get('/dynamic_folder_import',[Ajax::class,'dynamic_folder_import']);
+    Route::get('/update_order',[Ajax::class,'update_order']);
+    Route::get('/questions',[Ajax::class,'questions']);
 });
-
+Route::group(['prefix'=>'exam','middleware'=>'checkAdmin'],function(){
+    Route::match(['get','post'],'/addquestion',[Exam::class,'addquestion']);
+    Route::post('/bulkdelete',[Exam::class,'bulkdelete']);
+    Route::match(['get','post'],'/onlineexam/assign/{id}',[Exam::class,'assignexam']);
+});
 
 //home urls
 Route::get('/',[Home::class,'index']);

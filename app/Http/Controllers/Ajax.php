@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+error_reporting(0);
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
@@ -281,6 +281,13 @@ public function addvideo(Request $req)
       'title'=>trim($req->input('title')),
       'description'=>trim($req->input('description')),
    );
+   if($req->input('vid')!=''){
+      $update=DB::table('videos')->where("id",$req->input('vid'))->update($data);
+      echo '<div class="alert alert-success" role="alert">
+     Video updated succesfully.
+    </div>';
+    exit;
+   }
    $insert =  DB::table('videos')->insert($data);
    if ($insert) {
       echo '<div class="alert alert-success" role="alert">
@@ -381,15 +388,153 @@ public function dynamic_folder(Request $req)
    }
    
 
- $folderid=$data['folderid']=$req->input('folderid');
+$folderid=$data['folderid']=$req->input('folderid');
 $coursid=$data['coursid']=$req->input('coursid');
+if($req->input('onload')!=''){
+   $data['folder'] = DB::table("folders")->where("course_id",$coursid)->where('parent_folder_id',$folderid)->orderBy('order_id')->get();
+   $data['videos']=DB::table("videos")->where("course_id",$coursid)->where('folder_id',$folderid)->orderBy('order_id')->get();
+   $data['document']=DB::table("course_document")->where("course_id",$coursid)->where('folder_id',$folderid)->orderBy('order_id')->get();
+   
+}else{
+   $data['folder'] = DB::table("folders")->where('parent_folder_id',$folderid)->orderBy('order_id')->get();
+$data['videos']=DB::table("videos")->where('folder_id',$folderid)->orderBy('order_id')->get();
+$data['document']=DB::table("course_document")->where('folder_id',$folderid)->orderBy('order_id')->get();
 
-$data['folder'] = DB::table("folders")->where("courseid", $coursid)->where('parent_folder_id',$folderid)->get();
-$data['videos']=DB::table("videos")->where("course_id",$coursid)->where('folder_id',$folderid)->get();
-$data['document']=DB::table("course_document")->where("course_id",$coursid)->where('folder_id',$folderid)->get();
+}
 
 return view('course.ajax_folders',$data);
     
+}
+
+public function update_order(Request $req)
+{
+
+      if($req->input('documentarrayorder')!=''){
+         $table="course_document";
+        $array=$req->input('documentarrayorder');
+      }elseif($req->input('arrayorder')!=''){
+         $table="folders";
+         $array = $req->input('arrayorder');
+      }else{
+         $table="videos";
+         $array = $req->input('videoarrayorder');
+      }
+  
+   $count = 1;
+   foreach ($array as $idval) {
+       $count;
+       $idval;
+     $data=array(
+      'order_id'=>$count
+     );
+   
+      $update=DB::table($table)->where("id",$idval)->update($data);
+   
+   $count ++; 
+   }
+    
+      echo '<div class="alert alert-success" role="alert">
+      Record updated successfully.
+    </div>';
+    
+}
+
+public function dynamic_folder_import(Request $req)
+{
+   if($req->input('type')=='doc'){
+      $id=$req->input('id');
+      $status=$req->input('status');
+      if($status=='delete'){
+         $delete= DB::table('course_document')->where('id', $id)->delete();
+      }else{
+         if($status==0){
+            $status=1;
+         }else{
+            $status=0;
+         }
+         $data=array(
+            'status'=>$status
+         );
+         
+          $update =  DB::table('course_document')->where('id', $id)->update($data);
+         
+      }
+   }
+   if($req->input('type')=='video'){
+      $id=$req->input('id');
+      $status=$req->input('status');
+      if($status=='delete'){
+        $delete= DB::table('videos')->where('id', $id)->delete();
+      }else{
+         if($status==0){
+            $status=1;
+         }else{
+            $status=0;
+         }
+         $data=array(
+            'status'=>$status
+         );
+         
+         $update =  DB::table('videos')->where('id', $id)->update($data);
+         
+      }
+   }
+   
+
+ $folderid=$data['folderid']=$req->input('folderid');
+$coursid=$data['coursid']=$req->input('coursid');
+$data['folder'] = DB::table("folders")->where("status", '1')->where('parent_folder_id',$folderid)->orderBy('order_id')->get();
+$data['videos']=DB::table("videos")->where('folder_id',$folderid)->orderBy('order_id')->get();
+$data['document']=DB::table("course_document")->where('folder_id',$folderid)->orderBy('order_id')->get();
+
+return view('course.dynamic_folder_import',$data);
+    
+}
+
+public function questions(Request $req)
+{
+   
+      $page=$req->input('page');
+ 
+ 
+   Paginator::useBootstrap();
+   DB::enableQueryLog();
+   $list=DB::table("questions")->paginate(20);
+  foreach($list as $row)
+  {?>
+<tr>
+    <td> <input type="checkbox" value="<?=$row->id?>" class="checkboxids" name="checkboxid[]"></td>
+    <td><?=$row->id?></td>
+    <td>
+        <?php   $res=DB::table('tradegroup')->where("id",$row->tradegroup)->get()->first();
+                                                         echo $res->name;
+                                                         ?>
+
+    </td>
+    <td> <?php   $res=DB::table('trade')->where("id",$row->trade)->get()->first();
+                                                         echo $res->name;
+                                                         ?> </td>
+    <td><?php   $res=DB::table('subject')->where("id",$row->subject)->get()->first();
+                                                         echo $res->name;
+                                                         ?> </td>
+    <td><?php   $res=DB::table('chapter')->where("id",$row->chapter)->get()->first();
+                                                         echo $res->name;
+                                                         ?></td>
+    <td><?php   $res=DB::table('topics')->where("id",$row->topic)->get()->first();
+                                                         echo $res->name;
+                                                         ?></td>
+    <td><?=substr($row->question,0,20)?>....</td>
+    <td class=" dt-body-right"><a target="_blank" href="https://easywayglobal.in/admin/question/read/58"
+            class="btn btn-default btn-xs" data-toggle="tooltip" title="" data-original-title="View"><i
+                class="fa fa-eye"></i></a><button type="button" data-placement="left"
+            class="btn btn-default btn-xs question-btn-edit" data-toggle="tooltip" id="load" data-recordid="58"
+            title="Edit"><i class="fa fa-pencil"></i></button><a data-placement="left"
+            href="https://easywayglobal.in/admin/question/delete/58" class="btn btn-default btn-xs"
+            data-toggle="tooltip" title="Delete" onclick="return confirm('Delete Confirm?')"><i
+                class="fa fa-remove"></i></a></td>
+</tr>
+<?}
+  
 }
 }
  

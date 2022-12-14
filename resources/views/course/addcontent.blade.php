@@ -24,6 +24,22 @@
                                
                                 <div>
                                    <a href="{{url('admin/viewcontents')}}/{{$list[0]->id}}" class="btn btn-success">View Contents And Folders</a>
+           
+                              
+                                </div>
+                            </div>
+                        </div>
+<br/>
+                        <div class="box box-primary">
+                            <div class="box-body text-center">
+                                <label for="exampleInputFile">Import Contents</label>
+                                <br>
+                               
+                               
+                                <div>
+                                    
+                                   <a href="{{url('admin/importcontents')}}/{{$list[0]->id}}" class="btn btn-success">Import Contents</a>
+
                                 </div>
                             </div>
                         </div>
@@ -93,31 +109,31 @@
                                                             class="form-control" value="" required>
                                                             <option value="">Select Folder</option>
                                                             @foreach($folder as $row2)
-                                                            <option value="{{$row2->id}}"
+                                                            <option value="{{$row2->folder_id}}"
                                                                 style="text-transform: uppercase;">{{$row2->folders}}
                                                             </option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $row2->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $row2->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}">
                                                                 &nbsp;&nbsp;{{$subFolders->folders}}</option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}">
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;{{$subFolders->folders}}
                                                             </option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}">
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$subFolders->folders}}
                                                             </option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}">
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$subFolders->folders}}
                                                             </option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}">
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$subFolders->folders}}
                                                             </option>
                                                             @endforeach
@@ -167,35 +183,36 @@
                                                     <label class="col-sm-2">Folder<small class="req">
                                                             *</small></label>
                                                     <div class="col-sm-10">
+                                                       <input type="hidden" name="vid" value="{{$video->id}}" id="vid">
                                                         <select type="text" name="video_folder_id" id="video_folder_id"
                                                             class="form-control" value="" required>
                                                             <option value="">Select Folder</option>
                                                             @foreach($folder as $row2)
-                                                            <option value="{{$row2->id}}"
-                                                                style="text-transform: uppercase;">{{$row2->folders}}
+                                                            <option value="{{$row2->folder_id}}"
+                                                                style="text-transform: uppercase;" @if($video->folder_id==$row2->folder_id) selected @endif>{{$row2->folders}}
                                                             </option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $row2->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $row2->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}" @if($video->folder_id==$subFolders->folder_id) selected @endif>
                                                                 &nbsp;&nbsp;{{$subFolders->folders}}</option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}" @if($video->folder_id==$subFolders->folder_id) selected @endif>
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;{{$subFolders->folders}}
                                                             </option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}" @if($video->folder_id==$subFolders->folder_id) selected @endif>
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$subFolders->folders}}
                                                             </option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}" @if($video->folder_id==$subFolders->folder_id) selected @endif>
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$subFolders->folders}}
                                                             </option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}" @if($video->folder_id==$subFolders->folder_id) selected @endif>
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$subFolders->folders}}
                                                             </option>
                                                             @endforeach
@@ -215,7 +232,7 @@
                                                             *</small></label>
                                                     <div class="col-sm-10">
                                                         <input type="text" name="title" id="title"
-                                                            class="form-control" value=""
+                                                            class="form-control" value="{{$video->title}}"
                                                             placeholder="Enter video title" required>
                                                         <span class="text-danger"></span>
                                                     </div>
@@ -227,7 +244,7 @@
                                                             *</small></label>
                                                     <div class="col-sm-10">
                                                         <input type="text" name="video_id" id="video_id"
-                                                            class="form-control" value=""
+                                                            class="form-control" value="{{$video->video_id}}"
                                                             placeholder="Enter youtube id (Ex - J3Q-QQfUkOY)" required>
                                                         <span class="text-danger"></span>
                                                     </div>
@@ -240,7 +257,7 @@
                                                     <div class="col-sm-10">
                                                         <textarea type="text" name="description" id="description"
                                                             class="form-control" value=""
-                                                            placeholder="Enter description" required></textarea>
+                                                            placeholder="Enter description" required>{{$video->description}}</textarea>
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>
@@ -264,40 +281,43 @@
                                             method="post" enctype="multipart/form-data">
                                             @csrf
                                             <input type="hidden" name="course_id" value="{{$list[0]->id}}">
+                                            <input type="hidden" name="docid" value="{{$doc->id}}">
                                             <div class="col-md-6">
                                                 <div class="form-group row">
                                                     <label class="col-sm-2">Folder<small class="req">
                                                             *</small></label>
+                                                         
                                                     <div class="col-sm-10">
+                                      
                                                         <select type="text" name="folder_id" id="folder_id"
                                                             class="form-control" value="" required>
                                                             <option value="">Select Folder</option>
                                                             @foreach($folder as $row2)
-                                                            <option value="{{$row2->id}}"
-                                                                style="text-transform: uppercase;">{{$row2->folders}}
+                                                            <option value="{{$row2->folder_id}}"
+                                                                style="text-transform: uppercase;" @if($doc->folder_id==$row2->id) selected @endif>{{$row2->folders}}
                                                             </option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $row2->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $row2->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}" @if($doc->folder_id==$subFolders->folder_id) selected @endif>
                                                                 &nbsp;&nbsp;{{$subFolders->folders}}</option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}" @if($doc->folder_id==$subFolders->folder_id) selected @endif>
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;{{$subFolders->folders}}
                                                             </option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}" @if($doc->folder_id==$subFolders->folder_id) selected @endif>
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$subFolders->folders}}
                                                             </option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}" @if($doc->folder_id==$subFolders->folder_id) selected @endif>
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$subFolders->folders}}
                                                             </option>
-                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->id); ?>
+                                                            <?php $subFolder = DB::select("select * from folders where parent_folder_id=" . $subFolders->folder_id); ?>
                                                             @foreach($subFolder as $subFolders)
-                                                            <option value="{{$subFolders->id}}">
+                                                            <option value="{{$subFolders->folder_id}}" @if($doc->folder_id==$subFolders->folder_id) selected @endif>
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$subFolders->folders}}
                                                             </option>
                                                             @endforeach
@@ -316,7 +336,7 @@
                                                     <label class="col-sm-2">Name<small class="req">
                                                             *</small></label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" name="doc_name" class="form-control" value=""
+                                                        <input type="text" name="doc_name" class="form-control" value="{{$doc->doc_name}}"
                                                             required>
                                                         <span class="text-danger"></span>
                                                     </div>
@@ -326,9 +346,9 @@
                                                 <div class="form-group row">
                                                     <label class="col-sm-2">Doc.<small class="req"> *</small></label>
                                                     <div class="col-sm-10">
-                                                        <input autofocus="" id="document" name="document[]" multiple
+                                                        <input autofocus="" id="document" @if($doc->id=='') name="document[]" multiple @else name="document" @endif
                                                             placeholder="" type="file" class="filestyle form-control"
-                                                            required /><span class="text-danger"></span>
+                                                             /><span class="text-danger"></span>
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>
@@ -339,7 +359,7 @@
                                                             *</small></label>
                                                     <div class="col-sm-10">
                                                         <textarea type="text" name="description"
-                                                            class="form-control"></textarea>
+                                                            class="form-control">{{$doc->description}}</textarea>
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>
@@ -360,14 +380,41 @@
         </div>
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
+
+    <!-- Modal -->
+<div class="modal fade" id="mediaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog pup100" role="document">
+                <div class="modal-content modal-media-content">
+                    <div class="modal-header modal-media-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title modal-media-title" id="myModalLabel">Import Contents</h4>
+                    </div>
+                    <div class="modal-body modal-media-body pupscroll">
+                    <input type="text" name="courseid" value="">
+                    @csrf
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary add_media">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <script>
     $(document).ready(function() {
+        $(document).on('click', '.importcontent', function(event) {
+                $("#mediaModal").modal('toggle', $(this));
+                let coursid=$(this).attr("data-courseid");
+               
+            });
         $(document).on('click', '.add_video', function(e) {
             let course_id = $('#course_id').val();
             let folder_id = $('#video_folder_id').val();
             let video_id = $('#video_id').val();
             let title = $('#title').val();
             let description = $('#description').val();
+            let vid=$('#vid').val();
             if (video_id == '' && folder_id == '' && title=='') {
                 $('#message').html(`<div class="alert alert-warning" role="alert">
   Title,Folder and videoid is required.
@@ -381,7 +428,8 @@
                     folder_id: folder_id,
                     video_id: video_id,
                     title: title,
-                    description: description
+                    description: description,
+                    vid:vid
                 },
                 dataType: 'html',
                 success: function(res) {

@@ -1,5 +1,41 @@
 @include('admin.include.head');
 
+
+<style>
+      .folder_design {
+        padding-bottom: 2px;
+        font-size: 14px;
+        border-radius: 10px;
+        padding: 1px;
+        border-bottom: 2px solid black;
+    }
+
+
+    ul {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    #list li {
+        margin: 0 0 3px;
+        padding: 8px;
+        list-style: none;
+
+    }
+    #refresh_doc li {
+        margin: 0 0 3px;
+        padding: 8px;
+        list-style: none;
+
+    }
+    #refresh_video li {
+        margin: 0 0 3px;
+        padding: 8px;
+        list-style: none;
+
+    }
+</style>
+
 <body class="hold-transition skin-blue fixed sidebar-mini">
     <div class="wrapper">
         @include('admin.include.header');
@@ -28,9 +64,12 @@
                     <div class="col-lg-10 col-md-6 col-sm-12 uploadsticky">
                         <div class="box box-primary">
                             <div class="box-body text-center">
-                                <label for="exampleInputFile">CONTENTS FOR {{strtoupper($list[0]->title)}}</label>
+                                <label for="exampleInputFile">
+                                    <h3>CONTENTS FOR {{strtoupper($list[0]->title)}}</h3>
+                                </label>
                                 <br>
                                 <br>
+
                                 <div id="dynamic_folder">
 
                                 </div>
@@ -44,17 +83,20 @@
         </div>
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
+
     <script>
         $(document).ready(function() {
+            
             let folderid = "0";
             let coursid = "{{$list[0]->id}}";
-
+            let onload='onload';
             $.ajax({
                 url: "{{url('ajax/dynamic_folder')}}",
                 type: "GET",
                 data: {
                     folderid: folderid,
-                    coursid: coursid
+                    coursid: coursid,
+                    onload:onload
                 },
                 dataType: 'html',
                 success: function(res) {
@@ -86,7 +128,25 @@
             });
         }
 
-
+        $(document).on('click', '.go_back', function(e) {
+            let folderid = $(this).attr("data-id");
+            let coursid = $('#coursid').val();
+            let onload='onload';
+            $.ajax({
+                url: "{{url('ajax/dynamic_folder')}}",
+                type: "GET",
+                data: {
+                    folderid: folderid,
+                    coursid: coursid,
+                    onload:onload
+                },
+                dataType: 'html',
+                success: function(res) {
+                    $('#dynamic_folder').empty();
+                    $('#dynamic_folder').append(res);
+                }
+            });
+        });
         $(document).on('click', '.view_folder', function(e) {
             let folderid = $(this).attr("data-id");
             let coursid = $('#coursid').val();

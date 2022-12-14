@@ -116,10 +116,6 @@
                                             </tr>
                                             @endforeach
 
-
-
-
-
                                         </tbody>
                                     </table><!-- /.table -->
 
@@ -129,19 +125,10 @@
                             </div><!-- /.box-body -->
                         </div>
                     </div>
-                    <!--/.col (left) -->
-                    <!-- right column -->
+               
 
                 </div>
-                <div class="row">
-                    <!-- left column -->
-
-                    <!-- right column -->
-                    <div class="col-md-12">
-
-                    </div>
-                    <!--/.col (right) -->
-                </div> <!-- /.row -->
+                
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->
         @include('admin.include.footer');
