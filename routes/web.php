@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Ajax;
+use App\Http\Controllers\Chat;
 use App\Http\Controllers\Master;
 use App\Http\Controllers\Student;
 use App\Http\Controllers\Staff;
@@ -155,8 +156,19 @@ Route::group(['prefix'=>'exam','middleware'=>'checkAdmin'],function(){
     Route::match(['get','post'],'/addquestion',[Exam::class,'addquestion']);
     Route::post('/bulkdelete',[Exam::class,'bulkdelete']);
     Route::match(['get','post'],'/onlineexam/assign/{id}',[Exam::class,'assignexam']);
+    Route::match(['get','post'],'/onlineexam/addquestion/{id}',[Exam::class,'assignexam_addquestion']);
+    Route::match(['get','post'],'/examquestion',[Exam::class,'examquestion']);
+    Route::match(['get','post'],'/addExamQuestion',[Exam::class,'addExamQuestion']);
+    Route::match(['get','post'],'/ajax_addexam',[Exam::class,'ajax_addexam']);
+    Route::match(['get'],'/getExamQuestions',[Exam::class,'getExamQuestions']);
+    Route::match(['get'],'/onlineexam/printexam/{id}',[Exam::class,'printexam']);
 });
 
+Route::group(['prefix'=>'chat','middleware'=>'checkAdmin'],function(){
+    Route::get('/',[Chat::class,'index']);
+    Route::get('/searchuser',[Chat::class,'searchuser']);
+    Route::get('/adduser',[Chat::class,'adduser']);
+});
 //home urls
 Route::get('/',[Home::class,'index']);
 Route::match(['get','post'],'/userlogin',[Home::class,'userlogin']);

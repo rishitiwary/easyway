@@ -78,7 +78,7 @@
                         </li>
 
 
-                        <li class="cal15"><a data-placement="bottom" data-toggle="tooltip" title="" href="/admin/chat"
+                        <li class="cal15"><a data-placement="bottom" data-toggle="tooltip" title="" href="{{url('chat')}}"
                                 data-original-title="Chat" class="todoicon"><i class="fa fa-whatsapp"></i> <span
                                     class="todo-indicator">9</span></a></li>
 

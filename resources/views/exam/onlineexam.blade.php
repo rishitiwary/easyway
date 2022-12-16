@@ -1,15 +1,10 @@
 @include('admin.include.head');
 
 <body class="hold-transition skin-blue fixed sidebar-mini">
-
-
-
     <div class="wrapper">
 
         @include('admin.include.header');
         @include('admin.include.sidebar');
-
-
         <div class="content-wrapper">
             <section class="content-header">
                 <h1>
@@ -35,8 +30,8 @@
                             <div class="box-header ptbnull">
                                 <h3 class="box-title titlefix">Online Exam List</h3>
                                 <div class="box-tools pull-right">
-                                    <a href="{{url('master/chapter/create')}}" class="btn btn-sm btn-primary"><i
-                                            class="fa fa-plus"></i> Add</a>
+                                    <span class="btn btn-primary btn-sm pull-right question-btn" data-recordid="0"><i
+                                            class="fa fa-plus"></i> Add Exam</span>
 
                                 </div>
                             </div><!-- /.box-header -->
@@ -87,7 +82,7 @@
                                                         {{$row->duration}}
 
                                                     </td>
-                                                    <td>@if($row->publish_exam_notification==1) <input type="checkbox"
+                                                    <td>@if($row->is_active==1) <input type="checkbox"
                                                             name="exam_publish" checked> @else <input type="checkbox"
                                                             name="exam_publish"> @endif</td>
                                                     <td>@if($row->publish_result==1) <input type="checkbox"
@@ -103,30 +98,30 @@
                                                             class="btn btn-default btn-xs"
                                                             href="{{url('exam/onlineexam/addquestion/')}}/{{$row->id}}"
                                                             data-is_quiz="0" title="Add" question=""><i
-                                                                class="fa fa-question-circle"></i></a> 
-                                                                <button
-                                                            type="button" data-toggle="tooltip"
-                                                            class="btn btn-default btn-xs question-btn-edit"
-                                                            data-recordid="{{$row->id}}" title="" data-original-title="Edit"><i
+                                                                class="fa fa-question-circle"></i></a>
+                                                        <button type="button" data-toggle="tooltip"
+                                                            class="btn btn-default btn-xs question-btn"
+                                                            data-recordid="{{$row->id}}" title=""
+                                                            data-original-title="Edit"><i
                                                                 class="fa fa fa-pencil"></i></button>
-                                                                 <button
-                                                            class="btn btn-default btn-xs exam_ques_list"
+                                                                 
+                                                        <a href="{{url('exam/getExamQuestions')}}?examid={{$row->id}}" class="btn btn-default btn-xs exam_ques_list"
                                                             data-toggle="tooltip" data-recordid="{{$row->id}}"
                                                             data-loading-text="<i class=&quot; fa fa-spinner fa-spin&quot;  ></i>"
-                                                            title="Exam Questions List"><i
-                                                                class="fa fa-file-text-o"></i></button> <a
-                                                            href="{{url('exam/onlineexam/evalution')}}/{{$row->id}}"
-                                                            class="btn btn-default btn-xs" data-toggle="tooltip"
-                                                            title="Exam Evaluation"> <i
-                                                                class="fa fa-newspaper-o"></i></a> <a
+                                                            title="Exam Questions List" target="_blank"><i
+                                                                class="fa fa-file-text-o"></i></a>
+                                                              
+                                                             <a
                                                             href="{{url('exam/onlineexam/printexam')}}/{{$row->id}}"
                                                             class="btn btn-default btn-xs" data-toggle="tooltip"
                                                             title="Print Exam"> <i class="fa fa-print"></i></a> <a
-                                                            href="{{url('admin/onlineexam')}}?id={{$row->id}}"
+                                                            href="{{url('admin/onlineexam')}}?delid={{$row->id}}"
                                                             class="btn btn-default btn-xs" data-toggle="tooltip"
-                                                            title="Delete" onclick="return confirm('Are you sure...?')"><i class="fa fa fa-remove"></i></a></td>
-                </tr>
-                @endforeach
+                                                            title="Delete"
+                                                            onclick="return confirm('Are you sure...?')"><i
+                                                                class="fa fa fa-remove"></i></a></td>
+                                                </tr>
+                                                @endforeach
                                             </tbody>
                                         </table><!-- /.table -->
                                     </div>
@@ -136,8 +131,58 @@
                     </div>
                     <!--/.col (left) -->
                 </div>
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-lg">
 
-            </section><!-- /.content -->
-        </div><!-- /.content-wrapper -->
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Exam</h4>
+                            </div>
+                            <form action="{{url('admin/onlineexam')}}" method="POST" id="formsubject">
+                                @csrf
+                                <div id="ajax_response">
 
-        @include(' admin.include.footer');
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" id="load"
+                                        data-loading-text="<i class='fa fa-spinner fa-spin '></i> Saving...">Save</button>
+                                </div>
+                        </div>
+
+                        </form>
+                    </div>
+                </div>
+
+
+
+        </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+    <script>
+    $(document).on('click', '.question-btn', function() {
+        let uid = $(this).attr('data-recordid');
+        $('#myModal').modal('show');
+        $.ajax({
+            url: '{{url("exam/ajax_addexam")}}',
+            type: "GET",
+            data: {
+                'uid': uid,
+            },
+
+            success: function(data) {
+                $('#ajax_response').empty();
+                $('#ajax_response').html(data);
+
+            },
+
+        });
+
+    });
+
+    //question list
+    </script>
+    @include(' admin.include.footer');

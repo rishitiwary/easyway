@@ -10,7 +10,15 @@ class Exam extends Controller
 {
     public function index(Request $req)
     {
+        if($req->input('delid')!='')
+        {
+            $delexam=DB::table("onlineexam")->where("id",$req->input('delid'))->delete();
+            $delexamquestion=DB::table("onlineexam_questions")->where("examid",$req->input('delid'))->delete();
+            $req->session()->flash('success', 'Exam deleted succesfully...');
+
+        }
         if($_SERVER['REQUEST_METHOD']=="POST"){
+          
            
             $data=array(
                 'is_quiz'=>trim($req->input('is_quiz')),
@@ -27,8 +35,17 @@ class Exam extends Controller
                 'is_neg_marking'=>trim($req->input('is_neg_marking')),
                 'is_marks_display'=>trim($req->input('is_marks_display')),
                 'is_random_question'=>trim($req->input('is_random_question')),
+                'marks'=>trim($req->input('marks')),
+                'negative_marks'=>trim($req->input('negative_marks')),
                 'description'=>trim($req->input('description')),
             );
+            
+            if($req->input('uid')!=''){
+                $insert=DB::table('onlineexam')->where("id",$req->input('uid'))->update($data);
+                $req->session()->flash('success', 'Exam updated succesfully...');
+                return redirect($_SERVER['HTTP_REFERER']);
+                exit;
+            }
             $insert=DB::table('onlineexam')->insert($data);
             if($insert){
                 $req->session()->flash('success', 'Exam created succesfully...');
@@ -221,5 +238,86 @@ class Exam extends Controller
         
         $data['list']=DB::table("classes")->where("is_active",'yes')->get();
         return view('exam.assign',$data);
+    }
+    public function assignexam_addquestion(Request $req,$id)
+    {
+        $data['list']=DB::table("tradegroup")->where("status",1)->get();
+        return view('exam.assignexam_addquestion',$data);
+    }
+    public function examquestion(Request $req)
+    {
+        Paginator::useBootstrap();
+        DB::enableQueryLog();
+          $tradegroup=$req->input('tradegroup');
+        $trade=$req->input('trade');
+        $subject=$req->input('subject');
+        $chapter=$req->input('chapter');
+        $topic=$req->input('topic');
+      
+        if($tradegroup!='' && $trade!='' && $subject!='' && $chapter!='' && $topic!='')
+        {
+            $data['examid']=$req->input('examid');
+            $data['list']=DB::table("questions")->where("tradegroup",$tradegroup)->where("trade",$trade)->where("subject",$subject)->where("chapter",$chapter)->where("topic",$topic)->paginate(100);
+            return view('exam.examquestion',$data);
+           
+        }
+        $keywords=trim($req->input('keywords'));
+        if($keywords!=''){
+        $data['examid']=$req->input('examid');
+        $data['list']=DB::table("questions")->where("question",'like','%'.$keywords.'%')->paginate(100);
+        return view('exam.examquestion',$data);
+        }else{
+            $data['examid']=$req->input('examid'); 
+        $data['tradegroup']=DB::table("tradegroup")->where("status",1)->get();
+        $data['list']=DB::table("questions")->paginate(100);
+        return view('exam.examquestion',$data);
+
+        } 
+    }
+    public function addExamQuestion(Request $req){
+        for($i=0;$i<count($req->input('checkboxid'));$i++)
+        {
+            $qid=$req->input('checkboxid')[$i];
+            $data=array(
+                'question_id'=>$qid,
+                'examid'=>$req->input('examid'),
+            );
+            $count=DB::table("onlineexam_questions")->where("question_id",$qid)->where("examid",$req->input('examid'))->count();
+            if($count>0){
+                continue;
+            }
+            $insert=DB::table("onlineexam_questions")->insert($data);
+        }
+        if($insert){
+            echo '<div class="alert alert-success">
+            <strong>Success!</strong> Question added succesfully.
+          </div>';
+        }else{
+            echo '<div class="alert alert-danger">
+            <strong>Error!</strong> Some error occured.May be this question is already available.
+          </div>';
+        }
+    }
+    public function ajax_addexam(Request $req)
+    {
+        if($req->input('uid')!=''){
+            $data['res']=DB::table("onlineexam")->where("id",$req->input('uid'))->get()->first();
+        }
+        return view('exam.ajax_addexam',$data);
+    }
+    public function getExamQuestions(Request $req)
+    {
+        if($req->input('delid')!='')
+        {
+            $delete=DB::table("onlineexam_questions")->where("id",$req->input('delid'))->delete();
+            $req->session()->flash('success', 'Question deleted succesfully...');
+        }
+        $data['list']=DB::table("onlineexam_questions")->where("examid",$req->input('examid'))->get();
+        return view('exam.getExamQuestions',$data);
+    }
+    public function printexam(Request $req,$id)
+    {
+        $data['list']=DB::table("onlineexam_questions")->where('examid',$id)->get();
+        return view('exam.printexam',$data);
     }
 }
