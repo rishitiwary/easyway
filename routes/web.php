@@ -166,8 +166,15 @@ Route::group(['prefix'=>'exam','middleware'=>'checkAdmin'],function(){
 
 Route::group(['prefix'=>'chat','middleware'=>'checkAdmin'],function(){
     Route::get('/',[Chat::class,'index']);
+    Route::get('/all',[Chat::class,'all']);
     Route::get('/searchuser',[Chat::class,'searchuser']);
     Route::get('/adduser',[Chat::class,'adduser']);
+    Route::get('/myuser',[Chat::class,'myuser']);
+    Route::post('/getChatsUpdates',[Chat::class,'getChatsUpdates']);
+    Route::post('/getChatRecord',[Chat::class,'getChatRecord']);
+    Route::post('/newMessage',[Chat::class,'newMessage']);
+    Route::post('/chatUpdate',[Chat::class,'chatUpdate']);
+    Route::post('/getChatNotification',[Chat::class,'getChatNotification']);
 });
 //home urls
 Route::get('/',[Home::class,'index']);

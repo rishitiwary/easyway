@@ -270,15 +270,11 @@
                 </a>
                 <ul class="treeview-menu">
 
-                    <li class=""><a href="notification"><i class="fa fa-angle-double-right"></i> Notice Board</a></li>
+
                     <li class=""><a href="mailsms/compose"><i class="fa fa-angle-double-right"></i> Send Email</a></li>
                     <li class=""><a href="mailsms/compose_sms"><i class="fa fa-angle-double-right"></i> Send SMS</a>
                     </li>
-                    <li class=""><a href="mailsms/index"><i class="fa fa-angle-double-right"></i> Email / SMS Log</a>
-                    </li>
 
-                    <li class=""><a href="student/bulkmail"><i class="fa fa-angle-double-right"></i> Login Credentials
-                            Send</a></li>
 
                 </ul>
             </li>
@@ -322,27 +318,15 @@
 
                     <li class=""><a href="notification/setting"><i class="fa fa-angle-double-right"></i> Notification
                             Setting</a></li>
-                    <li class=""><a href="smsconfig"><i class="fa fa-angle-double-right"></i> SMS Setting</a></li>
-                    <li class=""><a href="emailconfig"><i class="fa fa-angle-double-right"></i> Email Setting</a></li>
-                    <li class=""><a href="paymentsettings"><i class="fa fa-angle-double-right"></i> Payment Methods</a>
-                    </li>
+               
                     <li class=""><a href="print_headerfooter"><i class="fa fa-angle-double-right"></i> Print Header
                             Footer</a></li>
-                    <li class=""><a href="frontcms"><i class="fa fa-angle-double-right"></i> Front CMS Setting</a></li>
-
-                    <li class=""><a href="backup"><i class="fa fa-angle-double-right"></i> Backup / Restore</a></li>
-                    <li class=""><a href="language"><i class="fa fa-angle-double-right"></i> Languages</a></li>
+  
+                 
                     <li class=""><a href="users"><i class="fa fa-angle-double-right"></i> Users</a></li>
-                    <li class=""><a href="module"><i class="fa fa-angle-double-right"></i> Modules</a></li>
-                    <li class=""><a href="customfield"><i class="fa fa-angle-double-right"></i> Custom Fields</a></li>
-                    <li class=""><a href="captcha"><i class="fa fa-angle-double-right"></i> Captcha Setting</a></li>
-                    <li class=""><a href="systemfield"><i class="fa fa-angle-double-right"></i> System Fields</a></li>
-                    <li class=""><a href="student/profilesetting"><i class="fa fa-angle-double-right"></i> Student
-                            Profile Update</a></li>
-                    <li class=""><a href="onlineadmission/admissionsetting"><i class="fa fa-angle-double-right"></i>
-                            Online Admission</a></li>
-                    <li class=""><a href="filetype"><i class="fa fa-angle-double-right"></i> File Types</a></li>
-                    <li class=""><a href="updater"><i class="fa fa-angle-double-right"></i> System Update</a></li>
+              
+                     
+                   
 
                 </ul>
             </li>

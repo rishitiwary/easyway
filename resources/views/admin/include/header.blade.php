@@ -47,13 +47,7 @@
 
                 </form>
                 <div class="navbar-custom-menu">
-                    <div class="langdiv"><select class="languageselectpicker" onchange="set_languages(this.value)"
-                            type="text" id="languageSwitcher">
-
-                            <option data-content='<span class="flag-icon flag-icon-us"></span> English' value="4"
-                                Selected></option>
-
-                        </select></div>
+            
 
 
                     <ul class="nav navbar-nav headertopmenu">
@@ -61,27 +55,22 @@
                                 href="admin/calendar/events"><i class="fa fa-calendar"></i></a>
 
                         </li>
-                        <li class="dropdown" data-placement="bottom" data-toggle="tooltip" title="Task">
-                            <a href="#" class="dropdown-toggle todoicon" data-toggle="dropdown">
-                                <i class="fa fa-check-square-o"></i>
-                            </a>
-                            <ul class="dropdown-menu menuboxshadow">
-
-                                <li class="todoview plr10 ssnoti">Today you have 0 pending task.<a
-                                        href="/admin/calendar/events" class="pull-right pt0">View All</a></li>
-                                <li>
-                                    <ul class="todolist">
-
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
+                
 
 
                         <li class="cal15"><a data-placement="bottom" data-toggle="tooltip" title="" href="{{url('chat')}}"
-                                data-original-title="Chat" class="todoicon"><i class="fa fa-whatsapp"></i> <span
-                                    class="todo-indicator">9</span></a></li>
+                                data-original-title="Chat" class="todoicon"><i class="fa fa-whatsapp"></i> 
+                                <!-- <span
+                                    class="todo-indicator">9</span> -->
+                                
+                                </a>
+                                </li>
 
+                                    <li class="cal15"><a data-placement="bottom" data-toggle="tooltip" title="" href="{{url('chat/all')}}"
+                                data-original-title="All Chats" class="todoicon"><i class="fa fa-whatsapp"></i> 
+                                <!-- <span
+                                    class="todo-indicator">9</span> -->
+                                </a></li>
 
                         <li class="dropdown user-menu">
                             <a class="dropdown-toggle" style="padding: 15px 13px;" data-toggle="dropdown" href="#"

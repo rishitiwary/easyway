@@ -9,6 +9,7 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <meta http-equiv="Cache-control" content="no-cache">
         <meta name="theme-color" content="#424242" />
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
        <link href="{{asset('public/uploads/school_content/admin_small_logo/1.png')}}" rel="shortcut icon" type="image/x-icon">
         
         <link rel="stylesheet" href="{{asset('public/backend/bootstrap/css/bootstrap.min.css')}}">

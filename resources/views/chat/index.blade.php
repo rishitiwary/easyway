@@ -19,11 +19,12 @@
                 <!-- general form elements -->
                 <div id="frame">
                     <div class="chatloader"></div>
-
+       
                     <div id="sidepanel">
-                        <input type="hidden" name="chat_connection_id" value="0">
-                        <input type="hidden" name="chat_to_user" value="0">
-                        <input type="hidden" name="last_chat_id" value="0">
+                        <input type="hidden" id="chat_connection_id" name="chat_connection_id" value="0">
+                        <input type="hidden" id="chat_to_user" name="chat_to_user" value="0">
+                        <input type="hidden" name="last_chat_id" value="{{$userid}}">
+                        <input type="hidden" id="type" value="{{$type ?? ''}}">
 
                         <div id="search">
                             <label for="">Chat System</label>  
@@ -120,6 +121,7 @@ $(document).on('input','.chat_input',function(){
     $(document).on('click', '.input_submit', function (e) {
       
         message = $(".message-input input").val();
+    
         if ($.trim(message) == '') {
             return false;
         }
@@ -207,41 +209,22 @@ $(document).on('input','.chat_input',function(){
     });
 
     $(document).ready(function () {
-        $.ajax({
-            type: "POST",
-            url: base_url + 'admin/chat/myuser',
-            data: {},
-            dataType: "JSON",
-            beforeSend: function () {
-                $('.chatloader').css({display: 'block'});
-            },
-            success: function (data) {
-                $("#contacts ul").html(data.page);
-                if (data.status === "1") {
-                    clearInterval(intervalchat);
-                    intervalchat = setInterval(getChatNotification, 15000);
-
-                    clearInterval(intervalchatnew);
-                    intervalchat = setInterval(mynewUser, 25000);
-
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                $('.chatloader').css({display: 'none'});
-            },
-            complete: function (data) {
-                $('.chatloader').css({display: 'none'});
-            }
-        });
+        mynewUser();
+       
     });
     $(document).on('click', '.contact', function () {
+       
         var chat_connection_id = $(this).data('chatConnectionId');
+         var chat_to_user=$(this).attr('data-chat_to_user');
+       $('#chat_connection_id').val(chat_connection_id);
+       $('#chat_to_user').val(chat_to_user);
         var $this = $(this);
         $.ajax({
             type: "POST",
-            url: base_url + 'admin/chat/getChatRecord',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: "{{url('chat/getChatRecord')}}",
             data: {'chat_connection_id': chat_connection_id},
-            dataType: "JSON",
+            // dataType: "JSON",
             beforeSend: function () {
                 $('.chatloader').css({display: 'block'});
                 $(".chat_input").val("");
@@ -250,11 +233,12 @@ $(document).on('input','.chat_input',function(){
                 $this.addClass('active').siblings().removeClass('active');
             },
             success: function (data) {
+              
                 $this.find('span.notification_count').css("display", "none");
-                $(".messages ul").html(data.page);
-                $("input[name='chat_connection_id']").val(data.chat_connection_id);
-                $("input[name='chat_to_user']").val(data.chat_to_user);
-                $("input[name='last_chat_id']").val(data.user_last_chat.id);
+                $(".messages ul").html(data);
+                // $("input[name='chat_connection_id']").val(data.chat_connection_id);
+                // $("input[name='chat_to_user']").val(data.chat_to_user);
+                // $("input[name='last_chat_id']").val(data.user_last_chat.id);
                 $('.messages').animate({
                     scrollTop: $('.messages')[0].scrollHeight}, "slow"
                         );
@@ -289,20 +273,23 @@ $(document).on('input','.chat_input',function(){
 
     function newChatMessage() {
         message = htmlEncode($(".message-input input").val());
+        
         $('.input_submit').prop('disabled', true);
         if ($.trim(message) == '') {
             return false;
         }
 
         var chat_connection_id = $("input[name='chat_connection_id']").val();
+         
         var chat_to_user = $("input[name='chat_to_user']").val();
+         
         if (chat_connection_id > 0 && chat_to_user > 0) {
-
+ 
             $.ajax({
                 type: "POST",
-                url: base_url + 'admin/chat/newMessage',
+                url: "{{url('chat/newMessage')}}",
                 data: {'chat_connection_id': chat_connection_id, 'message': message, 'chat_to_user': chat_to_user, 'time': date_time_temp},
-                dataType: "JSON",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 beforeSend: function () {
 
                 },
@@ -328,15 +315,17 @@ $(document).on('input','.chat_input',function(){
     ;
 
     function getChatsUpdates() {
+         
         var end_reach = false;
         var chat_connection_id = $("input[name='chat_connection_id']").val();
         var chat_to_user = $("input[name='chat_to_user']").val();
         var last_chat_id = $("input[name='last_chat_id']").val();
         $.ajax({
             type: "POST",
-            url: base_url + 'admin/chat/chatUpdate',
+            url: "{{url('chat/chatUpdate')}}",
             data: {'chat_connection_id': chat_connection_id, 'chat_to_user': chat_to_user, 'last_chat_id': last_chat_id},
-            dataType: "JSON",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            // dataType: "JSON",
             beforeSend: function () {
 
             },
@@ -345,8 +334,8 @@ $(document).on('input','.chat_input',function(){
                 if (scrollTop + $('.messages').innerHeight() >= $('.messages')[0].scrollHeight) {
                     end_reach = true;
                 }
-                $("input[name='last_chat_id']").val(data.user_last_chat.id);
-                $('.messages ul').append(data.page);
+                // $("input[name='last_chat_id']").val(data.user_last_chat.id);
+                $('.messages ul').append(data);
                 if (end_reach) {
                     $('.messages').animate({
                         scrollTop: $('.messages')[0].scrollHeight}, "slow");
@@ -385,7 +374,8 @@ $(document).on('input','.chat_input',function(){
 
             beforeSend: function () {
                 $button.button('loading');
-
+                $('.chatloader').css({display: 'block'});
+                $(".chat_input").val("");
             },
             success: function (data) {
                 if (data.status == 0) {
@@ -396,9 +386,10 @@ $(document).on('input','.chat_input',function(){
                     });
                     errorMsg(message);
                 } else {
-
-                    clearInterval(interval);
-                    interval = setInterval(getChatsUpdates, 2000);
+                    $('.chatloader').css({display: 'none'});
+                    clearInterval(intervalchat);
+                    intervalchat = setInterval(getChatNotification, 15000);
+                    mynewUser();
                     $('#myModal').modal('hide');
                     successMsg(data);
                 }
@@ -446,14 +437,16 @@ $(document).on('input','.chat_input',function(){
     function getChatNotification() {
         $.ajax({
             type: "POST",
-            url: base_url + 'admin/chat/mychatnotification',
+            url: "{{url('chat/getChatNotification')}}",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             data: {},
-            dataType: "JSON",
+           
             beforeSend: function () {
 
             },
             success: function (data) {
                 var active_user = $('#contacts').find("ul li.active");
+              
                 if (data.notifications.length > 0) {
                     $.each(data.notifications, function (index, value) {
                         if (active_user.data('chatConnectionId') != value.chat_connection_id) {
@@ -511,33 +504,30 @@ $(document).on('input','.chat_input',function(){
     }
 
     function mynewUser() {
-        var users_Array = []; // more efficient than new Array()
-        $("#contacts ul li").each(function (n) {
-            var as = $(this).data('chatConnectionId');
-            users_Array.push(as);
-
-        });
-
+        let type=$('#type').val();
         $.ajax({
-            type: "POST",
-            url: base_url + 'admin/chat/mynewuser',
-            data: {'users': users_Array},
-            dataType: "JSON",
+            type: "GET",
+            url: "{{url('chat/myuser')}}",
+            data: {type:type},
+            dataType: "HTML",
             beforeSend: function () {
-
-
+                $('.chatloader').css({display: 'block'});
             },
             success: function (data) {
-                $("#contacts ul").prepend(data.new_user_list);
+               
+                $("#contacts ul").html(data);
+           
+                    clearInterval(intervalchat);
+                    intervalchat = setInterval(getChatNotification, 15000);
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
-
+                $('.chatloader').css({display: 'none'});
             },
             complete: function (data) {
-
+                $('.chatloader').css({display: 'none'});
             }
-        })
-
+        });
     }
 </script>
 @include('admin.include.footer')
