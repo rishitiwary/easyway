@@ -1,4 +1,4 @@
-
+@if($viewtype=='viewcontent')
 <script type="text/javascript">
 $(document).ready(function(){  
    function slideout(){
@@ -55,6 +55,7 @@ $(document).ready(function(){
  
 }); 
 </script>
+@endif
 <div id="dynamic_folder">
 
     <input type="hidden" value="{{$folderid}}" id="folderid">
@@ -100,6 +101,7 @@ $(document).ready(function(){
                 </div>
 
                 <div class="col-lg-2">&nbsp;</div>
+                @if($viewtype=='viewcontent')
                 <div class="col-lg-2 col-md-6 col-sm-12 text-right">
                     <a data-placement="left" href="{{url('admin/addcontent')}}/{{$coursid}}?fid={{$rowss->id}}"
                         role="button" class="btn btn-default btn-xs" data-toggle="tooltip" title=""
@@ -109,7 +111,7 @@ $(document).ready(function(){
                         role="button" class="btn btn-default btn-xs" data-toggle="tooltip" title=""
                         data-original-title="Delete Folder"><i class="fa fa-trash"></i></a>
                 </div>
-      
+      @endif
             
         </div>
                                     </li>
@@ -117,9 +119,11 @@ $(document).ready(function(){
                                     </ul>
         </div>
     <br />
+    @if($viewtype=='viewcontent')
     <div id="refresh_video">
-     
+
 <ul>
+    
         @foreach($videos as $video)
 <li  id="videoarrayorder_{{$video->id}}">
         <div class="row folder_design">
@@ -128,14 +132,15 @@ $(document).ready(function(){
                     src="https://www.youtube.com/embed/<?= $video->video_id ?>?modestbranding=1&autoplay=0&mute=0&rel=1&showinfo=0&loop=1&controls=1"
                      frameborder="0" title=" YouTube video player">
                 </iframe>
-                <div class="overlay--bottom"></div>
-                <div class="overlay--fullscreen"></div>
+                <div class="overlay--bottom-small"></div>
+                <div class="overlay--fullscreen-small"></div>
             </div>
             <div class="col-md-7 text-left">
                 <span>Title : {{$video->title}}</span>
                 <br />
                 <span>Description : {{$video->description}}</span>
             </div>
+            
             <div class="col-md-3 text-right">
                 @if($video->status=='1')
                 <i class="fa fa-unlock"></i> Unlocked
@@ -166,8 +171,10 @@ $(document).ready(function(){
                                     </li>
         @endforeach
         </ul>
+        @endif
     </div>
     <br />
+    @if($viewtype=='viewcontent')
     <div id="refresh_doc">
     <ul>
         @foreach($document as $documents)
@@ -212,4 +219,5 @@ $(document).ready(function(){
         @endforeach
     </ul>
     </div>
+    @endif
 </div>

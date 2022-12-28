@@ -10,9 +10,13 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use function PHPSTORM_META\type;
-
+use App\Models\UserModel;
 class Admin extends Controller
 {
+   public function __construct()
+{
+    $this->users = new UserModel();
+}
    public function index(Request $res)
    {
       return view('admin.dashboard');
@@ -649,5 +653,39 @@ class Admin extends Controller
       }
       $data['list'] = DB::select('select * from disable_reason order by id asc');
       return view('student.disable_reason', $data);
+   }
+   public function permission(Request $req)
+   {
+      return view('admin.permission');
+   }
+   public function users(Request $req)
+   {
+     $students=UserModel::all();
+    $data=compact('students');
+      return view('admin.users')->with($data);
+   }
+   public function usersStaff(Request $req)
+   {
+     $staff=DB::table('staff')->get();
+       $data=compact('staff');
+      return view('admin.users')->with($data);
+   }
+   public function usersChangeStatus(Request $req)
+   {
+   
+      $data=array(
+         'status'=>$req->input('status')
+      );
+      if($req->input('role')=='staff'){
+         $update=DB::table('staff')->where("id",$req->input('id'))->update($data);
+      }else{
+         $update=DB::table('students')->where("id",$req->input('id'))->update($data);
+      }
+
+ if($update){
+    echo 'Status changed succesfully';
+ }else{
+    echo 'Some error occured';
+ }
    }
 }

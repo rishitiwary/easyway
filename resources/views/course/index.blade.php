@@ -40,6 +40,16 @@
                                     <div class="box-body">
                                         <div class="row">
                                             <div class="col-md-12">
+                                            @if(session('success'))
+                        <div class="alert alert-success">
+                            <strong>Success!</strong> <?= @session('success') ?>.
+                        </div>
+                        @endif
+                        @if(session('error'))
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> <?= @session('error') ?>.
+                        </div>
+                        @endif
                                                 <div class="tab-pane active table-responsive no-padding">
                                                     <div class="download_label">Approve Leave Request</div>
                                                     <table class="table table-striped table-bordered table-hover example">
@@ -82,6 +92,7 @@
                                                             </td>
 
                                                                 <td class="pull-right no-print">
+                                                                <a data-placement="left" href="{{url('admin/addcourse')}}?uid={{$row->id}}" role="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Add Content"><i class="fa fa-pencil"></i></a>
                                                                     <a data-placement="left" href="{{url('admin/addcontent')}}/{{$row->id}}" role="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Add Content"><i class="fa fa-plus"></i></a>
                                                             
                                                                     <a href="{{url('admin/course?delid=')}}<?= $row->id ?>" onclick="return confirm ('Are you sure...?')" class="btn btn-default btn-xs" data-toggle="tooltip" title="Delete"><i class="fa fa-remove"></i></a>

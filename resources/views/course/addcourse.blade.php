@@ -18,25 +18,29 @@
                             <form id="add_course_form_ID" method="post" action="{{url('admin/addcourse')}}" class="ptt10" enctype="multipart/form-data">
                                 <div class="">
                                     @csrf
+                                    <input type="hidden" name="uid" value="{{$res->id}}">
                                     <div class="row">
                                         <div class="col-lg-8 col-md-8 col-sm-8">
                                             <div class="form-group">
                                                 <label>Course Name<small class="req"> *</small></label>
-                                                <input autofocus="" name="title" placeholder="" type="text" class="form-control" required/><span class="text-danger"></span>
+                                                <input autofocus="" name="title" placeholder="" value="{{$res->title}}" type="text" class="form-control" required /><span class="text-danger"></span>
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Description<small class="req"> *</small></label>
-                                                <textarea id="editor1" placeholder="" name="description" type="text" class="form-control" required></textarea>
+                                                <textarea id="editor1" placeholder="" name="description" type="text" class="form-control" required>{{$res->description}}</textarea>
                                                 <span class="text-danger"></span>
                                             </div>
+
+                                            <img src="{{asset('')}}{{$res->course_thumbnail}}" style="height:100px">
                                         </div>
                                         <!--./col-lg-8-->
                                         <div class="col-lg-4 col-md-4 col-sm-4">
                                             <div class="form-group">
                                                 <label>Inline Preview Image <small class="req">
                                                         *</small></label>
-                                                <input autofocus="" id="course_thumbnail" name="course_thumbnail" placeholder="" type="file" class="filestyle form-control" required/><span class="text-danger"></span>
+                                                <input autofocus="" id="course_thumbnail" name="course_thumbnail" placeholder="" type="file" class="filestyle form-control" @if($res->id=='') required @endif/><span class="text-danger"></span>
+                                       
                                             </div>
 
                                             <div class="form-group">
@@ -44,7 +48,7 @@
                                                 <select autofocus="" id="tradegroup_id" name="tradegroup_id" class="form-control tradegroup-list" required>
                                                     <option value="">Select</option>
                                                     @foreach($tradegroup as $row)
-                                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                                    <option value="{{$row->id}}" @if($res->tradegroup_id==$row->id) selected @endif>{{$row->name}}</option>
                                                     @endforeach
 
                                                 </select>
@@ -55,25 +59,29 @@
                                                 <label>Trade<small class="req"> *</small></label>
                                                 <select autofocus="" id="trade_id" name="trade_id" class="form-control" required>
                                                     <option value="">Select Trade</option>
-
+                                                    @if($res->trade_id!='')
+                                                    <option value="{{$res->trade_id}}" selected><?php $run=DB::table("trade")->where('id',$res->trade_id)->get()->first();
+                                                    echo $run->name;
+                                                    ?></option>
+                                                    @endif
                                                 </select>
                                                 <span class="text-danger"></span>
                                             </div>
                                             <div class="form-group">
                                                 <label>Course Validity ( In Month )<small class="req"> *</small></label>
-                                                <input type="number" name="validity" class="form-control">
+                                                <input type="number" name="validity" value="{{$res->validity}}" class="form-control">
                                             </div>
                                             <div class="form-group">
                                                 <label>Set Expiry <small class="req"> *</small></label>
-                                                <input type="date" name="expiry" class="form-control">
+                                                <input type="date" name="expiry" value="{{$res->expiry}}" class="form-control">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Live Classes<small class="req"> *</small></label>
                                                 <select type="text" name="liveclass" class="form-control" required>
                                                     <option value="">Select</option>
-                                                    <option value="yes">Yes</option>
-                                                    <option value="no">No</option>
+                                                    <option value="yes" @if($res->liveclass=='yes') selected @endif>Yes</option>
+                                                    <option value="no"  @if($res->liveclass=='no') selected @endif>No</option>
                                                 </select>
                                             </div>
 
@@ -89,32 +97,32 @@
                                                 </div>
                                                 <div class="col-md-8 " id="course_url_div">
                                                     <div class="form-group">
-                                                        <input autofocus="" id="course_url" name="course_url" placeholder="" type="text" class="form-control" required/>
+                                                        <input autofocus="" id="course_url" name="course_url" value="{{$res->course_url}}" placeholder="" type="text" class="form-control" required />
 
                                                     </div>
                                                 </div>
-            
+
                                             </div>
                                             <!--./row-->
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Price<small class="req"> *</small></label>
-                                                        <input autofocus="" id="course_price" name="course_price" placeholder="" type="text" class="form-control" required/><span class="text-danger"></span>
+                                                        <input autofocus="" id="course_price" name="course_price" value="{{$res->price}}" placeholder="" type="text" class="form-control" required /><span class="text-danger"></span>
 
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Discount (%)</label>
-                                                        <input autofocus="" id="course_discount" name="course_discount" placeholder="" type="text" class="form-control" /><span class="text-danger"></span>
+                                                        <input autofocus="" id="course_discount" name="course_discount" value="{{$res->discount}}" placeholder="" type="text" class="form-control" /><span class="text-danger"></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Free Course</label>
                                                         <div class="checkbox mt4">
-                                                            <label><input type="checkbox" value="1" name="free_course" autocomplete="off" class="form-check-input"></label>
+                                                            <label><input type="checkbox" value="1" @if($res->free_course==1) cheked @endif name="free_course" autocomplete="off" class="form-check-input"></label>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -160,38 +160,24 @@
                     <i class="fa fa-money ftlayer"></i> <span> Fees Collection</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li class=""><a href="{{url('studentfee')}}"><i class="fa fa-angle-double-right"></i> Collect Fees</a></li>
+                    <!-- <li class=""><a href="{{url('studentfee')}}"><i class="fa fa-angle-double-right"></i> Collect Fees</a></li>
                     <li class=""><a href="{{url('studentfee/searchpayment')}}"><i class="fa fa-angle-double-right"></i> Search Fees
                             Payment</a></li>
                     <li class=""><a href="{{url('studentfee/feesearch')}}"><i class="fa fa-angle-double-right"></i> Search Due Fees
-                        </a></li>
+                        </a></li> -->
                     <li class=""><a href="{{url('master/feemaster')}}"><i class="fa fa-angle-double-right"></i> Fees Master</a></li>
                     <li class=""><a href="{{url('master/feegroup')}}"><i class="fa fa-angle-double-right"></i> Fees Group</a></li>
                     <li class=""><a href="{{url('master/feetype')}}"><i class="fa fa-angle-double-right"></i> Fees Type</a></li>
                     <li class=""><a href="{{url('master/feediscount')}}"><i class="fa fa-angle-double-right"></i> Fees Discount</a></li>
-                    <li class=""><a href="{{url('master/feesforward')}}"><i class="fa fa-angle-double-right"></i> Fees Carry Forward</a>
+                    <!-- <li class=""><a href="{{url('master/feesforward')}}"><i class="fa fa-angle-double-right"></i> Fees Carry Forward</a>
                     </li>
                     <li class=""><a href="{{url('master/setting')}}"><i class="fa fa-angle-double-right"></i> Fees
-                            Reminder</a></li>
+                            Reminder</a></li> -->
 
                 </ul>
             </li>
 
 
-            <li class="treeview ">
-                <a href="#">
-                    <i class="fa fa-calendar-check-o ftlayer"></i> <span>Attendance</span> <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li class=""><a href="stuattendence"><i class="fa fa-angle-double-right"></i> Student Attendance</a>
-                    </li>
-                    <li class=""><a href="stuattendence/attendencereport"><i class="fa fa-angle-double-right"></i>
-                            Attendance By Date</a></li>
-
-
-                    <li class=""><a href="approve_leave"><i class="fa fa-angle-double-right"></i> Approve Leave</a></li>
-                </ul>
-            </li>
 
 
 
@@ -214,15 +200,7 @@
                 </a>
                 <ul class="treeview-menu">
 
-                    <li class=""><a href="{{url('timetable/classreport')}}"><i class="fa fa-angle-double-right"></i> Class
-                            Timetable</a></li>
-                    <li class=""><a href="{{url('timetable/mytimetable')}}"><i class="fa fa-angle-double-right"></i> Teachers
-                            Timetable</a></li>
-                    <li class=""><a href="{{url('teacher/assign_class_teacher')}}"><i class="fa fa-angle-double-right"></i> Assign
-                            Class Teacher</a></li>
 
-                    <li class=""><a href="{{url('admin/stdtransfer')}}"><i class="fa fa-angle-double-right"></i> Promote Students</a>
-                    </li>
                     <li class=""><a href="{{url('admin/subjectgroup')}}"><i class="fa fa-angle-double-right"></i> Subject Group</a></li>
                     <li class=""><a href="{{url('admin/subject')}}"><i class="fa fa-angle-double-right"></i> Subjects</a></li>
                     <li class=""><a href="{{url('admin/classes')}}"><i class="fa fa-angle-double-right"></i> Class</a></li>
@@ -286,9 +264,8 @@
                 <ul class="treeview-menu">
                     <li class=""><a href="{{url('admin/course')}}"><i class="fa fa-angle-double-right"></i>Online
                             Course</a></li>
-                    <li class=""><a href="{{url('admin/offlinepayment')}}"><i class="fa fa-angle-double-right"></i>Offline
-                            Payment</a></li>
-                    <li class=""><a href="{{url('coursereport/report')}}"><i class="fa fa-angle-double-right"></i>Online Course Report</a></li>
+                     <li class=""><a href="{{url('user/studentcourse')}}"><i class="fa fa-angle-double-right"></i>Courses</a></li>
+                    <!--<li class=""><a href="{{url('coursereport/report')}}"><i class="fa fa-angle-double-right"></i>Online Course Report</a></li> -->
 
                 </ul>
             </li>
@@ -318,15 +295,15 @@
 
                     <li class=""><a href="notification/setting"><i class="fa fa-angle-double-right"></i> Notification
                             Setting</a></li>
-               
+
                     <li class=""><a href="print_headerfooter"><i class="fa fa-angle-double-right"></i> Print Header
                             Footer</a></li>
-  
-                 
-                    <li class=""><a href="users"><i class="fa fa-angle-double-right"></i> Users</a></li>
-              
-                     
-                   
+
+
+                    <li class=""><a href="{{url('admin/users')}}"><i class="fa fa-angle-double-right"></i> Users</a></li>
+
+
+
 
                 </ul>
             </li>

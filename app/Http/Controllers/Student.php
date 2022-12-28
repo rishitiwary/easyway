@@ -14,8 +14,9 @@ class Student extends Controller
    {
 
       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        
          if ($req->input('uid') != '') {
-
+ 
             $check = DB::table("students")->where("id", $req->input('uid'))->get()->first();
             $photo_url = $check->photo;
             $first_doc_url = $check->first_doc;
@@ -72,6 +73,7 @@ class Student extends Controller
                'pincode' => trim($req->input('pincode')),
                'state_id' => trim($req->input('state_id')),
                'city_id' => trim($req->input('city_id')),
+               'form_status'=>1
             );
             if ($req->input('save') == 'save') {
                $data2 = array(
@@ -272,7 +274,7 @@ class Student extends Controller
          $req->session()->flash('success', 'Deleted succesfully...');
          // redirect($_SERVER['HTTP_REFERER']);
       }
-      $data['list'] = DB::table("students")->where("registration_type", "1")->get();
+      $data['list'] = DB::table("students")->where("type", "1")->get();
       return view('student/onlinestudent', $data);
    }
 

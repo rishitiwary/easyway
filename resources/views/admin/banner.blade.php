@@ -1,7 +1,11 @@
 @include('admin.include.head');
 
 <body class="hold-transition skin-blue fixed sidebar-mini">
-
+<style>
+    .w-5{
+      display: none;
+  }
+    </style>
     <div class="wrapper">
         @include('admin.include.header');
         @include('admin.include.sidebar');
@@ -96,6 +100,7 @@
                     },
                     success: function(data) {
                         $('.modal-media-body').html(data);
+                        
                     },
                     error: function(xhr) { // if error occured
                         $modalDiv.removeClass('modal_loading');
@@ -246,5 +251,26 @@
                 </div>
             </div>
         </div>
+        <script>
+$(document).ready(function() {
+    $(document).on('click', '.pagination a', function(event) {
 
+        event.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
+
+        fetch_data(page);
+    });
+
+    function fetch_data(page) {
+        $.ajax({
+            url: "<?=url("ajax/getmedia")?>?page="+page,
+            method: 'GET',
+            success: function(data) {
+                $('.modal-media-body').empty(data);
+                $('.modal-media-body').append(data);
+            }
+        });
+    }
+});
+</script>
         @include('admin.include.footer');

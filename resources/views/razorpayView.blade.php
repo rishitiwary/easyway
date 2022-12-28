@@ -101,15 +101,17 @@
                                         </table>
                                         <input type="hidden" name="uid" value="<?=$row[0]->id?>">
                                         @csrf
+                                        
                                         <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                            data-key="{{ env('RAZORPAY_KEY') }}" data-amount="10000"
+                                            data-key="{{env('RAZORPAY_KEY')}}" data-amount="10000"
                                             data-buttontext="Pay Now"
-                                             data-name="Easywayglobal"
+                                            data-name="Easywayglobal"
                                             data-description="Registration Fee"
                                             data-image="{{asset('')}}<?=$setting[0]->admin_logo?>"
                                             data-prefill.name="<?=$row[0]->firstname?>" data-prefill.email="<?=$row[0]->email?>"
                                             data-theme.color="#ff7529">
                                         </script>
+                                      
                                     </form>
                                 </div>
                             </div>

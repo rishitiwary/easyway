@@ -90,13 +90,15 @@
             let folderid = "0";
             let coursid = "{{$list[0]->id}}";
             let onload='onload';
+            let viewtype="viewcontent";
             $.ajax({
                 url: "{{url('ajax/dynamic_folder')}}",
                 type: "GET",
                 data: {
                     folderid: folderid,
                     coursid: coursid,
-                    onload:onload
+                    onload:onload,
+                    viewtype:viewtype
                 },
                 dataType: 'html',
                 success: function(res) {
@@ -110,6 +112,7 @@
         function ajax_folder(status, id, type) {
             let folderid = $('#folderid').val();
             let coursid = $('#coursid').val();
+            let viewtype="viewcontent";
             $.ajax({
                 url: "{{url('ajax/dynamic_folder')}}",
                 type: "GET",
@@ -118,7 +121,8 @@
                     status: status,
                     folderid: folderid,
                     coursid: coursid,
-                    type: type
+                    type: type,
+                    viewtype:viewtype
                 },
                 dataType: 'html',
                 success: function(res) {
@@ -132,13 +136,15 @@
             let folderid = $(this).attr("data-id");
             let coursid = $('#coursid').val();
             let onload='onload';
+            let viewtype="viewcontent";
             $.ajax({
                 url: "{{url('ajax/dynamic_folder')}}",
                 type: "GET",
                 data: {
                     folderid: folderid,
                     coursid: coursid,
-                    onload:onload
+                    onload:onload,
+                    viewtype:viewtype
                 },
                 dataType: 'html',
                 success: function(res) {
@@ -150,12 +156,14 @@
         $(document).on('click', '.view_folder', function(e) {
             let folderid = $(this).attr("data-id");
             let coursid = $('#coursid').val();
+            let viewtype="viewcontent";
             $.ajax({
                 url: "{{url('ajax/dynamic_folder')}}",
                 type: "GET",
                 data: {
                     folderid: folderid,
-                    coursid: coursid
+                    coursid: coursid,
+                    viewtype:viewtype
                 },
                 dataType: 'html',
                 success: function(res) {

@@ -108,7 +108,7 @@
                                                 </td>
                                                 <td class=" dt-body-right">
                                                     @if($run->photo!='')
-                                                    <a data-placement="left" href="{{asset('')}}{{$run->photo}}" class="btn btn-default btn-xs" data-toggle="tooltip" title="Download" download>
+                                                    <a data-placement="left" href="{{asset('')}}{{$run->photo}}" class="btn btn-default btn-xs mt-5 pull-right" data-toggle="tooltip" title="Download" download>
                                                         <i class="fa fa-download"></i> </a>
                                                     @endif
 
@@ -135,8 +135,9 @@
 
                 </div>
                 <script>
-                    function checkpaymentstatus(id, form_staus, pay_status) {
-                        if (form_staus == 0 && pay_status == 0) {
+                    function checkpaymentstatus(id, form_status, pay_status) {
+                         
+                        if (form_status == 0 && pay_status == 0) {
                             let val = `Form Status  :  Not Submitted 
 Payment Status  :  Unpaid
 
@@ -148,6 +149,9 @@ Do you still want to enroll it?
 
                             }
 
+                        }
+                        else{
+                            window.location.href = "{{url('student/edit')}}/" + id;
                         }
                     }
                 </script>

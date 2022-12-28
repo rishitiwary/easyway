@@ -43,6 +43,20 @@
                                 </div>
                             </div>
                         </div>
+<br/>
+                        <div class="box box-primary">
+                            <div class="box-body text-center">
+                                <label for="exampleInputFile">Add Demo Video</label>
+                                <br>
+                               
+                               
+                                <div>
+                                    
+                                   <a href="{{url('admin/demovideo')}}/{{$list[0]->id}}" class="btn btn-success">Add Demo Video</a>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-8 col-md-6 col-sm-12">
                         @if(session('success'))
@@ -161,7 +175,7 @@
                                             </div>
                                             <div class="box-footer">
                                                 <button type="submit"
-                                                    class="btn btn-primary submit_schsetting pull-right add_video"
+                                                    class="btn btn-primary submit_schsetting pull-right"
                                                     data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing">
                                                     Save</button>
                                             </div>

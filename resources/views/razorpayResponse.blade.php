@@ -78,10 +78,10 @@
                                     <tr class="border_bottom">
                                         <td>
                                             <span class="title">Online Admission Form Fees</span></td>
-                                        <td class="text-right">₹{{$payment->amount/100}}</td>
+                                        <td class="text-right">₹{{$payment->amount}}</td>
                                     </tr>
                                     <tr class="bordertoplightgray">
-                                        <td colspan="2" class="text-right">Total: ₹{{$payment->amount/100}}</td>
+                                        <td colspan="2" class="text-right">Total: ₹{{$payment->amount}}</td>
                                     </tr>
                                     <tr class="bordertoplightgray">
                                         <td colspan="2" class="text-right">Transaction Id: <?=$_GET['razorpay_payment_id'];?></td>

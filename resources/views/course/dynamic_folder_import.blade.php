@@ -147,8 +147,8 @@ $(document).ready(function() {
                         src="https://www.youtube.com/embed/<?= $video->video_id ?>?modestbranding=1&autoplay=0&mute=0&rel=1&showinfo=0&loop=1&controls=1"
                         frameborder="0" title=" YouTube video player">
                     </iframe>
-                    <div class="overlay--bottom"></div>
-                    <div class="overlay--fullscreen"></div>
+                    <div class="overlay--bottom-small"></div>
+                <div class="overlay--fullscreen-small"></div>
                        </div>
                    </div>
                  

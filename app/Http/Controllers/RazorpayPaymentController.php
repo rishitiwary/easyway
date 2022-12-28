@@ -21,11 +21,12 @@ class RazorpayPaymentController extends Controller
     {
         
         $input = $req->all();
- 
+        
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
   
         $payment = $api->payment->fetch($input['razorpay_payment_id']);
-         
+ 
+
         $redirectUrl='payment/response?uid='.$req->input('uid').'&razorpay_payment_id='.$req->input('razorpay_payment_id');
         
         if(count($input)  && !empty($input['razorpay_payment_id'])) {
@@ -49,9 +50,9 @@ class RazorpayPaymentController extends Controller
        $razorpay_payment_id=$req->input('razorpay_payment_id');
 
        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
-  
-       $response = $api->payment->fetch($razorpay_payment_id);
       
+       $response = $api->payment->fetch($razorpay_payment_id);
+        
         $data=array(
             'razorpay_payment_id'=>$response['id'],
             'status'=>$response['status'],

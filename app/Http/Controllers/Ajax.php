@@ -60,41 +60,11 @@ class Ajax extends Controller
        
       echo '
       </div>
-      <style>
-      .w-5{
-        display: none;
-    }
-      </style>
+     
       <div align="right" id="pagination_link"><ul class="pagination">'.$res->links().'
       
       </ul></div>';
-    ?>
-<script>
-$(document).ready(function() {
-
-    $(document).on('click', '.pagination a', function(event) {
-
-        event.preventDefault();
-        var page = $(this).attr('href').split('page=')[1];
-
-        fetch_data(page);
-    });
-
-    function fetch_data(page) {
-
-        $.ajax({
-            url: "<?=url("
-            ajax / media ")?>?page=" + page,
-            success: function(data) {
-                $('#media_div').empty(data);
-                $('#media_div').append(data);
-            }
-        });
-    }
-
-});
-</script>
-<?
+    
      
     }
     public function getmedia(Request $req){
@@ -115,7 +85,6 @@ $(document).ready(function() {
           // dd(DB::getQueryLog());
       echo '<div class="row">';
       foreach ($res as $row) {
-        
         echo '<div class="col-sm-3 col-md-2 col-xs-6 img_div_modal image_div div_record_'.$row->id.'">
         <div class="fadeoverlay">
         <div class="fadeheight">
@@ -132,39 +101,12 @@ $(document).ready(function() {
      
     echo '
     </div>
-    <style>
-    .w-5{
-      display: none;
-  }
-    </style>
+   
     <div align="right" id="pagination_link"><ul class="pagination">'.$res->links().'
     
     </ul></div>';
   ?>
-<script>
-$(document).ready(function() {
-    $(document).on('click', '.pagination a', function(event) {
 
-        event.preventDefault();
-        var page = $(this).attr('href').split('page=')[1];
-
-        fetch_data(page);
-    });
-
-    function fetch_data(page) {
-
-        $.ajax({
-            url: "<?=url("
-            ajax / getmedia ")?>?page=" + page,
-            method: 'GET',
-            success: function(data) {
-                $('.modal-media-body').empty(data);
-                $('.modal-media-body').append(data);
-            }
-        });
-    }
-});
-</script>
 <?
     }
 public function trade(Request $req){
@@ -391,11 +333,13 @@ public function dynamic_folder(Request $req)
 $folderid=$data['folderid']=$req->input('folderid');
 $coursid=$data['coursid']=$req->input('coursid');
 if($req->input('onload')!=''){
+   $data['viewtype']=$req->input('viewtype');
    $data['folder'] = DB::table("folders")->where("course_id",$coursid)->where('parent_folder_id',$folderid)->orderBy('order_id')->get();
    $data['videos']=DB::table("videos")->where("course_id",$coursid)->where('folder_id',$folderid)->orderBy('order_id')->get();
    $data['document']=DB::table("course_document")->where("course_id",$coursid)->where('folder_id',$folderid)->orderBy('order_id')->get();
    
 }else{
+   $data['viewtype']=$req->input('viewtype');
    $data['folder'] = DB::table("folders")->where('parent_folder_id',$folderid)->orderBy('order_id')->get();
 $data['videos']=DB::table("videos")->where('folder_id',$folderid)->orderBy('order_id')->get();
 $data['document']=DB::table("course_document")->where('folder_id',$folderid)->orderBy('order_id')->get();

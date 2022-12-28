@@ -27,3 +27,24 @@
     top: 0;
     right: 0;
 }
+
+.overlay--bottom-small {
+    position: absolute;
+    height: 23%;
+    width: 100%;
+    display: flex;
+    background: transparent;
+    bottom: 70px;
+    right: 10px;
+}
+
+.overlay--fullscreen-small {
+    position: absolute;
+    height: 2vh;
+    width: 100%;
+    display: flex;
+    background: transparent;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}

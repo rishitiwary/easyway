@@ -56,7 +56,7 @@
         <script src="{{asset('public/backend/js/school-custom.js')}}"></script>
         <script src="{{asset('public/backend/js/school-admin-custom.js')}}"></script>
         <script src="{{asset('public/backend/js/sstoast.js')}}"></script>         
-        <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>          -->
+        <link rel="stylesheet" type="text/css" href="{{asset('public/backend/dist/css/course_addon.css')}}">      -->
         <!-- fullCalendar -->
         <link rel="stylesheet" href="{{asset('public/backend/fullcalendar/dist/fullcalendar.min.css')}}">
         <link rel="stylesheet" href="{{asset('public/backend/fullcalendar/dist/fullcalendar.print.min.css')}}" media="print">	

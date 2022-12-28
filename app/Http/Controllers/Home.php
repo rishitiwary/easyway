@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+error_reporting(0);
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -128,6 +128,7 @@ class Home extends Controller
          if ($insert) {
             $data=array(
                'email'=>trim($req->input('email')),
+               'role'=>'student'
             );
             $req->session()->put('studentInfo', $data);
             $req->session()->flash('success', 'Thanks for registration. Please note your reference number '.$refrence_no.' for further communication..!!');
@@ -142,8 +143,10 @@ class Home extends Controller
    {
 
        $userinfo= $req->session()->get('studentInfo');
-      $email=$userinfo['email'];
-         $data['res']=DB::table('students')->where('email',$email)->get();
+      
+        $email=$userinfo['email'];
+        $data['res']=DB::table('students')->where('email',$email)->get();
+      
       return view('home/online_admission_review',$data);
    }
 public function online_admission_print(Request $req,$id)
@@ -155,7 +158,10 @@ public function online_admission_print(Request $req,$id)
    public function editonlineadmission(Request $req)
    {
        $userinfo= $req->session()->get('studentInfo');
-      $email=$userinfo['email'];
+          $email=$userinfo['email'];
+     if(empty($email)){
+        return redirect('userlogin');
+     }
          $data['res']=DB::table('students')->where('email',$email)->get();
          $data['class'] = DB::table('classes')->where('is_active', 'yes')->get();
          $data['hostel'] = DB::table('hostel')->where('is_active', 'yes')->get();

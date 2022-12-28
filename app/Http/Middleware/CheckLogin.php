@@ -17,10 +17,11 @@ class CheckLogin
     public function handle(Request $request, Closure $next)
     {
         $userInfo = $request->session()->get('userInfo');
-        if (empty($userInfo)) {
+ 
+        // if (empty($userInfo)) {
 
-            return redirect(url('admin/login'));
-        }
+        //     return redirect(url('/userlogin'));
+        // }
         return $next($request);
     }
 }

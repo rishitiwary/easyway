@@ -1,7 +1,12 @@
 @include('admin.include.head');
- 
 
- 
+
+<style>
+    .w-5 {
+        display: none;
+    }
+</style>
+
 <body class="hold-transition skin-blue fixed sidebar-mini">
 
     <div class="wrapper">
@@ -98,7 +103,8 @@
                     width: 100%;
                 }
             }
-            .w-5{
+
+            .w-5 {
                 display: none;
             }
         </style>
@@ -119,28 +125,28 @@
                             </div>
                             <div class="box-body">
                                 <div class="row">
-                                   @if(session('success'))
-                                   <div class="alert alert-success">
-  <strong>Success!</strong> <?=@session('success')?>.
-</div>
-                                   @endif
-                                   @if(session('error'))
-                                   <div class="alert alert-danger">
-  <strong>Error!</strong> <?=@session('error')?>.
-</div>
-                                   @endif         
-                   
+                                    @if(session('success'))
+                                    <div class="alert alert-success">
+                                        <strong>Success!</strong> <?= @session('success') ?>.
+                                    </div>
+                                    @endif
+                                    @if(session('error'))
+                                    <div class="alert alert-danger">
+                                        <strong>Error!</strong> <?= @session('error') ?>.
+                                    </div>
+                                    @endif
+
                                     <form method="post" action="media" id="fileupload" enctype="multipart/form-data">
                                         <div class="col-md-6 col-sm-6">
                                             <div class="mailbox-controls">
-@csrf
+                                                @csrf
                                                 <div class="form-group">
                                                     <label>Upload Your File</label>
                                                     <div class="files">
                                                         <input type="file" name="files[]" class="form-control" id="file" multiple="">
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <!--./col-md-6-->
@@ -206,9 +212,9 @@
                                     </div>
                                     <div class="row" id="media_div">
 
-                                    
+
                                     </div>
-                              
+
                                 </div>
 
                             </div>
@@ -343,7 +349,7 @@
             });
 
             function load(page) {
-                
+
                 var keyword = $('.search_text').val();
                 var file_type = $('.file_type').val();
                 var is_gallery = 0;
@@ -361,10 +367,10 @@
                     },
 
                     success: function(data) {
-                    
+
                         $('#media_div').empty();
                         $("#media_div").append(data);
-                      
+
                     },
                     complete: function() {
 
@@ -398,21 +404,21 @@
                 });
 
                 // file selected
-               
+
             });
 
-           
+
             $(document).on('click', '.btn_delete', function() {
                 var $this = $('.btn_delete');
 
                 var record_id = $('#record_id').val();
-                
+
                 $.ajax({
                     url: '{{url("ajax/media")}}',
                     type: "GET",
                     data: {
                         'record_id': record_id,
-                        'delete':'true'
+                        'delete': 'true'
                     },
                     //dataType: 'Json',
                     beforeSend: function() {
@@ -496,4 +502,28 @@
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
+
+                $(document).on('click', '.pagination a', function(event) {
+
+                    event.preventDefault();
+                    var page = $(this).attr('href').split('page=')[1];
+
+                    fetch_data(page);
+                });
+
+                function fetch_data(page) {
+
+                    $.ajax({
+                        url: "<?= url("ajax/media") ?>?page=" + page,
+                        success: function(data) {
+                            $('#media_div').empty(data);
+                            $('#media_div').append(data);
+                        }
+                    });
+                }
+
+            });
+        </script>
         @include('admin.include.footer');
