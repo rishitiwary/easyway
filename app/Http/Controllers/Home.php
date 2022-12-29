@@ -37,7 +37,7 @@ class Home extends Controller
                  
                );
                $req->session()->put('userInfo', $data);
-   
+         
                return redirect('user/studentcourse');
             }
    
@@ -47,11 +47,6 @@ class Home extends Controller
     
      
       //end login
-
-
-
-
-
 
       $data['setting'] = DB::select('select admin_logo,small_logo from general_setting');
       $data['tradegroup'] = DB::select('select * from tradegroup');
@@ -130,7 +125,7 @@ class Home extends Controller
                'email'=>trim($req->input('email')),
                'role'=>'student'
             );
-            $req->session()->put('studentInfo', $data);
+            $req->session()->put('userInfo', $data);
             $req->session()->flash('success', 'Thanks for registration. Please note your reference number '.$refrence_no.' for further communication..!!');
             return redirect('online_admission_review');
          } else {
@@ -142,7 +137,7 @@ class Home extends Controller
    public function online_admission_review(Request $req)
    {
 
-       $userinfo= $req->session()->get('studentInfo');
+       $userinfo= $req->session()->get('userInfo');
       
         $email=$userinfo['email'];
         $data['res']=DB::table('students')->where('email',$email)->get();
@@ -157,7 +152,7 @@ public function online_admission_print(Request $req,$id)
    }
    public function editonlineadmission(Request $req)
    {
-       $userinfo= $req->session()->get('studentInfo');
+       $userinfo= $req->session()->get('userInfo');
           $email=$userinfo['email'];
      if(empty($email)){
         return redirect('userlogin');

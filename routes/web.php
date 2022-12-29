@@ -164,6 +164,7 @@ Route::group(['prefix'=>'ajax'],function(){
     Route::get('/update_doc_status',[Ajax::class,'update_doc_status']);
     Route::get('/update_video_status',[Ajax::class,'update_video_status']);
     Route::get('/dynamic_folder',[Ajax::class,'dynamic_folder']);
+    Route::get('/dynamic_contents',[Ajax::class,'dynamic_contents']);
     Route::get('/dynamic_folder_import',[Ajax::class,'dynamic_folder_import']);
     Route::get('/update_order',[Ajax::class,'update_order']);
     Route::get('/questions',[Ajax::class,'questions']);
@@ -201,6 +202,8 @@ Route::get('/online_admission_review/{id}',[Home::class,'online_admission_print'
 Route::match(['get','post'],'/editonlineadmission',[Home::class,'editonlineadmission'])->middleware('loginCheck');
 Route::get('/onlineadmission/checkout',[Home::class,'onlineadmission_checkout'])->middleware('loginCheck');
 Route::get('/course/details/{id}',[Course::class,'details']);
+Route::get('/course/startlesson/{id}',[Course::class,'startlesson']);
+Route::match(['get','post'],'course_payment/payment/{id}',[RazorpayPaymentController::class,'coursePayment']);
 Route::post('payment/checkout', [RazorpayPaymentController::class, 'index']);
 Route::post('payment/response', [RazorpayPaymentController::class, 'store'])->name('razorpay.payment.store');
 Route::get('payment/response', [RazorpayPaymentController::class, 'response']);

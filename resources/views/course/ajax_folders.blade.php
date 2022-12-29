@@ -119,7 +119,7 @@ $(document).ready(function(){
                                     </ul>
         </div>
     <br />
-    @if($viewtype=='viewcontent')
+    @if($viewtype!=0)
     <div id="refresh_video">
 
 <ul>
@@ -128,10 +128,7 @@ $(document).ready(function(){
 <li  id="videoarrayorder_{{$video->id}}">
         <div class="row folder_design">
             <div class="col-md-2 text-left">
-                <iframe width="100%" height="100"
-                    src="https://www.youtube.com/embed/<?= $video->video_id ?>?modestbranding=1&autoplay=0&mute=0&rel=1&showinfo=0&loop=1&controls=1"
-                     frameborder="0" title=" YouTube video player">
-                </iframe>
+            <img src="http://i3.ytimg.com/vi/<?= $video->video_id ?>/0.jpg" style="height:100px">
                 <div class="overlay--bottom-small"></div>
                 <div class="overlay--fullscreen-small"></div>
             </div>
@@ -140,7 +137,7 @@ $(document).ready(function(){
                 <br />
                 <span>Description : {{$video->description}}</span>
             </div>
-            
+            @if($viewtype=='viewcontent')
             <div class="col-md-3 text-right">
                 @if($video->status=='1')
                 <i class="fa fa-unlock"></i> Unlocked
@@ -167,6 +164,7 @@ $(document).ready(function(){
                     <i class="fa fa-remove"></i>
                 </a>
             </div>
+            @endif
         </div>
                                     </li>
         @endforeach
@@ -174,7 +172,7 @@ $(document).ready(function(){
         @endif
     </div>
     <br />
-    @if($viewtype=='viewcontent')
+    @if($viewtype!=0)
     <div id="refresh_doc">
     <ul>
         @foreach($document as $documents)
@@ -188,6 +186,7 @@ $(document).ready(function(){
                 <br />
                 <span>Description : {{$documents->description}}</span>
             </div>
+            @if($viewtype=='viewcontent')
             <div class="col-md-3 text-right">
                 @if($documents->status=='1')
                 <i class="fa fa-unlock"></i> Unlocked
@@ -214,6 +213,7 @@ $(document).ready(function(){
                     <i class="fa fa-remove"></i>
                 </a>
             </div>
+            @endif
         </div>
         </li>
         @endforeach

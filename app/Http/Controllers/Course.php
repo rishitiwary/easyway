@@ -341,8 +341,13 @@ class Course extends Controller
     }
     public function details(Request $req, $id)
     {
-        $data['res'] = DB::table("courses")->where('id', $id)->get()->first();
+        $data['res'] = DB::table("courses")->where('id', $id)->first();
+        $data['payType']=DB::table("course_payment")->where("course_id",$id)->count();
         $data['demovideos'] = DB::table("demo_videos")->where('course_id', $id)->get();
         return view('course.details', $data);
+    }
+    public function startlesson(Request $req,$id){
+        $data['list'] = DB::table("courses")->where("id", $id)->get();
+        return view('course.startlesson',$data);
     }
 }

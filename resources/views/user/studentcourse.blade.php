@@ -32,7 +32,49 @@
                   <div class="col-md-12">
                     <div class="row flex-row">
 
+                    @foreach($purchased_courses as $run)
+                  <?php $row=DB::table("courses")->where("id",$run->course_id)->first();?>
+                      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                        <div class="coursebox">
+                          <div class="coursebox-img">
+                            <img src="{{asset('')}}{{$row->course_thumbnail}}">
+                          </div>
+                          <div class="coursebox-body">
+                            <h4>{{$row->title}} :</h4>
+                            <div class="course-caption">
+                              <span style="box-sizing: border-box; font-weight: 700;">{{$row->description}}
 
+                            </div>
+                            <div class="classstats">
+                              <i class="fa fa-list-alt"></i>Trade Group - <?php $tradegroup=DB::table("tradegroup")->where("id",$row->tradegroup_id)->get()->first();
+                              echo $tradegroup->name;
+                              
+                              ?> </div>
+                                                        <div class="classstats">
+                              <i class="fa fa-list-alt"></i>Trade - <?php $trade=DB::table("trade")->where("id",$row->trade_id)->get()->first();
+                              echo $trade->name;
+                              
+                              ?> </div>
+                            <div class="classstats">
+                              <i class="fa fa-list-alt"></i>Course Duration - {{$row->validity}} Months
+                            </div>
+                            <div class="classstats">
+                              ₹ {{$row->price}} <span class="pull-right">
+                                <i class="fa fa-clock-o"></i>
+                                {{date('d-m-Y',strtotime($row->expiry))}} </span>
+                            </div>
+                            
+                          </div>
+                          <div class="coursebtn">
+                            <a href="{{url('course/details/')}}/{{$row->id}}" class="btn btn-add" target="_blank">Course
+                              Detail</a>
+
+                            <a href="{{url('course/startlesson')}}/{{$row->id}}" class="btn btn-buygreen">Start Lesson</a>
+
+                          </div>
+                        </div>
+                      </div>
+                      @endforeach
 
 
 

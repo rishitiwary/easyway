@@ -480,5 +480,68 @@ public function questions(Request $req)
 <?}
   
 }
+
+
+public function dynamic_contents(Request $req)
+{
+   if($req->input('type')=='doc'){
+      $id=$req->input('id');
+      $status=$req->input('status');
+      if($status=='delete'){
+         $delete= DB::table('course_document')->where('id', $id)->delete();
+      }else{
+         if($status==0){
+            $status=1;
+         }else{
+            $status=0;
+         }
+         $data=array(
+            'status'=>$status
+         );
+         
+          $update =  DB::table('course_document')->where('id', $id)->update($data);
+         
+      }
+   }
+   if($req->input('type')=='video'){
+      $id=$req->input('id');
+      $status=$req->input('status');
+      if($status=='delete'){
+        $delete= DB::table('videos')->where('id', $id)->delete();
+      }else{
+         if($status==0){
+            $status=1;
+         }else{
+            $status=0;
+         }
+         $data=array(
+            'status'=>$status
+         );
+         
+         $update =  DB::table('videos')->where('id', $id)->update($data);
+         
+      }
+   }
+   
+
+$folderid=$data['folderid']=$req->input('folderid');
+$coursid=$data['coursid']=$req->input('coursid');
+if($req->input('onload')!=''){
+   $data['viewtype']=$req->input('viewtype');
+   $data['folder'] = DB::table("folders")->where("course_id",$coursid)->where('parent_folder_id',$folderid)->orderBy('order_id')->get();
+   $data['videos']=DB::table("videos")->where("course_id",$coursid)->where('folder_id',$folderid)->orderBy('order_id')->get();
+   $data['document']=DB::table("course_document")->where("course_id",$coursid)->where('folder_id',$folderid)->orderBy('order_id')->get();
+   
+}else{
+   $data['viewtype']=$req->input('viewtype');
+   $data['folder'] = DB::table("folders")->where('parent_folder_id',$folderid)->orderBy('order_id')->get();
+$data['videos']=DB::table("videos")->where('folder_id',$folderid)->orderBy('order_id')->get();
+$data['document']=DB::table("course_document")->where('folder_id',$folderid)->orderBy('order_id')->get();
+
+}
+
+return view('course.ajax_contents',$data);
+    
+}
 }
  

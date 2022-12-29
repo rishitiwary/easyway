@@ -39,6 +39,7 @@
     <div class="wrapper">
         @include('admin.include.header');
         @include('admin.include.sidebar');
+  
         <div class="content-wrapper">
             <section class="content-header">
                 <h1><i class="fa fa-gears"></i> Add Contents</h1>
@@ -56,6 +57,7 @@
                                             <div class="whatyou coursebox-body mbDM15">
                                                 <div class="coursebox mb0">
                                                     <div class="coursebox-img">
+                                                 
                                                         <img src="{{asset('')}}{{$res->course_thumbnail}}" class="img-responsive">
                                                     </div>
                                                 </div>
@@ -205,7 +207,8 @@
             let folderid = "0";
             let coursid = "{{$res->id}}";
             let onload='onload';
-            let viewtype="details";
+            let viewType={{$payType}};
+             
             $.ajax({
                 url: "{{url('ajax/dynamic_folder')}}",
                 type: "GET",
@@ -213,7 +216,7 @@
                     folderid: folderid,
                     coursid: coursid,
                     onload:onload,
-                    viewtype:viewtype
+                    viewtype:viewType
                 },
                 dataType: 'html',
                 success: function(res) {
@@ -227,7 +230,7 @@
         function ajax_folder(status, id, type) {
             let folderid = $('#folderid').val();
             let coursid = $('#coursid').val();
-            let viewtype="details";
+            let viewType={{$payType}};
             $.ajax({
                 url: "{{url('ajax/dynamic_folder')}}",
                 type: "GET",
@@ -237,7 +240,7 @@
                     folderid: folderid,
                     coursid: coursid,
                     type: type,
-                    viewtype:viewtype
+                    viewtype:viewType
                 },
                 dataType: 'html',
                 success: function(res) {
@@ -251,7 +254,7 @@
             let folderid = $(this).attr("data-id");
             let coursid = $('#coursid').val();
             let onload='onload';
-            let viewtype="details";
+            let viewType={{$payType}};
             $.ajax({
                 url: "{{url('ajax/dynamic_folder')}}",
                 type: "GET",
@@ -259,7 +262,7 @@
                     folderid: folderid,
                     coursid: coursid,
                     onload:onload,
-                    viewtype:viewtype
+                    viewtype:viewType
                 },
                 dataType: 'html',
                 success: function(res) {
@@ -271,14 +274,14 @@
         $(document).on('click', '.view_folder', function(e) {
             let folderid = $(this).attr("data-id");
             let coursid = $('#coursid').val();
-            let viewtype="details";
+            let viewType={{$payType}};
             $.ajax({
                 url: "{{url('ajax/dynamic_folder')}}",
                 type: "GET",
                 data: {
                     folderid: folderid,
                     coursid: coursid,
-                    viewtype:viewtype
+                    viewtype:viewType
                 },
                 dataType: 'html',
                 success: function(res) {

@@ -18,10 +18,10 @@ class CheckLogin
     {
         $userInfo = $request->session()->get('userInfo');
  
-        // if (empty($userInfo)) {
+        if (empty($userInfo)) {
 
-        //     return redirect(url('/userlogin'));
-        // }
+            return redirect(url('/userlogin'));
+        }
         return $next($request);
     }
 }

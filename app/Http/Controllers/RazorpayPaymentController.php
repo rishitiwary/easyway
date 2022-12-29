@@ -14,20 +14,26 @@ class RazorpayPaymentController extends Controller
         
         $data['setting']=DB::select('select admin_logo from general_setting');
          $data['row']=DB::select('select * from students where id='.$req->input('studentid'));
-        return view('razorpayView',$data);
+        return view('razorpay.razorpayView',$data);
     }
 
     public function store(Request $req)
     {
         
+    
         $input = $req->all();
-        
+    print_r($input);
+
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
   
         $payment = $api->payment->fetch($input['razorpay_payment_id']);
- 
-
-        $redirectUrl='payment/response?uid='.$req->input('uid').'&razorpay_payment_id='.$req->input('razorpay_payment_id');
+        if($req->input('courseid')!=''){
+            $redirectUrl='payment/response?courseid='.$req->input('courseid').'&razorpay_payment_id='.$req->input('razorpay_payment_id');
+        }else{
+            $redirectUrl='payment/response?uid='.$req->input('uid').'&razorpay_payment_id='.$req->input('razorpay_payment_id');
+        }
+        
+       
         
         if(count($input)  && !empty($input['razorpay_payment_id'])) {
             try {
@@ -46,13 +52,44 @@ class RazorpayPaymentController extends Controller
     }
     public function response(Request $req)
     {
-       $uid=$req->input('uid');
-       $razorpay_payment_id=$req->input('razorpay_payment_id');
 
-       $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+       
+        $razorpay_payment_id=$req->input('razorpay_payment_id');
+
+        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+       
+        $response = $api->payment->fetch($razorpay_payment_id);
+        if($req->input('courseid')!=''){
+            $data=array(
+                'course_id'=>$req->input('courseid'),
+                'payment_id'=>$response['id'],
+                'status'=>$response['status'],
+                 'method'=>$response['method'],
+                 'contact'=>$response['contact'],
+                     'email'=>$response['email'],
+                 'amount'=>$response['amount']/100,
+               
+            );
+              $check=DB::table('course_payment')->where('payment_id',$razorpay_payment_id)->count();
+ 
+            if($check<=0){
+            
+        $insert=DB::table("course_payment")->insert($data);
+        if ($insert) {
+            $req->session()->flash('success', 'Payment successful..!!');
+         } else {
+            $req->session()->flash('error', 'Some error occured...');
+         }
+        }
+
+        //course payment success
       
-       $response = $api->payment->fetch($razorpay_payment_id);
-        
+        $data['setting']=DB::table('general_setting')->get()->first();
+        $data['payment']=DB::table('course_payment')->where('payment_id',$razorpay_payment_id)->first();
+        return view('razorpay.razorpayResponseCourses',$data);
+
+        }else{
+       $uid=$req->input('uid');
         $data=array(
             'razorpay_payment_id'=>$response['id'],
             'status'=>$response['status'],
@@ -84,8 +121,19 @@ class RazorpayPaymentController extends Controller
                );
             $update =  DB::table('students')->where('id', $uid)->update($data2);
            }
+      
          
-       return view('razorpayResponse',$data);
+       return view('razorpay.razorpayResponse',$data);
+    }
        
+    }
+
+    public function coursePayment(Request $req,$id){
+        $userinfo= $req->session()->get('studentInfo');
+        $email=$userinfo['email'];
+        $data['userinfo']=DB::table("students")->where("email",$email)->first();
+        $data['res']=DB::table("courses")->where("id",$id)->first();
+        $data['setting']=DB::table('general_setting')->first('admin_logo');
+        return view('razorpay.coursePayment',$data);
     }
 }
