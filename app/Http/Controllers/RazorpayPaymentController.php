@@ -59,15 +59,18 @@ class RazorpayPaymentController extends Controller
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
        
         $response = $api->payment->fetch($razorpay_payment_id);
+        $courseDetails=DB::table("courses")->where("id",$req->input('courseid'))->first();
         if($req->input('courseid')!=''){
             $data=array(
-                'course_id'=>$req->input('courseid'),
-                'payment_id'=>$response['id'],
-                'status'=>$response['status'],
-                 'method'=>$response['method'],
-                 'contact'=>$response['contact'],
-                     'email'=>$response['email'],
-                 'amount'=>$response['amount']/100,
+            'course_id'=>$req->input('courseid'),
+            'tradegroup_id'=>$courseDetails->tradegroup_id,
+            'trade_id'=>$courseDetails->trade_id,
+            'payment_id'=>$response['id'],
+            'status'=>$response['status'],
+            'method'=>$response['method'],
+            'contact'=>$response['contact'],
+            'email'=>$response['email'],
+            'amount'=>$response['amount']/100,
                
             );
               $check=DB::table('course_payment')->where('payment_id',$razorpay_payment_id)->count();

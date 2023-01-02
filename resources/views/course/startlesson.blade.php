@@ -103,7 +103,7 @@
                     <div class="show_video"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Cancel</button>
 
                 </div>
             </div>
@@ -114,7 +114,7 @@
            $(document).on('click', '.youtubevideo', function(event) {
             $("#mediaModal").modal('toggle', $(this));
             let video_id = $(this).attr("data-video_id");
-            $('.show_video').html(`<iframe width="100%" height="750"
+            $('.show_video').html(`<iframe width="100%" height="750" class="videos"
                     src="https://www.youtube.com/embed/${video_id}?modestbranding=1&autoplay=0&mute=0&rel=0&enablejsapi=1&showinfo=0&loop=1&controls=1"
                      frameborder="0" title=" YouTube video player">
                 </iframe>
@@ -123,6 +123,10 @@
                 <div class="overlay--bottom"></div>
                 `);
 
+        });
+        $('.closeModal').click(function(){
+             $('.show_video').html('');
+            $("#mediaModal").modal('toggle');
         });
         $(document).ready(function() {
             

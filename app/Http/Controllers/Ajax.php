@@ -468,12 +468,12 @@ public function questions(Request $req)
                                                          echo $res->name;
                                                          ?></td>
     <td><?=substr($row->question,0,20)?>....</td>
-    <td class=" dt-body-right"><a target="_blank" href="https://easywayglobal.in/admin/question/read/58"
+    <td class=" dt-body-right"><a target="_blank" href="admin/question/read/58"
             class="btn btn-default btn-xs" data-toggle="tooltip" title="" data-original-title="View"><i
                 class="fa fa-eye"></i></a><button type="button" data-placement="left"
             class="btn btn-default btn-xs question-btn-edit" data-toggle="tooltip" id="load" data-recordid="58"
             title="Edit"><i class="fa fa-pencil"></i></button><a data-placement="left"
-            href="https://easywayglobal.in/admin/question/delete/58" class="btn btn-default btn-xs"
+            href="question/delete/58" class="btn btn-default btn-xs"
             data-toggle="tooltip" title="Delete" onclick="return confirm('Delete Confirm?')"><i
                 class="fa fa-remove"></i></a></td>
 </tr>

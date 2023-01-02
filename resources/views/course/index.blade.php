@@ -61,7 +61,7 @@
                                                             <th>Validity(In Month)</th>
                                                             <th>Expiry</th>
                                                             <th>Type</th>
-
+                                                            <th>Exam</th>
                                                             <th>Status</th>
 
                                                             <th class="text-right no-print">Action</th>
@@ -81,7 +81,7 @@
                                                                 <td><?= $row->validity ?></td>
                                                                 <td><?= date('d/m/Y', strtotime($row->expiry)); ?></td>
                                                                 <td><?= $row->free_course ? 'Free' : 'Paid' ?></td>
-
+                                                            <td><a href="{{url('exam/addexam')}}/{{$row->id}}"><small class='label label-primary'>Add Exam</small></td>
                                                                 <td><a href="{{url('admin/course/?id=')}}{{$row->id}}&status={{$row->status}}"><small class='label label-<?php if ($row->status == '1') {
                                                                                                     echo 'success';
                                                                                                 } else {

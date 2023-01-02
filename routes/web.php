@@ -12,6 +12,7 @@ use App\Http\Controllers\Staff;
 use App\Http\Controllers\Course;
 use App\Http\Controllers\RazorpayPaymentController;
 use App\Http\Controllers\Exam;
+use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\User;
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,9 @@ Route::get('/forgotpassword',[Home::class,'forgotpassword']);
 //admin prefix
 Route::group(['prefix'=>'user','middleware'=>'checkAdmin'],function(){
     Route::get('/studentcourse',[User::class,'index']);
+    Route::get('/onlinetest',[User::class,'onlinetest']);
+    Route::get('/onlineexam/view/{id}',[User::class,'onlinetest_view']);
+    Route::get('/startexam/{id}',[User::class,'startexam']);
 });
 //admin prefix
 Route::group(['prefix'=>'admin','middleware'=>'checkAdmin'],function(){
@@ -179,6 +183,8 @@ Route::group(['prefix'=>'exam','middleware'=>'checkAdmin'],function(){
     Route::match(['get','post'],'/ajax_addexam',[Exam::class,'ajax_addexam']);
     Route::match(['get'],'/getExamQuestions',[Exam::class,'getExamQuestions']);
     Route::match(['get'],'/onlineexam/printexam/{id}',[Exam::class,'printexam']);
+    Route::match(['get','post'],'/addexam/{id}',[Exam::class,'course_addexam']);
+    Route::post('/submit_exam',[Exam::class,'submit_exam']);
 });
 
 Route::group(['prefix'=>'chat','middleware'=>'checkAdmin'],function(){
@@ -208,3 +214,10 @@ Route::post('payment/checkout', [RazorpayPaymentController::class, 'index']);
 Route::post('payment/response', [RazorpayPaymentController::class, 'store'])->name('razorpay.payment.store');
 Route::get('payment/response', [RazorpayPaymentController::class, 'response']);
  
+
+Route::group(['prefix'=>'interview'],function(){
+    Route::match(['get','post'],'/',[InterviewController::class,'index']);
+    Route::post('/bucket_size',[InterviewController::class,'bucket_size']);
+    Route::post('/balls_size',[InterviewController::class,'balls_size']);
+    Route::post('/ball_in_bucket',[InterviewController::class,'ball_in_bucket']);
+});

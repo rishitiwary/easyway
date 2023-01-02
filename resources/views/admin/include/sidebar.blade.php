@@ -187,6 +187,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li class=""><a href="{{url('admin/onlineexam')}}"><i class="fa fa-angle-double-right"></i> Online Exam</a></li>
+                    <li class=""><a href="{{url('user/onlinetest')}}"><i class="fa fa-angle-double-right"></i> Online Test</a></li>
                     <li class=""><a href="{{url('admin/question')}}"><i class="fa fa-angle-double-right"></i> Question Bank</a></li>
 
 
