@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+error_reporting(0);
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class User extends Controller
@@ -23,7 +23,8 @@ class User extends Controller
     {
         $userinfo= $req->session()->get('userInfo');
           $student_id=$userinfo['id'];
-    
+          $data['total_attempt']=DB::table("attempt_quize")->where("examid",$id)->where("student_id",$student_id)->first(['attempt']);
+
         $data['score']=DB::table("student_score_tb")->where("examid",$id)->where("student_id",$student_id)->orderBy("id","desc")->first();
         $data['res']=DB::table("onlineexam")->where("id",$id)->first();
         $data['total_question']=DB::table("onlineexam_questions")->where("examid",$id)->count();
@@ -32,10 +33,35 @@ class User extends Controller
     }
     public function startexam(Request $req,$id)
     {
+        $userinfo= $req->session()->get('userInfo');
+        $student_id=$userinfo['id'];
+        $data2=array(
+            'examid'=>$id,
+            'student_id'=>$student_id,
+            'attempt'=>1,
+        );
+        $count_attempt=DB::table("attempt_quize")->where("examid",$id)->where("student_id",$student_id)->first();
+            $attempt= $count_attempt->attempt;
+          
+        if(!is_null($attempt)){
+       
+            
+            $data2=array(
+                'examid'=>$id,
+                'student_id'=>$student_id,
+                'attempt'=>$attempt+1,
+            ); 
+            $update_attempt=DB::table("attempt_quize")->where("examid",$id)->where("student_id",$student_id)->update($data2);
+        }else{
+            $update_attempt=DB::table("attempt_quize")->insert($data2);
+        }
+        
+       
         $data['setting'] = DB::table('general_setting')->first(['admin_logo']);
         $data['total_question']=DB::table("onlineexam_questions")->where("examid",$id)->count();
         $data['res']=DB::table("onlineexam_questions")->where("examid",$id)->get();
         $data['exam']=DB::table("onlineexam")->where("id",$id)->first();
         return view('user.startexam',$data);
+        
     }
 }

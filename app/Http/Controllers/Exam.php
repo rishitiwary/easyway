@@ -374,7 +374,7 @@ class Exam extends Controller
 
         $insert = DB::table('student_score_tb')->insert($data);
         $req->session()->flash('success', 'Answeres submitted succesfully...');
-        return redirect('user/onlineexam/view/'.$examid);
+        return redirect('user/onlinetest');
     }
   
 }

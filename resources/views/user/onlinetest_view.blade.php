@@ -81,7 +81,7 @@
 
                                 </div>
 
-
+                              
                                 <div class="hrexamfirstrow"></div>
                                 <div class="row">
 
@@ -100,9 +100,9 @@
                                     @php $i=1 @endphp
                                     @foreach($given_exam as $runs)
                                     <?php $question = DB::table("questions")->where("id", $runs->onlineexam_question_id)->first();
-                                      $correct=$question->correct;
-                                   $given_ans=$runs->select_option;
-                                  
+                                    $correct = $question->correct;
+                                    $given_ans = $runs->select_option;
+
                                     ?>
                                     <div class="col-xs-12 col-md-12 section-box">
                                         <div>
@@ -114,39 +114,54 @@
                                                 <b>Subject:</b>
                                                 <?php
                                                 $subject = DB::table("subjects")->where("id", $question->subject)->first(['name', 'code']);
-                                                echo $subject->name;
-                                              
+                                                $subject->name;
+
                                                 ?> </p>
-                                                 @if($runs->select_option!='')
-                                                      
-                                                
-                                            <div class="@if($correct=='opt_a') text text-success @endif ">
+
+
+
+
+
+
+
+                                            <div class="@if($given_ans=='opt_a')  text text-danger @endif @if($correct=='opt_a')  text text-success @endif @if($correct=='opt_a' && $given_ans=='opt_a')  text text-success  @endif ">
                                                 <i class="@if($correct=='opt_a') fa fa-check-circle-o @else fa fa-dot-circle-o @endif"></i> {{preg_replace("/&nbsp;/",'', $question->opt_a)}} </div>
-                                            <div class="@if($correct=='opt_b') text text-success @endif ">
+                                            <div class="@if($given_ans=='opt_b')  text text-danger @endif @if($correct=='opt_b')  text text-success @endif @if($correct=='opt_b' && $given_ans=='opt_b') text text-success @endif ">
                                                 <i class="@if($correct=='opt_b') fa fa-check-circle-o @else fa fa-dot-circle-o @endif"></i> {{preg_replace("/&nbsp;/",'', $question->opt_b)}} </div>
-                                            <div class="@if($correct=='opt_c') text text-success @endif ">
+                                            <div class="@if($given_ans=='opt_c')  text text-danger @endif @if($correct=='opt_c')  text text-success @endif @if($correct=='opt_c' && $given_ans=='opt_c') text text-success @endif ">
                                                 <i class="@if($correct=='opt_c') fa fa-check-circle-o @else fa fa-dot-circle-o @endif"></i> {{preg_replace("/&nbsp;/",'', $question->opt_c)}} </div>
-                                            <div class="@if($correct=='opt_d') text text-success @endif ">
+                                            <div class="@if($given_ans=='opt_d')  text text-danger @endif @if($correct=='opt_d')  text text-success @endif @if($correct=='opt_d' && $given_ans=='opt_d') text text-success @endif ">
                                                 <i class="@if($correct=='opt_d') fa fa-check-circle-o @else fa fa-dot-circle-o @endif"></i> {{preg_replace("/&nbsp;/",'', $question->opt_d)}} </div>
-                                                    @if($question->opt_e!='')
-                                                <div class="@if($correct=='opt_e') text text-success @endif ">
+                                            @if($question->opt_e!='')
+                                            <div class="@if($given_ans=='opt_e')  text text-danger @endif @if($correct=='opt_e')  text text-success @endif @if($correct=='opt_e' && $given_ans=='opt_e') text text-success @endif ">
                                                 <i class="@if($correct=='opt_e') fa fa-check-circle-o @else fa fa-dot-circle-o @endif"></i> {{preg_replace("/&nbsp;/",'', $question->opt_e)}} </div>
                                             @endif
 
-                                             @endif
-                                                <p>
+
+                                            <p>
+
                                                 <b>Explanation :{{$question->explanation}}</b>
                                             </p>
                                         </div>
                                     </div>
                                     @endforeach
                                 </div>
+                            
                                 <div class="hrexamtopbottom"></div>
+                                @if($res->attempt>=$total_attempt->attempt)
                                 <div class="row no-print">
                                     <div class="col-xs-12">
                                         <a href="{{url('user/startexam')}}/{{$res->id}}" target="_blank" class="btn btn-info" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Please wait"><i class="fa fa-bullhorn"></i> Start Exam</a>
                                     </div>
                                 </div>
+                                @else
+                                <div class="row no-print">
+                                    <div class="col-xs-12">
+                                        <a href="#"  class="btn btn-danger" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Please wait"><i class="fa fa-bullhorn"></i> Exceed The Limit</a>
+                                    </div>
+                                </div>
+                                 @endif
+                               
 
 
                             </div>
