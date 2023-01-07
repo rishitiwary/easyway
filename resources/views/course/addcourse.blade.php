@@ -40,7 +40,7 @@
                                                 <label>Inline Preview Image <small class="req">
                                                         *</small></label>
                                                 <input autofocus="" id="course_thumbnail" name="course_thumbnail" placeholder="" type="file" class="filestyle form-control" @if($res->id=='') required @endif/><span class="text-danger"></span>
-                                       
+
                                             </div>
 
                                             <div class="form-group">
@@ -60,10 +60,20 @@
                                                 <select autofocus="" id="trade_id" name="trade_id" class="form-control" required>
                                                     <option value="">Select Trade</option>
                                                     @if($res->trade_id!='')
-                                                    <option value="{{$res->trade_id}}" selected><?php $run=DB::table("trade")->where('id',$res->trade_id)->get()->first();
-                                                    echo $run->name;
-                                                    ?></option>
+                                                    <option value="{{$res->trade_id}}" selected><?php $run = DB::table("trade")->where('id', $res->trade_id)->get()->first();
+                                                                                                echo $run->name;
+                                                                                                ?></option>
                                                     @endif
+                                                </select>
+                                                <span class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Course Type<small class="req"> *</small></label>
+                                                <select autofocus="" id="course_type" name="course_type" class="form-control" required>
+                                                    <option value="">Select Course Type</option>
+                                                   @foreach($course_type as $runss)
+                                                            <option value="{{$runss->id}}" @if($runss->id==$res->course_type) selected @endif>{{$runss->type}}</option>
+                                                   @endforeach
                                                 </select>
                                                 <span class="text-danger"></span>
                                             </div>
@@ -81,7 +91,7 @@
                                                 <select type="text" name="liveclass" class="form-control" required>
                                                     <option value="">Select</option>
                                                     <option value="yes" @if($res->liveclass=='yes') selected @endif>Yes</option>
-                                                    <option value="no"  @if($res->liveclass=='no') selected @endif>No</option>
+                                                    <option value="no" @if($res->liveclass=='no') selected @endif>No</option>
                                                 </select>
                                             </div>
 

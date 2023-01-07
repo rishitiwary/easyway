@@ -5,10 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=macintosh">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Home</title>
-    <meta name="title" content="">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
+    <title>{{$page->title?$page->title:'easywayglobal'}}</title>
+    <meta name="title" content="{{$page->meta_title?$page->meta_title:'easywayglobal'}}">
+    <meta name="keywords" content="{{$page->meta_keywords?$page->meta_keywords:'easywayglobal'}}">
+    <meta name="description" content="{{$page->meta_description?$page->meta_description:'easywayglobal'}}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="uploads/school_content/logo/front_fav_icon-611a2f500ba977.41311510.png"
         type="image/x-icon">

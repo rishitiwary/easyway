@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 error_reporting(0);
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -13,39 +15,51 @@ class Home extends Controller
    public function index(Request $req)
    {
       $data['banner'] = DB::table('banner_tb')->get();
+      $data['about'] = DB::table('front_cms_pages')->where('url', 'about-us')->first();
       $data['news'] = DB::table('notice_tb')->where('news', '1')->get();
+      $data['govtjob'] = DB::table('notice_tb')->where('govtjob', '1')->get();
+      $data['notice'] = DB::table('notice_tb')->where('notice', '1')->get();
+      $data['apprenticeship'] = DB::table('notice_tb')->where('apprenticeship', '1')->get();
+      $data['syllabus'] = DB::table('notice_tb')->where('sylabuss', '1')->get();
+      $data['importantlink'] = DB::table('notice_tb')->where('importantlinks', '1')->get();
+      $data['private_job'] = DB::table('notice_tb')->where('privatejob', '1')->get();
+      $data['blogs'] = DB::table('notice_tb')->where('blog', '1')->get();
+      $data['livetest'] = DB::table('courses')->where('course_type', '5')->get();
+      $data['quize'] =  DB::table('courses')->where('course_type', '7')->get();
+      $data['liveclass'] =  DB::table('courses')->where('course_type', '6')->get();
+      $data['type'] =  DB::table('course_type')->where('status', '1')->get();
       return view('home/index', $data);
    }
    public function userlogin(Request $req)
    {
 
       //login
-   
-         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $req->validate([
-               'username' => 'required',
-               'password' => 'required',
-            ]);
-  
-             $users = DB::table('students')->where('email', $req->input('username'))->first();
-            $passcheck = Hash::check(request('password'), $users->password);
-            if ($passcheck) {
-               $data = array(
-                  'id' => $users->id,  
-                  'email' => $users->email,
-                  'role' => 'student',
-                 
-               );
-               $req->session()->put('userInfo', $data);
-         
-               return redirect('user/studentcourse');
-            }
-   
-            $req->session()->flash('error', 'Some error occured');
-            return redirect('userlogin');
+
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+         $req->validate([
+            'username' => 'required',
+            'password' => 'required',
+         ]);
+
+         $users = DB::table('students')->where('email', $req->input('username'))->first();
+         $passcheck = Hash::check(request('password'), $users->password);
+         if ($passcheck) {
+            $data = array(
+               'id' => $users->id,
+               'email' => $users->email,
+               'role' => 'student',
+
+            );
+            $req->session()->put('userInfo', $data);
+
+            return redirect('user/studentcourse');
          }
-    
-     
+
+         $req->session()->flash('error', 'Some error occured');
+         return redirect('userlogin');
+      }
+
+
       //end login
 
       $data['setting'] = DB::select('select admin_logo,small_logo from general_setting');
@@ -71,8 +85,8 @@ class Home extends Controller
             'gender' => 'required',
 
          ]);
-         $refrence_no=  substr(number_format(time() * rand(),0,'',''),0,6);
-       
+         $refrence_no =  substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+
          $last_admission_no = DB::select('select id from students  order by id desc limit 1');
          $rs = DB::select('select adm_prefix,adm_start_from,adm_no_digit from general_setting where id=1');
 
@@ -114,19 +128,19 @@ class Home extends Controller
             'photo' => $photo_url,
             'roll_no' => $roll_no,
             'admission_no' => $admission_no,
-            'refrence_no'=>$refrence_no,
-            'plain_pass'=>$req->input('password'),
-            'password'=>Hash::make($req->input('password')),
-           
+            'refrence_no' => $refrence_no,
+            'plain_pass' => $req->input('password'),
+            'password' => Hash::make($req->input('password')),
+
          );
          $insert =  DB::table('students')->insert($data);
          if ($insert) {
-            $data=array(
-               'email'=>trim($req->input('email')),
-               'role'=>'student'
+            $data = array(
+               'email' => trim($req->input('email')),
+               'role' => 'student'
             );
             $req->session()->put('userInfo', $data);
-            $req->session()->flash('success', 'Thanks for registration. Please note your reference number '.$refrence_no.' for further communication..!!');
+            $req->session()->flash('success', 'Thanks for registration. Please note your reference number ' . $refrence_no . ' for further communication..!!');
             return redirect('online_admission_review');
          } else {
             $req->session()->flash('error', 'Some error occured...');
@@ -137,31 +151,99 @@ class Home extends Controller
    public function online_admission_review(Request $req)
    {
 
-       $userinfo= $req->session()->get('userInfo');
-      
-        $email=$userinfo['email'];
-        $data['res']=DB::table('students')->where('email',$email)->get();
-      
-      return view('home/online_admission_review',$data);
+      $userinfo = $req->session()->get('userInfo');
+
+      $email = $userinfo['email'];
+      $data['res'] = DB::table('students')->where('email', $email)->get();
+
+      return view('home/online_admission_review', $data);
    }
-public function online_admission_print(Request $req,$id)
+   public function online_admission_print(Request $req, $id)
    {
-  
-         $data['res']=DB::table('students')->where('refrence_no',$id)->get();
-      return view('home/online_admission_review',$data);
+
+      $data['res'] = DB::table('students')->where('refrence_no', $id)->get();
+      return view('home/online_admission_review', $data);
    }
    public function editonlineadmission(Request $req)
    {
-       $userinfo= $req->session()->get('userInfo');
-          $email=$userinfo['email'];
-     if(empty($email)){
-        return redirect('userlogin');
-     }
-         $data['res']=DB::table('students')->where('email',$email)->get();
-         $data['class'] = DB::table('classes')->where('is_active', 'yes')->get();
-         $data['hostel'] = DB::table('hostel')->where('is_active', 'yes')->get();
-         $data['state'] = DB::select('select id,name from states  order by name asc');
-      return view('home/editonlineadmission',$data);
+      $userinfo = $req->session()->get('userInfo');
+      $email = $userinfo['email'];
+      if (empty($email)) {
+         return redirect('userlogin');
+      }
+      $data['res'] = DB::table('students')->where('email', $email)->get();
+      $data['class'] = DB::table('classes')->where('is_active', 'yes')->get();
+      $data['hostel'] = DB::table('hostel')->where('is_active', 'yes')->get();
+      $data['state'] = DB::select('select id,name from states  order by name asc');
+      return view('home/editonlineadmission', $data);
    }
-   
+   public function dynamic_pages(Request $req, $url)
+   {
+
+      $data['page'] = DB::table("front_cms_pages")->where('url', $url)->first();
+      return view('home.dynamic_pages', $data);
+   }
+   public function blog_details(Request $req, $url)
+   {
+
+      $data['page'] = DB::table("notice_tb")->where('url', $url)->first();
+      return view('home.blog-details', $data);
+   }
+   public function gallery(Request $req)
+   {
+
+      if ($req->segment('1') == 'image-gallery') {
+         $data['list'] = DB::table("gallery_tb")->where('status', '1')->first();
+         return view('home.image-gallery', $data);
+      } else {
+         $data['list'] = DB::table("gallery_tb")->where('status', '1')->first();
+         $data['video'] = DB::table("videolibrary")->where('status', '1')->get();
+         return view('home.video-gallery', $data);
+      }
+   }
+
+   public function pages(Request $req)
+   {
+      if ($req->segment('1') == 'govt-jobs') {
+         $data['list'] = DB::table("notice_tb")->where("govtjob", '1')->where("is_active", "1")->get();
+      } elseif ($req->segment('1') == 'apprenticeship') {
+         $data['list'] = DB::table("notice_tb")->where("apprenticeship", '1')->where("is_active", "1")->get();
+      } elseif ($req->segment('1') == 'syllabus') {
+         $data['list'] = DB::table("notice_tb")->where("sylabuss", '1')->where("is_active", "1")->get();
+      } elseif ($req->segment('1') == 'latest-news') {
+         $data['list'] = DB::table("notice_tb")->where("news", '1')->where("is_active", "1")->get();
+      } elseif ($req->segment('1') == 'important-links') {
+         $data['list'] = DB::table("notice_tb")->where("importantlinks", '1')->where("is_active", "1")->get();
+      } elseif ($req->segment('1') == 'blogs') {
+         $data['list'] = DB::table("notice_tb")->where("blog", '1')->where("is_active", "1")->get();
+      } elseif ($req->segment('1') == 'faq') {
+         $data['list'] = DB::table("notice_tb")->where("faq", '1')->where("is_active", "1")->get();
+      } elseif ($req->segment('1') == 'private-job') {
+         $data['list'] = DB::table("notice_tb")->where("privatejob", '1')->where("is_active", "1")->get();
+      }
+      return view('home.jobs', $data);
+   }
+
+
+
+   public function contact_us_submit(Request $req)
+   {
+
+      $data = array(
+         'name' => trim($req->input('name')),
+         'email' => trim($req->input('email')),
+         'subject' => trim($req->input('subject')),
+         'contact' => trim($req->input('contact')),
+         'description' => trim($req->input('description')),
+
+      );
+      $insert = DB::table("enquiry")->insert($data);
+      if ($insert) {
+         $req->session()->flash('success', 'Thank you we will contact you soon....');
+         return redirect($_SERVER['HTTP_REFERER']);
+      } else {
+         return redirect($_SERVER['HTTP_REFERER']);
+         return redirect('userlogin');
+      }
+   }
 }

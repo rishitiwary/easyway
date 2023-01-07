@@ -64,4 +64,35 @@ class User extends Controller
         return view('user.startexam',$data);
         
     }
+    public function teacher_review(Request $req)
+    {   
+         $userinfo= $req->session()->get('userInfo');
+        $student_id=$userinfo['id'];
+         
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            
+
+        
+            $data=array(
+                'comment'=>$req->input('comment'),
+                'rate'=>$req->input('rate'),
+                'staff_id'=>$req->input('staff_id'),
+                'role'=>$req->input('role'),
+               'user_id'=>$student_id
+            );
+           $insert=DB::table("staff_rating")->insert($data);
+           if ($insert) {
+           
+          
+            $req->session()->flash('success', 'Your review is added succesfully.');
+            return redirect($_SERVER['HTTP_REFERER']);
+         } else {
+            $req->session()->flash('error', 'Some error occured...');
+            return redirect($_SERVER['HTTP_REFERER']);
+         }
+        }
+        $data['student_id']= $student_id;
+        $data['list']=DB::table('staff')->where('status',0)->where('role',2)->get();
+        return view('user.teacher_review',$data);
+    }
 }

@@ -145,14 +145,14 @@
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label for="exampleInputEmail1">Date of Birth</label><small class="req"> *</small>
-                                                        <input id="dob" name="dob" placeholder="" type="date" class="form-control date" value="<?=$res[0]->dob?>" required />
+                                                        <input id="dob" name="dob" placeholder="" type="date" class="form-control" value="<?=$res[0]->dob?>" required />
                                                         <span class="text-danger">@error('dob'){{$message}}@enderror</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label for="exampleInputEmail1">Date Of Joining</label>
-                                                        <input id="date_of_joining" name="date_of_joining" placeholder="" type="date" class="form-control date" value="<?=$res[0]->date_of_joining?>" />
+                                                        <input id="date_of_joining" name="date_of_joining" placeholder="" type="date" class="form-control" value="<?=$res[0]->date_of_joining?>" />
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>
@@ -243,11 +243,11 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group"><label for="custom_fields[staff][1]" class="control-label">Commision</label><small class='req'>
-                                                            *</small><input type="number" step="any" id="custom_fields[staff][1]" name="commision" class="form-control" value="<?=$res[0]->commision?>" required> <span class="text-danger">@error('commision'){{$message}}@enderror</span></div>
+                                                            *</small><input type="number" step="any" id="custom_fields[staff][1]" name="commision" class="form-control" value="<?=$res[0]->commision?>" > <span class="text-danger">@error('commision'){{$message}}@enderror</span></div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group"><label for="custom_fields[staff][2]" class="control-label">Discount</label><small class='req'>
-                                                            *</small><input type="number" step="any" id="custom_fields[staff][2]" name="discount" class="form-control" value="<?=$res[0]->discount?>" required> <span class="text-danger">@error('discount'){{$message}}@enderror</span></div>
+                                                            *</small><input type="number" step="any" id="custom_fields[staff][2]" name="discount" class="form-control" value="<?=$res[0]->discount?>" > <span class="text-danger">@error('discount'){{$message}}@enderror</span></div>
                                                 </div>
                                             </div>
 

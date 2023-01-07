@@ -148,7 +148,7 @@
                                 </div>
                             
                                 <div class="hrexamtopbottom"></div>
-                                @if($res->attempt>=$total_attempt->attempt)
+                                @if($res->attempt>$total_attempt->attempt)
                                 <div class="row no-print">
                                     <div class="col-xs-12">
                                         <a href="{{url('user/startexam')}}/{{$res->id}}" target="_blank" class="btn btn-info" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Please wait"><i class="fa fa-bullhorn"></i> Start Exam</a>

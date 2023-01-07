@@ -72,7 +72,7 @@
                         <div class="" style="height:auto;border: none;">
                             <marquee class="" behavior="scroll" direction="left" onmouseover="this.stop();"
                                 onmouseout="this.start();" style="padding: 5px;">
-                                @foreach($news as $news_row)
+                                @foreach($notice as $news_row)
                                 <a href="{{$news_row->importantlinks}}"
                                     style="color:white;font-weight: bold;margin-right:10px;"><span
                                         style="font-weight: normal;">{{$news_row->title}} <span
@@ -101,361 +101,55 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
-                    <h1 style="text-align:justify"><strong>About</strong> <strong><span
-                                style="color:#FF0000">Easyway</span></strong></h1>
-
-                    <p style="text-align: justify;"><strong><span style="color:#FF0000">Easyway</span></strong>
-                        <strong><span style="color:#0000FF">Global</span></strong> has been established with the aim of
-                        improving the lives of ITI students. It has been seen that the biggest problem in front of those
-                        doing ITI is about getting a good job. Today there is no one to give guide line to many ITI
-                        students.<br />
-                        Easyway Global is committed to provide high level technical education according to trade&nbsp;to
-                        all of students. At the same time, we also prepare for a respectable job by paying attention to
-                        the skill development of the students. <a href="page/about-us.html">more info click</a></p>
+                     {!!substr($about->description,0,1274)!!}
+                     
+                      <a href="{{url($about->url)}}">more info click</a></p>
+                   
+                    
+                 
+                    
+               
+     
+                @foreach($type as $row)
                     <div class="row">
                         <div class="col-md-12">
-                            <h2 style="background:rgb(199 33 23);padding: 10px;color: white;border-radius: 5px;">Popular
-                                Video & Online Exam & Study Material <a href="video-study-exam.html" class="pull-right"
+                            <h2 style="background:rgb(199 33 23);padding: 10px;color: white;border-radius: 5px;">{{$row->type}}<a href="video-exam.html" class="pull-right"
                                     style="color: #fff;text-decoration: underline;">View All</a></h2>
                         </div>
                     </div>
+                  
+                    
                     <div class="row">
+                    @php 
+                        $course=DB::table("courses")->where("course_type",$row->id)->where("status",1)->orderBy("disposition","asc")->get();
+                        @endphp
+                        @foreach($course as $runs)
+                        
 
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="coursebox">
                                 <div class="coursebox-img">
-                                    <a href="detail/33.html"><img
-                                            src="{{asset('public/uploads/course/course_thumbnail/edit_course_thumbnail33.jpg')}}"></a>
-                                </div>
-                                <div class="coursebox-body">
-                                    <a href="detail/33.html">
-                                        <h4>Fitter - Technical Classes </h4>
-                                    </a>
-                                    <div class="" style="padding-top: 5px">
-                                        <div style="font-size:16px">Offer Price : ₹ 2600 <span> <del>₹
-                                                    3200.00</del></span> </div>
-
-                                        <div>
-
-                                            Course Duration : 6 Months
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="coursebtn">
-                                    <a href="detail/33.html"
-                                        class="btn btn-buygreen course_preview_id pull-right">Course Preview</a>
-                                    <a href="site/userlogin.html" class="btn btn-add course_detail_id"><i
-                                            class="fa fa-cart-plus"></i> Buy Now</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="coursebox">
-                                <div class="coursebox-img">
-                                    <a href="detail/40.html"><img
-                                            src="{{asset('public/uploads/course/course_thumbnail/edit_course_thumbnail402.jpg')}}"></a>
-                                </div>
-                                <div class="coursebox-body">
-                                    <a href="detail/40.html">
-                                        <h4>Electrician - Technical Classes </h4>
-                                    </a>
-                                    <div class="" style="padding-top: 5px">
-                                        <div style="font-size:16px">Offer Price : ₹ 2600 <span> <del>₹
-                                                    3200.00</del></span> </div>
-
-                                        <div>
-
-                                            Course Duration : 6 Months
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="coursebtn">
-                                    <a href="detail/40.html"
-                                        class="btn btn-buygreen course_preview_id pull-right">Course Preview</a>
-                                    <a href="site/userlogin.html" class="btn btn-add course_detail_id"><i
-                                            class="fa fa-cart-plus"></i> Buy Now</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="coursebox">
-                                <div class="coursebox-img">
-                                    <a href="detail/39.html"><img
-                                            src="{{asset('public/uploads/course/course_thumbnail/edit_course_thumbnail391.jpg')}}"></a>
-                                </div>
-                                <div class="coursebox-body">
-                                    <a href="detail/39.html">
-                                        <h4>COMPLETE MATHEMATICS </h4>
-                                    </a>
-                                    <div class="" style="padding-top: 5px">
-                                        <div style="font-size:16px">Offer Price : ₹ 1200 <span> <del>₹
-                                                    1600.00</del></span> </div>
-
-                                        <div>
-
-                                            Course Duration : 6 Months
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="coursebtn">
-                                    <a href="detail/39.html"
-                                        class="btn btn-buygreen course_preview_id pull-right">Course Preview</a>
-                                    <a href="site/userlogin.html" class="btn btn-add course_detail_id"><i
-                                            class="fa fa-cart-plus"></i> Buy Now</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="coursebox">
-                                <div class="coursebox-img">
-                                    <a href="detail/35.html"><img
-                                            src="{{asset('public/uploads/course/course_thumbnail/edit_course_thumbnail35.jpg')}}"></a>
-                                </div>
-                                <div class="coursebox-body">
-                                    <a href="detail/35.html">
-                                        <h4>UPSSSC- INSTRUCTOR COURSE </h4>
-                                    </a>
-                                    <div class="" style="padding-top: 5px">
-                                        <div style="font-size:16px">Offer Price : ₹ 1100</div>
-
-                                        <div>
-
-                                            Course Duration : 6 Months
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="coursebtn">
-                                    <a href="detail/35.html"
-                                        class="btn btn-buygreen course_preview_id pull-right">Course Preview</a>
-                                    <a href="site/userlogin.html" class="btn btn-add course_detail_id"><i
-                                            class="fa fa-cart-plus"></i> Buy Now</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="coursebox">
-                                <div class="coursebox-img">
-                                    <a href="detail/59.html"><img
-                                            src="{{asset('public/uploads/course/course_thumbnail/course_thumbnail59.jpg')}}"></a>
-                                </div>
-                                <div class="coursebox-body">
-                                    <a href="detail/59.html">
-                                        <h4>Reasoning : Master Course </h4>
-                                    </a>
-                                    <div class="" style="padding-top: 5px">
-                                        <div style="font-size:16px">Offer Price : ₹ 1100</div>
-
-                                        <div>
-
-                                            Course Duration : 6 Months
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="coursebtn">
-                                    <a href="detail/59.html"
-                                        class="btn btn-buygreen course_preview_id pull-right">Course Preview</a>
-                                    <a href="site/userlogin.html" class="btn btn-add course_detail_id"><i
-                                            class="fa fa-cart-plus"></i> Buy Now</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="coursebox">
-                                <div class="coursebox-img">
-                                    <a href="detail/56.html"><img
-                                            src="{{asset('public/uploads/course/course_thumbnail/course_thumbnail56.jpg')}}"></a>
-                                </div>
-                                <div class="coursebox-body">
-                                    <a href="detail/56.html">
-                                        <h4>COPA : Technical Classes </h4>
-                                    </a>
-                                    <div class="" style="padding-top: 5px">
-                                        <div style="font-size:16px">Offer Price : ₹ 2600</div>
-
-                                        <div>
-
-                                            Course Duration : 6 Months
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="coursebtn">
-                                    <a href="detail/56.html"
-                                        class="btn btn-buygreen course_preview_id pull-right">Course Preview</a>
-                                    <a href="site/userlogin.html" class="btn btn-add course_detail_id"><i
-                                            class="fa fa-cart-plus"></i> Buy Now</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h2
-                                style="background:rgb(199 33 23);padding: 10px;color: white;border-radius: 5px 5px 0 0 ;">
-                                Popular Video Courses <a href="video-lecture.html" class="pull-right"
-                                    style="color: #fff;text-decoration: underline;">View All</a></h2>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h2 style="background:rgb(199 33 23);padding: 10px;color: white;border-radius: 5px;">Popular
-                                Study Material <a href="study-material.html" class="pull-right"
-                                    style="color: #fff;text-decoration: underline;">View All</a></h2>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h2 style="background:rgb(199 33 23);padding: 10px;color: white;border-radius: 5px;">Popular
-                                Online Exam <a href="online-test-series.html" class="pull-right"
-                                    style="color: #fff;text-decoration: underline;">View All</a></h2>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h2 style="background:rgb(199 33 23);padding: 10px;color: white;border-radius: 5px;">Popular
-                                Video & Study Material <a href="video-study.html" class="pull-right"
-                                    style="color: #fff;text-decoration: underline;">View All</a></h2>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="coursebox">
-                                <div class="coursebox-img">
-                                    <a href="detail/58.html"><img
-                                            src="{{asset('public/uploads/course/course_thumbnail/course_thumbnail58.jpg')}}"></a>
-                                </div>
-                                <div class="coursebox-body">
-                                    <a href="detail/58.html">
-                                        <h4>EL - PREVIOUS YEAR PAPER </h4>
-                                    </a>
-                                    <div class="" style="padding-top: 5px">
-                                        <div style="font-size:16px">Offer Price : ₹ 100</div>
-
-                                        <div>
-
-                                            Course Duration : 12 Months
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="coursebtn">
-                                    <a href="detail/58.html"
-                                        class="btn btn-buygreen course_preview_id pull-right">Course Preview</a>
-                                    <a href="site/userlogin.html" class="btn btn-add course_detail_id"><i
-                                            class="fa fa-cart-plus"></i> Buy Now</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="coursebox">
-                                <div class="coursebox-img">
-                                    <a href="detail/57.html"><img
-                                            src="{{asset('public/uploads/course/course_thumbnail/edit_course_thumbnail57.jpg')}}"></a>
-                                </div>
-                                <div class="coursebox-body">
-                                    <a href="detail/57.html">
-                                        <h4>FT - PREVIOUS PAPER </h4>
-                                    </a>
-                                    <div class="" style="padding-top: 5px">
-                                        <div style="font-size:16px">Offer Price : ₹ 100</div>
-
-                                        <div>
-
-                                            Course Duration : 12 Months
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="coursebtn">
-                                    <a href="detail/57.html"
-                                        class="btn btn-buygreen course_preview_id pull-right">Course Preview</a>
-                                    <a href="site/userlogin.html" class="btn btn-add course_detail_id"><i
-                                            class="fa fa-cart-plus"></i> Buy Now</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h2 style="background:rgb(199 33 23);padding: 10px;color: white;border-radius: 5px;">Popular
-                                Video & Online Exam <a href="video-exam.html" class="pull-right"
-                                    style="color: #fff;text-decoration: underline;">View All</a></h2>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="coursebox">
-                                <div class="coursebox-img">
-                                    <a href="detail/47.html"><img
-                                            src="{{asset('public/uploads/course/course_thumbnail/course_thumbnail47.jpg')}}"></a>
-                                </div>
-                                <div class="coursebox-body">
-                                    <a href="detail/47.html">
-                                        <h4>Fitter Online Test : </h4>
-                                    </a>
-                                    <div class="" style="padding-top: 5px">
-                                        <div style="font-size:16px">Offer Price : ₹ 600 <span> <del>₹
-                                                    800.00</del></span> </div>
-
-                                        <div>
-
-                                            Course Duration : 6 Months
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="coursebtn">
-                                    <a href="detail/47.html"
-                                        class="btn btn-buygreen course_preview_id pull-right">Course Preview</a>
-                                    <a href="site/userlogin.html" class="btn btn-add course_detail_id"><i
-                                            class="fa fa-cart-plus"></i> Buy Now</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="coursebox">
-                                <div class="coursebox-img">
-                                    <a href="detail/48.html"><img
-                                            src="{{asset('public/uploads/course/course_thumbnail/course_thumbnail48.jpg')}}"></a>
+                                    <a href="{{url('course_details')}}/{{$row->id}}"><img
+                                            src="{{asset('')}}{{$runs->course_thumbnail}}"></a>
                                 </div>
                                 <div class="coursebox-body">
                                     <a href="detail/48.html">
-                                        <h4>Electrician Online Test : </h4>
+                                        <h4>{{$runs->title}} : </h4>
                                     </a>
                                     <div class="" style="padding-top: 5px">
-                                        <div style="font-size:16px">Offer Price : ₹ 600 <span> <del>₹
-                                                    800.00</del></span> </div>
+                                        <div style="font-size:16px">Offer Price : ₹ {{$runs->price-($runs->price*($runs->discount/100))}} <span> <del>₹
+                                        {{$runs->price}}</del></span> </div>
 
-                                        <div>
+                                        
+                                    <div>
 
-                                            Course Duration : 6 Months
-                                        </div>
+                                    Expiry : {{date('d/m/Y',strtotime($runs->expiry))}}
+                                    <span style="float:right;">Discount : {{$runs->discount}} %</span>
+                                    </div>
+                                    <div>
+                                                
+                                                Course Duration : {{$runs->validity}} Months
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="coursebtn">
@@ -467,58 +161,13 @@
                                 </div>
                             </div>
                         </div>
-
+                        @endforeach
+                     
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h2 style="background:rgb(199 33 23);padding: 10px;color: white;border-radius: 5px;">Popular
-                                Study Material & Online Exam <a href="study-exam.html" class="pull-right"
-                                    style="color: #fff;text-decoration: underline;">View All</a></h2>
-                        </div>
-                    </div>
-                    <div class="row">
+                     
 
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h2 style="background:rgb(199 33 23);padding: 10px;color: white;border-radius: 5px;">Popular
-                                Business Video <a href="business-video.html" class="pull-right"
-                                    style="color: #fff;text-decoration: underline;">View All</a></h2>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="coursebox">
-                                <div class="coursebox-img">
-                                    <a href="detail/53.html"><img
-                                            src="{{asset('public/uploads/course/course_thumbnail/course_thumbnail53.jpg')}}"></a>
-                                </div>
-                                <div class="coursebox-body">
-                                    <a href="detail/53.html">
-                                        <h4>business </h4>
-                                    </a>
-                                    <div class="" style="padding-top: 5px">
-                                        <div style="font-size:16px">Offer Price : ₹ 233</div>
-
-                                        <div>
-
-                                            Course Duration : 4 Months
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="coursebtn">
-                                    <a href="detail/53.html"
-                                        class="btn btn-buygreen course_preview_id pull-right">Course Preview</a>
-                                    <a href="site/userlogin.html" class="btn btn-add course_detail_id"><i
-                                            class="fa fa-cart-plus"></i> Buy Now</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    @endforeach
+                
                 </div>
                 <div class="col-md-3 col-sm-3">
                     <div class="newsmain">

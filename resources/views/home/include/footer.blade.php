@@ -4,12 +4,12 @@
                 <div class="col-md-4 col-sm-6">
                     <h3 class="fo-title">Links</h3>
                     <ul class="f1-list">
-                        <li> <a href="private-jobs.html"> Private Jobs </a></li>
-                        <li> <a href="govt-jobs.html"> Govt. Jobs </a></li>
-                        <li> <a href="latest-news.html"> News</a></li>
-                        <li> <a href="blogs.html"> Blogs </a></li>
-                        <li> <a href="page/faqs.html"> FAQ's </a></li>
-                        <li> <a href="syllabus.html"> Syllabus </a></li>
+                        <li> <a href="{{url('private-job')}}"> Private Jobs </a></li>
+                        <li> <a href="{{url('govt-jobs')}}"> Govt. Jobs </a></li>
+                        <li> <a href="{{url('latest-news')}}"> News</a></li>
+                        <li> <a href="{{url('blogs')}}"> Blogs </a></li>
+                        <li> <a href="{{url('faq')}}"> FAQ's </a></li>
+                        <li> <a href="{{url('syllabus')}}"> Syllabus </a></li>
                         <li class="">
 
                             <a href="{{url('admin/login')}}">Easyway Login</a>
@@ -17,30 +17,30 @@
 
 
                         </li>
-                        <li class="">
+                        <!-- <li class="">
 
                             <a href="page/support-video.html">Support Video</a>
 
 
 
-                        </li>
+                        </li> -->
                         <li class="">
 
-                            <a href="page/privacy-policy.html">Privacy Policy</a>
-
-
-
-                        </li>
-                        <li class="">
-
-                            <a href="page/refund-cancellation-policy.html">Refund & Cancellation Policy</a>
+                            <a href="{{url('privacy-policy')}}">Privacy Policy</a>
 
 
 
                         </li>
                         <li class="">
 
-                            <a href="page/terms-and-conditions.html">Terms and Conditions</a>
+                            <a href="{{url('refund-and-cancellation')}}">Refund & Cancellation Policy</a>
+
+
+
+                        </li>
+                        <li class="">
+
+                            <a href="{{url('term-and-conditions')}}">Terms and Conditions</a>
 
 
 

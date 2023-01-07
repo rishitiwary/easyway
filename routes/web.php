@@ -41,6 +41,7 @@ Route::group(['prefix'=>'user','middleware'=>'checkAdmin'],function(){
     Route::get('/onlinetest',[User::class,'onlinetest']);
     Route::get('/onlineexam/view/{id}',[User::class,'onlinetest_view']);
     Route::get('/startexam/{id}',[User::class,'startexam']);
+    Route::match(['get','post'],'/teacher-review',[User::class,'teacher_review']);
 });
 //admin prefix
 Route::group(['prefix'=>'admin','middleware'=>'checkAdmin'],function(){
@@ -100,7 +101,9 @@ Route::get('/users',[Admin::class,'users']);
 Route::get('/users/staff',[Admin::class,'usersStaff']);
 Route::get('/users/changeStatus',[Admin::class,'usersChangeStatus']);
 Route::match(['get','post'],'/demovideo/{id}',[Course::class,'demovideo']);
-
+Route::get('pages',[Admin::class,'pages']);
+Route::match(['get','post'],'page/create',[Admin::class,'pagesCreate']);
+Route::match(['get','post'],'video-gallery',[Admin::class,'video_gallery']);
 });
 Route::match(['get','post'],'/admin/login',[Admin::class,'login']);  
 //master prefix
@@ -221,3 +224,16 @@ Route::group(['prefix'=>'interview'],function(){
     Route::post('/balls_size',[InterviewController::class,'balls_size']);
     Route::post('/ball_in_bucket',[InterviewController::class,'ball_in_bucket']);
 });
+Route::post('/contact-us-submit',[Home::class,'contact_us_submit']);
+Route::get('/image-gallery',[Home::class,'gallery']);
+Route::get('/video-gallery',[Home::class,'gallery']);
+Route::get('/govt-jobs',[Home::class,'pages']);
+Route::get('/apprenticeship',[Home::class,'pages']);
+Route::get('/syllabus',[Home::class,'pages']);
+Route::get('/latest-news',[Home::class,'pages']);
+Route::get('/important-links',[Home::class,'pages']);
+Route::get('/private-job',[Home::class,'pages']);
+Route::get('/faq',[Home::class,'pages']);
+Route::get('/blogs',[Home::class,'pages']);
+Route::get('/{title}',[Home::class,'dynamic_pages']);
+Route::get('/read/{title}',[Home::class,'blog_details']);

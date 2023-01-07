@@ -50,6 +50,7 @@ class Course extends Controller
 
             $data = array(
                 'title' => trim($req->input('title')),
+                'course_type' => trim($req->input('course_type')),
                 'tradegroup_id' => trim($req->input('tradegroup_id')),
                 'trade_id' => trim($req->input('trade_id')),
                 'validity' => trim($req->input('validity')),
@@ -89,6 +90,7 @@ class Course extends Controller
             $data['res']=DB::table("courses")->where("id",$req->input('uid'))->get()->first();
         }
         $data['tradegroup'] = DB::table('tradegroup')->where('status', '1')->get();
+        $data['course_type'] = DB::table('course_type')->where('status', '1')->get();
         return view('course.addcourse', $data);
     }
     public function addcontent(Request $req, $id)

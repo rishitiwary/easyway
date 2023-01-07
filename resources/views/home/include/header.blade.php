@@ -26,11 +26,7 @@
         .newscontent {
             padding: 5px;
         }
-
-        iframe {
-            width: 100%;
-            height: 500px;
-        }
+ 
 
         @media(max-width: 767px) {
             .mt80 {

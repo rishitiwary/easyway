@@ -57,7 +57,9 @@
                         <li class=" ">
                             <a href="{{url('important-links')}}">Important Links</a>
                         </li>
-
+                        <li class=" ">
+                            <a href="{{url('blogs')}}">Blog</a>
+                        </li>
                         <li class=" ">
                             <a href="{{url('contact-us')}}">CONTACT US</a>
                         </li>

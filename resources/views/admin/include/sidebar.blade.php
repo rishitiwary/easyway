@@ -103,7 +103,9 @@
                 <ul class="treeview-menu">
                     <li class=""><a href="{{url('admin/events')}}"><i class="fa fa-angle-double-right"></i> Event</a></li>
                     <li class=""><a href="{{url('admin/gallery')}}"><i class="fa fa-angle-double-right"></i> Gallery</a></li>
+                    <!-- <li class=""><a href="{{url('admin/video-gallery')}}"><i class="fa fa-angle-double-right"></i>Video Gallery</a></li> -->
                     <li class=""><a href="{{url('admin/notice')}}"><i class="fa fa-angle-double-right"></i> News</a></li>
+                    <li class=""><a href="{{url('admin/pages')}}"><i class="fa fa-angle-double-right"></i> Pages</a></li>
                     <li class=""><a href="{{url('admin/media')}}"><i class="fa fa-angle-double-right"></i> Media Manager</a></li>
                     <li class=""><a href="{{url('admin/banner')}}"><i class="fa fa-angle-double-right"></i> Banner Images</a></li>
                 </ul>
@@ -270,7 +272,12 @@
 
                 </ul>
             </li>
-
+            <li class="">
+                <a href="{{url('user/teacher-review')}}">
+                    <i class="fa fa-user-secret ftlayer"></i> <span>Teacher Review</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+               
+            </li>
 
             <li class="treeview ">
                 <a href="#">

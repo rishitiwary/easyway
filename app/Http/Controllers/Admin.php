@@ -11,12 +11,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use function PHPSTORM_META\type;
 use App\Models\UserModel;
+
 class Admin extends Controller
 {
    public function __construct()
-{
-    $this->users = new UserModel();
-}
+   {
+      $this->users = new UserModel();
+   }
    public function index(Request $res)
    {
       return view('admin.dashboard');
@@ -181,6 +182,7 @@ class Admin extends Controller
 
          $data = array(
             'title' => trim($req->input('title')),
+            'url' => trim($req->input('url')),
             'start_date' => trim($req->input('start_date')),
             'short_description' => trim($req->input('short_description')),
             'description' => trim($req->input('description')),
@@ -660,32 +662,115 @@ class Admin extends Controller
    }
    public function users(Request $req)
    {
-     $students=UserModel::all();
-    $data=compact('students');
+      $students = UserModel::all();
+      $data = compact('students');
       return view('admin.users')->with($data);
    }
    public function usersStaff(Request $req)
    {
-     $staff=DB::table('staff')->get();
-       $data=compact('staff');
+      $staff = DB::table('staff')->get();
+      $data = compact('staff');
       return view('admin.users')->with($data);
    }
    public function usersChangeStatus(Request $req)
    {
-   
-      $data=array(
-         'status'=>$req->input('status')
+
+      $data = array(
+         'status' => $req->input('status')
       );
-      if($req->input('role')=='staff'){
-         $update=DB::table('staff')->where("id",$req->input('id'))->update($data);
-      }else{
-         $update=DB::table('students')->where("id",$req->input('id'))->update($data);
+      if ($req->input('role') == 'staff') {
+         $update = DB::table('staff')->where("id", $req->input('id'))->update($data);
+      } else {
+         $update = DB::table('students')->where("id", $req->input('id'))->update($data);
       }
 
- if($update){
-    echo 'Status changed succesfully';
- }else{
-    echo 'Some error occured';
- }
+      if ($update) {
+         echo 'Status changed succesfully';
+      } else {
+         echo 'Some error occured';
+      }
+   }
+   public function pages(Request $req){
+      if (!empty($req->input('id'))) {
+         $deleted = DB::table('front_cms_pages')->where('id', '=', $req->input('id'))->delete();
+         $req->session()->flash('success', 'Page deleted succesfully...');
+      }
+      $data['list'] = DB::table('front_cms_pages')->get();
+      return view('admin.pages',$data);
+   }
+   public function pagesCreate(Request $req)
+   {
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+       
+         $data = array(
+            'title' => trim($req->input('title')),
+            'page_type' => trim($req->input('content_category')),
+            'description' => trim($req->input('description')),
+            'url' => trim($req->input('url')),
+            'meta_title' => trim($req->input('meta_title')),
+            'meta_keyword' => trim($req->input('meta_keywords')),
+            'meta_description' => trim($req->input('meta_description')),
+            'feature_image' => trim($req->input('image')),
+         );
+         if (!empty($req->input('uid'))) {
+            $update =  DB::table('front_cms_pages')->where('id', $req->input('uid'))->update($data);
+
+            $req->session()->flash('success', 'Updated successfully...');
+            return redirect('admin/pages');
+         } else {
+            $req->validate([
+               'title' => 'required|unique:front_cms_pages,title',
+            ]);
+            $insert =  DB::table('front_cms_pages')->insert($data);
+            if ($insert) {
+               $req->session()->flash('success', 'Inserted successfully...');
+               return redirect($_SERVER['HTTP_REFERER']);
+            } else {
+               $req->session()->flash('error', 'Some error occured...');
+               return redirect($_SERVER['HTTP_REFERER']);
+            }
+         }
+      }
+      if (!empty($req->input('id'))) {
+         $type = $req->input('type');
+         $data['row'] = DB::select('select * from front_cms_pages where id=' . $req->input('id'));
+         return view('admin.pagecreate', $data);
+      } else {
+         return view('admin.pagecreate');
+      }
+   }
+   public function video_gallery(Request $req)
+   {
+      if($_SERVER['REQUEST_METHOD']=='POST')
+      {
+        
+         $data=array(
+            'title'=>trim($req->input('title')),
+            'video_id'=>trim($req->input('video_id')),
+         );
+         if($req->input('updateid')!=''){
+            $update =  DB::table('video_gallery_tb')->where("id",$req->input('updateid'))->update($data);
+            $req->session()->flash('success', 'Updated successfully...');
+            return redirect($_SERVER['HTTP_REFERER']);
+         }
+         $insert =  DB::table('video_gallery_tb')->insert($data);
+         if ($insert) {
+            $req->session()->flash('success', 'Inserted successfully...');
+            return redirect($_SERVER['HTTP_REFERER']);
+         } else {
+            $req->session()->flash('error', 'Some error occured...');
+            return redirect($_SERVER['HTTP_REFERER']);
+         }
+      }
+      if($req->input('uid')!=''){
+         $data['res']=DB::table('video_gallery_tb')->where("id",$req->input('uid'))->first();
+      }
+      if($req->input('delid')!=''){
+      DB::table('video_gallery_tb')->where("id",$req->input('delid'))->delete();
+      $req->session()->flash('success', 'Deleted successfully...');
+      return redirect($_SERVER['HTTP_REFERER']);
+      }
+      $data['list']=DB::table('video_gallery_tb')->get();
+      return view('admin.video_gallery',$data);
    }
 }

@@ -29,14 +29,14 @@
                        $id=$_GET['id'];
                    }?>
                      
-                     <form id="form1" action="{{url('admin/notice/create')}}" enctype="multipart/form-data"
+                     <form id="form1" action="{{url('admin/page/create')}}" enctype="multipart/form-data"
                         id="employeeform" name="employeeform" method="post" accept-charset="utf-8">
                         <input type="hidden" name="uid" value="<?=$id?>">
                         <div class="col-md-9">
                             <!-- Horizontal Form -->
                             <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Add notice</h3>
+                                    <h3 class="box-title">Add Event</h3>
                                 </div><!-- /.box-header -->
                                 <!-- form start -->
                                 @csrf
@@ -45,7 +45,7 @@
                                         <label for="exampleInputEmail1">Title</label><small class="req"> *</small>
                                         <input id="title" name="title" placeholder="" required type="text"
                                             class="form-control" value="<?=$row[0]->title;?>" />
-                                        <span class="text-danger"></span>
+                                            <span class="text-danger">@error('title'){{$message}}@enderror</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">URL</label><small class="req"> *</small>
@@ -55,22 +55,19 @@
                                     </div>
                                     <div class="row">
                                         
-                                        <div class="col-md-12 col-sm-12">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Notice Date</label>
-                                                <input id="start_date" name="start_date"  value="<?=$row[0]->start_date;?>" placeholder="" type="date"
-                                                    class="form-control date" required />
-                                                <span class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 col-sm-12">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Short Description</label>
-                                                <textarea autofocus="" id="short_description" style="height:80px;" name="short_description" required placeholder=""
-                                                    type="text" class="form-control" ><?=$row[0]->short_description;?></textarea>
-                                                <span class="text-danger"></span>
-                                            </div>
-                                        </div>
+                                    <div class="form-group">
+                                <label class="pr20">Page Type</label>
+                                                                    <label class="radio-inline">
+                                        <input type="radio" value="standard" name="content_category" checked="checked"> Standard </label>
+                                                                        <label class="radio-inline">
+                                        <input type="radio" value="events" name="content_category"> Events </label>
+                                                                        <label class="radio-inline">
+                                        <input type="radio" value="notice" name="content_category"> News </label>
+                                                                        <label class="radio-inline">
+                                        <input type="radio" value="gallery" name="content_category"> Gallery </label>
+                                    
+                                <span class="text-danger"></span>
+                            </div>
                                     </div>
                                     <div class="dividerhr mt0"></div>
                                     <div class="formgroup10 mb10">
@@ -113,7 +110,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Meta Description</label>
-                                        <textarea id="editor1" name="meta_description" placeholder="" type="text"
+                                        <textarea id="" name="meta_description" placeholder="" type="text"
                                             class="form-control"><?=$row[0]->meta_description;?></textarea>
                                         <span class="text-danger"></span>
                                     </div>
@@ -127,41 +124,6 @@
                                 <!-- page settings -->
                                 <!-- page image -->
                                 <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Type Of Post</h3>
-                        </div>
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label for="news"><input id="news" name="news" type="checkbox" class="chk" value="1" <?php if($row[0]->news=='1')echo 'checked';?>> News</label>
-                            </div> 
-                            <div class="form-group">
-                                <label for="notice"><input id="notice" name="notice" type="checkbox" class="chk" value="1" autocomplete="off" <?php if($row[0]->notice=='1')echo 'checked';?>> Notice</label>
-                            </div>  
-                            <div class="form-group">
-                                <label for="blog"><input id="blog" name="blog" type="checkbox" class="chk" value="1" autocomplete="off" <?php if($row[0]->blog=='1')echo 'checked';?>> Blog</label>
-                            </div>  
-                            <div class="form-group">
-                                <label for="sylabuss"><input id="sylabuss" name="sylabuss" type="checkbox" class="chk" value="1" <?php if($row[0]->syllabus=='1')echo 'checked';?>> Syllabus</label>
-                            </div>  
-                            <div class="form-group">
-                                <label for="privatejob"><input id="privatejob" name="privatejob" type="checkbox" class="chk" value="1" <?php if($row[0]->privatejob=='1')echo 'checked';?>> Private Job</label>
-                            </div>     
-                            <div class="form-group">
-                                <label for="govtjob"><input id="govtjob" name="govtjob" type="checkbox" class="chk" value="1" <?php if($row[0]->govtjob=='1')echo 'checked';?>> Govt. Job</label>
-                            </div> 
-                             <div class="form-group">
-                                <label for="importantlinks"><input id="importantlinks" name="importantlinks" type="checkbox" class="chk" value="1" <?php if($row[0]->importantlinks=='1')echo 'checked';?>> Important Links</label>
-                            </div> 
-                            <div class="form-group">
-                                <label for="testimonials"><input id="testimonials" name="testimonials" type="checkbox" class="chk" value="1" <?php if($row[0]->testimonials=='1')echo 'checked';?>> Testimonials</label>
-                            </div>   
-                            <div class="form-group">
-                                <label for="apprenticeship"><input id="apprenticeship" name="apprenticeship" type="checkbox" class="chk" value="1" <?php if($row[0]->apprenticeship=='1')echo 'checked';?>> Apprenticeship</label>
-                            </div>                   
-
-                        </div><!-- /.box-body -->
-                    </div>
-                                <div class="box box-primary">
                                     <div class="box-header with-border">
                                         <h3 class="box-title">Featured Image</h3>
                                         <div class="box-tools pull-right">
@@ -172,11 +134,10 @@
                                     </div><!-- /.box-header -->
 
                                     <div class="box-body">
-                                        
                                         <div class="form-group">
                                             <div class="input-group input-group-sm">
                                                 <input class="form-control iframe-btn" placeholder="Select Image"
-                                                    type="text" name="image" id="image" value="<?=$row[0]->image;?>" required>
+                                                    type="text" name="image" id="image" value="<?=$row[0]->feature_image;?>" required>
                                                 <span class="input-group-btn">
                                                     <a href="#" class="btn cfees feture_image_btn" id="feture_image"
                                                         data-toggle="tooltip" data-title="Select Image" type="button"><i
@@ -194,7 +155,7 @@
                                             }?>
                                               
                                                 >
-                                                <img src="<?=$row[0]->image;?>" class="img-responsive feature_image_url">
+                                                <img src="<?=$row[0]->feature_image;?>" class="img-responsive feature_image_url">
                                             </div>
                                         </div>
                                     </div><!-- /.box-body -->

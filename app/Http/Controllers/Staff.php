@@ -341,6 +341,7 @@ class Staff extends Controller
             'joining_letter' => $joining_letter_url,
             'resignation_letter' => $resignation_letter_url,
             'password' => Hash::make($password),
+            'text_password'=>$password
          );
 
          $req->validate([
@@ -349,8 +350,7 @@ class Staff extends Controller
             'name' => 'required',
             'dob' => 'required',
             'gender' => 'required',
-            'commision' => 'required',
-            'discount' => 'required',
+           
 
          ]);
 
@@ -359,10 +359,10 @@ class Staff extends Controller
 
          if ($insert) {
             $req->session()->flash('success', 'Inserted successfully...');
-            return redirect($_SERVER['HTTP_REFERER']);
+           // return redirect($_SERVER['HTTP_REFERER']);
          } else {
             $req->session()->flash('error', 'Some error occured...');
-            return redirect($_SERVER['HTTP_REFERER']);
+           // return redirect($_SERVER['HTTP_REFERER']);
          }
       }
       $data['role'] = DB::select('select * from roles order by id asc');
