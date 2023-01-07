@@ -22,8 +22,7 @@ class RazorpayPaymentController extends Controller
         
     
         $input = $req->all();
-    print_r($input);
-
+ 
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
   
         $payment = $api->payment->fetch($input['razorpay_payment_id']);
@@ -132,8 +131,8 @@ class RazorpayPaymentController extends Controller
     }
 
     public function coursePayment(Request $req,$id){
-        $userinfo= $req->session()->get('studentInfo');
-        $email=$userinfo['email'];
+        $userinfo= $req->session()->get('userInfo');
+          $email=$userinfo['email'];
         $data['userinfo']=DB::table("students")->where("email",$email)->first();
         $data['res']=DB::table("courses")->where("id",$id)->first();
         $data['setting']=DB::table('general_setting')->first('admin_logo');
