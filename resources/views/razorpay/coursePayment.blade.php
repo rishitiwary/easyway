@@ -96,11 +96,11 @@
                                                     <span class="title">Title</span></td>
                                                 <td class="text-right">{{$res->title}}</td>
                                             </tr>
-                                            <tr class="border_bottom text-left">
+                                            <!-- <tr class="border_bottom text-left">
                                                 <td>
                                                     <span class="title">Description</span></td>
                                                 <td class="text-right">{{$res->description}}</td>
-                                            </tr>
+                                            </tr> -->
                                             <tr class=" text-left">
                                                 <td>
                                                     <span class="title">Amount</span></td>

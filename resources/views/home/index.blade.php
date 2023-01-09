@@ -155,7 +155,7 @@
                                 <div class="coursebtn">
                                     <a href="detail/48.html"
                                         class="btn btn-buygreen course_preview_id pull-right">Course Preview</a>
-                                    <a href="site/userlogin.html" class="btn btn-add course_detail_id"><i
+                                    <a href="{{url('course_payment/payment')}}/{{$runs->id}}" class="btn btn-add course_detail_id"><i
                                             class="fa fa-cart-plus"></i> Buy Now</a>
 
                                 </div>
