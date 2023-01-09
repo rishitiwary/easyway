@@ -265,9 +265,11 @@
                     <i class="fa fa-file-video-o ftlayer"></i> <span>Online Course</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
+                <li class=""><a href="{{url('admin/course-category')}}"><i class="fa fa-angle-double-right"></i>
+                            Course Category</a></li>
                     <li class=""><a href="{{url('admin/course')}}"><i class="fa fa-angle-double-right"></i>Online
                             Course</a></li>
-                     <li class=""><a href="{{url('user/studentcourse')}}"><i class="fa fa-angle-double-right"></i>Courses</a></li>
+                    <li class=""><a href="{{url('user/studentcourse')}}"><i class="fa fa-angle-double-right"></i>Courses</a></li>
                     <!--<li class=""><a href="{{url('coursereport/report')}}"><i class="fa fa-angle-double-right"></i>Online Course Report</a></li> -->
 
                 </ul>
@@ -276,7 +278,7 @@
                 <a href="{{url('user/teacher-review')}}">
                     <i class="fa fa-user-secret ftlayer"></i> <span>Teacher Review</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
-               
+
             </li>
 
             <li class="treeview ">
@@ -310,7 +312,7 @@
 
                     <li class=""><a href="{{url('admin/users')}}"><i class="fa fa-angle-double-right"></i> Users</a></li>
 
-
+                    <li class=""><a href="{{url('admin/menu')}}"><i class="fa fa-angle-double-right"></i> Add Menu</a></li>
 
 
                 </ul>

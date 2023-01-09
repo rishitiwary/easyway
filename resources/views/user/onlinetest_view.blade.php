@@ -118,12 +118,6 @@
 
                                                 ?> </p>
 
-
-
-
-
-
-
                                             <div class="@if($given_ans=='opt_a')  text text-danger @endif @if($correct=='opt_a')  text text-success @endif @if($correct=='opt_a' && $given_ans=='opt_a')  text text-success  @endif ">
                                                 <i class="@if($correct=='opt_a') fa fa-check-circle-o @else fa fa-dot-circle-o @endif"></i> {{preg_replace("/&nbsp;/",'', $question->opt_a)}} </div>
                                             <div class="@if($given_ans=='opt_b')  text text-danger @endif @if($correct=='opt_b')  text text-success @endif @if($correct=='opt_b' && $given_ans=='opt_b') text text-success @endif ">

@@ -18,25 +18,25 @@
                 <div class="col-sm-7">
                     <select class="form-control file_type">
                         <option value="">Select</option>
-                                                    <option value="Image">Image</option>
+                        <option value="Image">Image</option>
 
-                                                        <option value="Video">Video</option>
+                        <option value="Video">Video</option>
 
-                                                        <option value="Text">Text</option>
+                        <option value="Text">Text</option>
 
-                                                        <option value="Zip">Zip</option>
+                        <option value="Zip">Zip</option>
 
-                                                        <option value="Rar">Rar</option>
+                        <option value="Rar">Rar</option>
 
-                                                        <option value="Pdf">Pdf</option>
+                        <option value="Pdf">Pdf</option>
 
-                                                        <option value="Word">Word</option>
+                        <option value="Word">Word</option>
 
-                                                        <option value="Excel">Excel</option>
+                        <option value="Excel">Excel</option>
 
-                                                        <option value="Other">Other</option>
+                        <option value="Other">Other</option>
 
-                                                </select>
+                    </select>
                 </div>
             </div>
         </div>
@@ -45,43 +45,62 @@
 
 
 <script>
-            $(document).ready(function(){
-                function load(page) {
-                
-                var keyword = $('.search_text').val();
-                var file_type = $('.file_type').val();
-                var is_gallery = 0;
-                $.ajax({
-                    url: '{{url("ajax/getmedia")}}',
-                    method: "GET",
-                    data: {
-                        'keyword': keyword,
-                        'file_type': file_type,
-                        'is_gallery': is_gallery
-                    },
-                    //dataType: "json",
-                    // beforeSend: function() {
-                    //     $('.modal-media-body').empty();
-                    // },
+    $(document).ready(function() {
+        $(document).on('click', '.pagination a', function(event) {
 
-                    success: function(data) {
-                    
-                        $('.modal-media-body').empty();
-                        $(".modal-media-body").append(data);
-                      
-                    },
-                    complete: function() {
+            event.preventDefault();
+            var page = $(this).attr('href').split('page=')[1];
 
+            fetch_data(page);
+        });
 
-                    }
-                });
-            }
-                $(".search_text").keyup(function() {
-  
-                    load(1);
-                });
-                $(".file_type").change(function() {
-                    load(1);
-                });
+        function fetch_data(page) {
+            $.ajax({
+                url: "<?= url("ajax/getmedia") ?>?page=" + page,
+                method: 'GET',
+                success: function(data) {
+                    $('.modal-media-body').empty(data);
+                    $('.modal-media-body').append(data);
+                }
             });
-        </script>
+        }
+
+        function load(page) {
+
+            var keyword = $('.search_text').val();
+            var file_type = $('.file_type').val();
+            var is_gallery = 0;
+            $.ajax({
+                url: '{{url("ajax/getmedia")}}',
+                method: "GET",
+                data: {
+                    'keyword': keyword,
+                    'file_type': file_type,
+                    'is_gallery': is_gallery
+                },
+                //dataType: "json",
+                // beforeSend: function() {
+                //     $('.modal-media-body').empty();
+                // },
+
+                success: function(data) {
+
+                    $('.modal-media-body').empty();
+                    $(".modal-media-body").append(data);
+
+                },
+                complete: function() {
+
+
+                }
+            });
+        }
+        $(".search_text").keyup(function() {
+
+            load(1);
+        });
+        $(".file_type").change(function() {
+            load(1);
+        });
+    });
+</script>

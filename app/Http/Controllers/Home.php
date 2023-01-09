@@ -16,18 +16,18 @@ class Home extends Controller
    {
       $data['banner'] = DB::table('banner_tb')->get();
       $data['about'] = DB::table('front_cms_pages')->where('url', 'about-us')->first();
-      $data['news'] = DB::table('notice_tb')->where('news', '1')->get();
-      $data['govtjob'] = DB::table('notice_tb')->where('govtjob', '1')->get();
-      $data['notice'] = DB::table('notice_tb')->where('notice', '1')->get();
-      $data['apprenticeship'] = DB::table('notice_tb')->where('apprenticeship', '1')->get();
-      $data['syllabus'] = DB::table('notice_tb')->where('sylabuss', '1')->get();
-      $data['importantlink'] = DB::table('notice_tb')->where('importantlinks', '1')->get();
-      $data['private_job'] = DB::table('notice_tb')->where('privatejob', '1')->get();
-      $data['blogs'] = DB::table('notice_tb')->where('blog', '1')->get();
-      $data['livetest'] = DB::table('courses')->where('course_type', '5')->get();
-      $data['quize'] =  DB::table('courses')->where('course_type', '7')->get();
-      $data['liveclass'] =  DB::table('courses')->where('course_type', '6')->get();
-      $data['type'] =  DB::table('course_type')->where('status', '1')->get();
+      $data['news'] = DB::table('notice_tb')->where('news', '1')->orderBy("position","asc")->get();
+      $data['govtjob'] = DB::table('notice_tb')->where('govtjob', '1')->orderBy("position","asc")->get();
+      $data['notice'] = DB::table('notice_tb')->where('notice', '1')->orderBy("position","asc")->get();
+      $data['apprenticeship'] = DB::table('notice_tb')->where('apprenticeship', '1')->orderBy("position","asc")->get();
+      $data['syllabus'] = DB::table('notice_tb')->where('sylabuss', '1')->orderBy("position","asc")->get();
+      $data['importantlink'] = DB::table('notice_tb')->where('importantlinks', '1')->orderBy("position","asc")->get();
+      $data['private_job'] = DB::table('notice_tb')->where('privatejob', '1')->orderBy("position","asc")->get();
+      $data['blogs'] = DB::table('notice_tb')->where('blog', '1')->orderBy("position","asc")->get();
+      $data['livetest'] = DB::table('courses')->where('course_type', '5')->orderBy("position","asc")->get();
+      $data['quize'] =  DB::table('courses')->where('course_type', '7')->orderBy("position","asc")->get();
+      $data['liveclass'] =  DB::table('courses')->where('course_type', '6')->orderBy("position","asc")->get();
+      $data['type'] =  DB::table('course_type')->where('status', '1')->orderBy("position","asc")->orderBy("position","asc")->get();
       return view('home/index', $data);
    }
    public function userlogin(Request $req)
@@ -183,6 +183,13 @@ class Home extends Controller
       $data['page'] = DB::table("front_cms_pages")->where('url', $url)->first();
       return view('home.dynamic_pages', $data);
    }
+   public function all_courses(Request $req, $url)
+   {
+      $course_type = DB::table("course_type")->where("url", $url)->first();
+
+      $data['list'] = DB::table("courses")->where('course_type', $course_type->id)->orderBy("position","asc")->get();
+      return view('home.all_courses', $data);
+   }
    public function blog_details(Request $req, $url)
    {
 
@@ -245,5 +252,12 @@ class Home extends Controller
          return redirect($_SERVER['HTTP_REFERER']);
          return redirect('userlogin');
       }
+   }
+   public function course_details(Request $req, $id)
+   {
+      $res = $data['res'] = DB::table("courses")->where('id', $id)->first();
+      $data['demovideos'] = DB::table("demo_videos")->where('course_id', $id)->get();
+      $data['related_course'] = DB::table("courses")->where("tradegroup_id", $res->tradegroup_id)->where("status", "1")->orderBy("position","asc")->get();
+      return view('home.course_details', $data);
    }
 }

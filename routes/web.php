@@ -45,6 +45,7 @@ Route::group(['prefix'=>'user','middleware'=>'checkAdmin'],function(){
 });
 //admin prefix
 Route::group(['prefix'=>'admin','middleware'=>'checkAdmin'],function(){
+ Route::match(['get','post'],'course-category',[Course::class,'course_category']);
 Route::get('/',[Admin::class,'index']);
 Route::get('/dashboard',[Admin::class,'index']);
 Route::get('/events',[Admin::class,'events']);
@@ -85,7 +86,9 @@ Route::match(['get','post'],'/staff/approve_leaverequest',[Staff::class,'approve
 Route::get('/logout',[Admin::class,'logout']);
 Route::match(['get','post'],'/general_settings',[Admin::class,'general_settings']);
 Route::match(['get','post'],'/disable_reason',[Admin::class,'disable_reason']);
-
+Route::get('position',[Ajax::class,'position']);
+Route::match(['get','post'],'menu',[Admin::class,'menu']);
+//end admin
 Route::get('course',[Course::class,'index']);
 Route::match(['get','post'],'addcourse',[Course::class,'addcourse']);
 Route::get('addcontent/{id}',[Course::class,'addcontent']);
@@ -104,6 +107,7 @@ Route::match(['get','post'],'/demovideo/{id}',[Course::class,'demovideo']);
 Route::get('pages',[Admin::class,'pages']);
 Route::match(['get','post'],'page/create',[Admin::class,'pagesCreate']);
 Route::match(['get','post'],'video-gallery',[Admin::class,'video_gallery']);
+
 });
 Route::match(['get','post'],'/admin/login',[Admin::class,'login']);  
 //master prefix
@@ -212,7 +216,7 @@ Route::match(['get','post'],'/editonlineadmission',[Home::class,'editonlineadmis
 Route::get('/onlineadmission/checkout',[Home::class,'onlineadmission_checkout'])->middleware('loginCheck');
 Route::get('/course/details/{id}',[Course::class,'details']);
 Route::get('/course/startlesson/{id}',[Course::class,'startlesson']);
-Route::match(['get','post'],'course_payment/payment/{id}',[RazorpayPaymentController::class,'coursePayment']);
+Route::match(['get','post'],'course_payment/payment/{id}',[RazorpayPaymentController::class,'coursePayment'])->middleware('checkAdmin');
 Route::post('payment/checkout', [RazorpayPaymentController::class, 'index']);
 Route::post('payment/response', [RazorpayPaymentController::class, 'store'])->name('razorpay.payment.store');
 Route::get('payment/response', [RazorpayPaymentController::class, 'response']);
@@ -235,5 +239,7 @@ Route::get('/important-links',[Home::class,'pages']);
 Route::get('/private-job',[Home::class,'pages']);
 Route::get('/faq',[Home::class,'pages']);
 Route::get('/blogs',[Home::class,'pages']);
+Route::get('/course_details/{id}',[Home::class,'course_details']);
+Route::get('/course/{url}',[Home::class,'all_courses']);
 Route::get('/{title}',[Home::class,'dynamic_pages']);
 Route::get('/read/{title}',[Home::class,'blog_details']);

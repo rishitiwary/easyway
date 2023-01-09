@@ -352,4 +352,59 @@ class Course extends Controller
         $data['list'] = DB::table("courses")->where("id", $id)->get();
         return view('course.startlesson',$data);
     }
+    public function course_category(Request $req)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+       
+            $data = array(
+               'type' => trim($req->input('title')),
+               'description' => trim($req->input('description')),
+               'url' => trim($req->input('url')),
+               'meta_title' => trim($req->input('meta_title')),
+               'meta_keyword' => trim($req->input('meta_keywords')),
+               'meta_description' => trim($req->input('meta_description')),
+               'feature_image' => trim($req->input('image')),
+            );
+            if (!empty($req->input('uid'))) {
+               $update =  DB::table('course_type')->where('id', $req->input('uid'))->update($data);
+   
+               $req->session()->flash('success', 'Updated successfully...');
+               return redirect('admin/course-category');
+            } else {
+               $req->validate([
+                  'title' => 'required|unique:course_type,type',
+               ]);
+               $insert =  DB::table('course_type')->insert($data);
+               if ($insert) {
+                  $req->session()->flash('success', 'Inserted successfully...');
+                  return redirect($_SERVER['HTTP_REFERER']);
+               } else {
+                  $req->session()->flash('error', 'Some error occured...');
+                  return redirect($_SERVER['HTTP_REFERER']);
+               }
+            }
+         }
+         if (!empty($req->input('uid'))) {
+      $status=$req->input('status');
+             if($status==1){
+                 $status=0;
+             }else{
+                 $status=1;
+             }
+             $data=array(
+                'status'=>$status
+             );
+             $update=Db::table("course_type")->where("id",$req->input('uid'))->update($data);
+             return redirect('admin/course-category');
+         }
+         if (!empty($req->input('id'))) {
+            $data['list']=DB::table("course_type")->get();
+            $data['row'] = DB::select('select * from course_type where id=' . $req->input('id'));
+            return view('course.course_category',$data);
+         } else {
+             $data['list']=DB::table("course_type")->get();
+            return view('course.course_category',$data);
+         }
+        
+    }
 }

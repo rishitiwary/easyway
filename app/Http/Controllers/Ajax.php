@@ -543,5 +543,16 @@ $data['document']=DB::table("course_document")->where('folder_id',$folderid)->or
 return view('course.ajax_contents',$data);
     
 }
+public function position(Request $req){
+   $data=array(
+      'position'=>$req->input('position'),
+   );
+   $update=DB::table($req->input('table'))->where("id",$req->input('id'))->update($data);
+      if($update){
+         echo '<div class="alert alert-success" role="alert">
+        Position is updated now.
+       </div>';
+      }
+}
 }
  

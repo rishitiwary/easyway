@@ -27,6 +27,7 @@
                         <strong>Error!</strong> <?=@session('error')?>.
                     </div>
                     @endif
+                    <span id="message"></span>
                     <!-- left column -->
                     <div class="col-md-12">
                         <!-- general form elements -->
@@ -55,6 +56,7 @@
                                                     <th>StartDate</th>
                                                     <th>ShortDesc</th>
                                                     <th>Type</th>
+                                                    <th>Position</th>
                                                     <th class="text-right">
                                                         Action </th>
                                                 </tr>
@@ -67,7 +69,8 @@
                                                     <td><?= $row->title ?></td>
                                                     <td><?= $row->start_date ?></td>
                                                     <td><?= $row->short_description ?></td>
-                                                    <td><?php if($row->news=='1'){echo 'News';} 
+                                                   
+                                                   <td><?php if($row->news=='1'){echo 'News';} 
                                                     if($row->notice=='1'){echo ', Notice';} 
                                                     if($row->blog=='1'){echo ', Blog';} 
                                                     if($row->syllabus=='1'){echo ', Syllabus';} 
@@ -76,6 +79,7 @@
                                                     if($row->importantlinks=='1'){echo ', Importantlink';} 
                                                     if($row->testimonials=='1'){echo ', Testimonial';} 
                                                     if($row->news=='apprenticeship'){echo ', Apprenticeship';}  ?></td>
+                                                      <td><input type="number" value="{{$row->position}}" data-id="{{$row->id}}" class="position" min="0" style="width:70px;"></td>
                                                     <td class="mailbox-date pull-right">
                                                         <a data-placement="left" href="notice/create?id=<?=$row->id?>&type=edit" class="btn btn-default btn-xs" data-toggle="tooltip" title="" data-original-title="Edit">
                                                             <i class="fa fa-pencil"></i>
@@ -102,4 +106,20 @@
                 </div> <!-- /.row -->
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->
+        <script>
+             $('.position').on('change',function(){
+               let id=$(this).attr('data-id');
+                let position=$(this).val();
+                let table='notice_tb';
+                $.ajax({
+                        type: "GET",
+                        url: "{{url('admin/position')}}",
+                        data: {id:id,position:position,table:table},
+                        success: function(data) {
+                           $('#message').html(data);
+                        },
+                         
+                    });
+            });
+        </script>
         @include('admin.include.footer');

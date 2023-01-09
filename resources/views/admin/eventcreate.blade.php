@@ -201,6 +201,28 @@
         </div>
         @include('admin.include.footer');
         <script>
+$(document).ready(function() {
+    $(document).on('click', '.pagination a', function(event) {
+
+        event.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
+
+        fetch_data(page);
+    });
+
+    function fetch_data(page) {
+        $.ajax({
+            url: "<?=url("ajax/getmedia")?>?page="+page,
+            method: 'GET',
+            success: function(data) {
+                $('.modal-media-body').empty(data);
+                $('.modal-media-body').append(data);
+            }
+        });
+    }
+});
+</script>
+        <script>
         $(document).ready(function() {
             var popup_target = 'media_images';
             CKEDITOR.replace('editor1', {

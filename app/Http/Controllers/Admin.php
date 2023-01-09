@@ -773,4 +773,8 @@ class Admin extends Controller
       $data['list']=DB::table('video_gallery_tb')->get();
       return view('admin.video_gallery',$data);
    }
+   public function menu(Request $req)
+   {
+      return view('user.menu');
+   }
 }

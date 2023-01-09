@@ -104,7 +104,7 @@
                                             <tr class=" text-left">
                                                 <td>
                                                     <span class="title">Amount</span></td>
-                                                <td class="text-right">{{$res->price}}</td>
+                                                <td class="text-right"> {{$price=$res->price-($res->price*($res->discount/100))}}</td>
                                             </tr>
                                           
                                         </table>
@@ -112,7 +112,7 @@
                                         @csrf
                                         
                                         <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                            data-key="{{env('RAZORPAY_KEY')}}" data-amount="{{$res->price*100}}"
+                                            data-key="{{env('RAZORPAY_KEY')}}" data-amount="{{$price*100}}"
                                             data-buttontext="Pay Now"
                                             data-name="Easywayglobal"
                                             data-description="{{$res->description}}"

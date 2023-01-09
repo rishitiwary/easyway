@@ -88,7 +88,7 @@
                   <div class="col-md-12">
                     <div class="row flex-row">
 @foreach($related_courses as $runs)
-<?php $course=DB::table("courses")->where("tradegroup_id",$run->tradegroup_id)->get();
+<?php $course=DB::table("courses")->where("tradegroup_id",$run->tradegroup_id)->orderBy("position","asc")->get();
   foreach($course as $row){?>
   <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                         <div class="coursebox">

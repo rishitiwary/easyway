@@ -105,15 +105,11 @@
                      
                       <a href="{{url($about->url)}}">more info click</a></p>
                    
-                    
-                 
-                    
-               
-     
+            
                 @foreach($type as $row)
                     <div class="row">
                         <div class="col-md-12">
-                            <h2 style="background:rgb(199 33 23);padding: 10px;color: white;border-radius: 5px;">{{$row->type}}<a href="video-exam.html" class="pull-right"
+                            <h2 style="background:rgb(199 33 23);padding: 10px;color: white;border-radius: 5px;">{{$row->type}}<a href="{{url('course')}}/{{$row->url}}" class="pull-right"
                                     style="color: #fff;text-decoration: underline;">View All</a></h2>
                         </div>
                     </div>
@@ -121,7 +117,7 @@
                     
                     <div class="row">
                     @php 
-                        $course=DB::table("courses")->where("course_type",$row->id)->where("status",1)->orderBy("disposition","asc")->get();
+                        $course=DB::table("courses")->where("course_type",$row->id)->where("status",1)->orderBy("position","asc")->get();
                         @endphp
                         @foreach($course as $runs)
                         
@@ -133,7 +129,7 @@
                                             src="{{asset('')}}{{$runs->course_thumbnail}}"></a>
                                 </div>
                                 <div class="coursebox-body">
-                                    <a href="detail/48.html">
+                                    <a href="{{url('course_details')}}/{{$row->id}}">
                                         <h4>{{$runs->title}} : </h4>
                                     </a>
                                     <div class="" style="padding-top: 5px">
@@ -153,7 +149,7 @@
                                     </div>
                                 </div>
                                 <div class="coursebtn">
-                                    <a href="detail/48.html"
+                                    <a href="{{url('course_details')}}/{{$row->id}}"
                                         class="btn btn-buygreen course_preview_id pull-right">Course Preview</a>
                                     <a href="{{url('course_payment/payment')}}/{{$runs->id}}" class="btn btn-add course_detail_id"><i
                                             class="fa fa-cart-plus"></i> Buy Now</a>
@@ -171,105 +167,79 @@
                 </div>
                 <div class="col-md-3 col-sm-3">
                     <div class="newsmain">
-                        <div class="catetab">Govt. Jobs <a href="govt-jobs.html"
+                        <div class="catetab">Govt. Jobs <a href="{{url('govt-jobs')}}"
                                 class="btn btn-success pull-right btn-xs">View All</a> </div>
                         <div class="newscontent">
                             <div class="tickercontainer">
                                 <div class="mask">
                                     <ul id="" class="newsticker">
+                                        @foreach($govtjob as $rows)
                                         <li style="padding:0;min-height:20px">
                                             <a
-                                                href="read/nfl-non-executive-workers-recruitment-2021-apply-online-for-183-vacancy.html">
-                                                <p style="margin:0">NFL Non Executive (Workers) Recruitment 2021 – Apply
-                                                    Online for 183 <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
+                                                href="{{url('read')}}/{{$rows->url}}">
+                                                <p style="margin:0">{{$rows->title}} <img
+                                                        src="{{asset('public/uploads/new-gif-image.gif')}}"
                                                         style="height:16px"></p>
                                             </a>
                                         </li>
+                                        @endforeach
+                                    
+                                   
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+       
+                    <div class="newsmain">
+                        <div class="catetab">Latest News <a href="{{url('latest-news')}}"
+                                class="btn btn-success pull-right btn-xs">View All</a> </div>
+                        <div class="newscontent">
+                            <div class="tickercontainer">
+                                <div class="mask">
+                                    <ul id="" class="newsticker">
+                                        @foreach($news as $rows)
                                         <li style="padding:0;min-height:20px">
                                             <a
-                                                href="read/iocl-recruitment-2021-apply-online-for-2437-trade-technician-apprentice-posts.html">
-                                                <p style="margin:0">IOCL Recruitment 2021 – Apply Online for 2437 Trade
-                                                    & Technician App <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
+                                                href="{{url('read')}}/{{$rows->url}}">
+                                                <p style="margin:0">{{$rows->title}} <img
+                                                        src="{{asset('public/uploads/new-gif-image.gif')}}"
                                                         style="height:16px"></p>
                                             </a>
                                         </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a
-                                                href="read/western-coalfields-ltd-mining-sirdar-surveyor-recruitment-2021-apply-online-for-211-vacancy.html">
-                                                <p style="margin:0">Western Coalfields Ltd Mining Sirdar & Surveyor
-                                                    Recruitment 2021 – A <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/npcil-trade-apprentiship-recruitment.html">
-                                                <p style="margin:0">NPCIL Trade Apprentiship Recruitment <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a
-                                                href="read/name-of-the-post-bsf-constable-tradesman-online-form-2022.html">
-                                                <p style="margin:0">Name of the Post: BSF Constable (Tradesman) Online
-                                                    Form 2022 <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
+                                        @endforeach
+                                    
+                                   
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="newsmain">
-                        <div class="catetab">Latest News <a href="latest-news.html"
-                                class="btn btn-success pull-right btn-xs">View All</a></div>
+                        <div class="catetab">Apprenticeship <a href="{{url('apprenticeship')}}"
+                                class="btn btn-success pull-right btn-xs">View All</a> </div>
                         <div class="newscontent">
                             <div class="tickercontainer">
                                 <div class="mask">
-                                    <ul class="newsticker">
+                                    <ul id="" class="newsticker">
+                                        @foreach($apprenticeship as $rows)
                                         <li style="padding:0;min-height:20px">
-                                            <a href="read/made-easy.html">
-                                                <p style="margin:0">MADE EASY <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
+                                            <a
+                                                href="{{url('read')}}/{{$rows->url}}">
+                                                <p style="margin:0">{{$rows->title}} <img
+                                                        src="{{asset('public/uploads/new-gif-image.gif')}}"
                                                         style="height:16px"></p>
                                             </a>
                                         </li>
+                                        @endforeach
+                                    
+                                   
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="newsmain">
-                        <div class="catetab">Apprenticeship <a href="apprenticeship.html"
-                                class="btn btn-success pull-right btn-xs">View All</a></div>
-                        <div class="newscontent">
-                            <div class="tickercontainer">
-                                <div class="mask">
-                                    <ul class="newsticker">
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/indian-navy-tradesman-online-form-2022.html">
-                                                <p style="margin:0">Indian Navy Tradesman Online Form 2022 <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/bsf-constable-tradesman-online-form-2022.html">
-                                                <p style="margin:0">BSF Constable (Tradesman) Online Form 2022 <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                     
                     <div class="newsmain">
                         <div class="tickercontainer">
                             <iframe
@@ -280,268 +250,168 @@
                         </div>
                     </div>
                     <div class="newsmain">
-                        <div class="catetab">Syallabus <a href="syllabus.html"
-                                class="btn btn-success pull-right btn-xs">View All</a></div>
+                        <div class="catetab">Syllabus <a href="{{url('syllabus')}}"
+                                class="btn btn-success pull-right btn-xs">View All</a> </div>
                         <div class="newscontent">
                             <div class="tickercontainer">
                                 <div class="mask">
-                                    <ul class="newsticker">
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/fitter-syllabus.html">
-                                                <p style="margin:0">Fitter Syllabus <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/electrician-syllabus.html">
-                                                <p style="margin:0">Electrician Syllabus <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/copa-syllabus.html">
-                                                <p style="margin:0">COPA Syllabus <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/machinist-syllabus.html">
-                                                <p style="margin:0">Machinist Syllabus <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/wireman-syllabus.html">
-                                                <p style="margin:0">Wireman Syllabus <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/turner-syllabus.html">
-                                                <p style="margin:0">Turner Syllabus <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/engineering-drawing-syllabus.html">
-                                                <p style="margin:0">Engineering Drawing Syllabus <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/employability-skills-syllabus.html">
-                                                <p style="margin:0">Employability Skills Syllabus <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="newsmain">
-                        <div class="catetab">Important Links<a href="important-links.html"
-                                class="btn btn-success pull-right btn-xs">View All</a></div>
-                        <div class="newscontent">
-                            <div class="tickercontainer">
-                                <div class="mask">
-                                    <ul class="newsticker">
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/directorate-of-training.html">
-                                                <p style="margin:0">Directorate Of Training <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/craft-instructor-training-scheme.html">
-                                                <p style="margin:0">Craft Instructor Training Scheme <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/ncvt-mis.html">
-                                                <p style="margin:0">NCVT MIS <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/bharat-skill.html">
-                                                <p style="margin:0">Bharat Skill <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/apprenticeship-new-portals.html">
-                                                <p style="margin:0">Apprenticeship New Portals <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/apprenticeship.html">
-                                                <p style="margin:0">Apprenticeship <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/national-career-service.html">
-                                                <p style="margin:0">National Career Service <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/nimi.html">
-                                                <p style="margin:0">NIMI <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/cstari.html">
-                                                <p style="margin:0">CSTARI <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/jan-shikshan-sansthan.html">
-                                                <p style="margin:0">Jan Shikshan Sansthan <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/ministry-labour-employment.html">
-                                                <p style="margin:0">Ministry Labour & Employment <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/national-scholarship-portal.html">
-                                                <p style="margin:0">National Scholarship Portal <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="newsmain">
-                        <div class="catetab">Private Jobs <a href="private-jobs.html"
-                                class="btn btn-success pull-right btn-xs">View All</a></div>
-                        <div class="newscontent">
-                            <div class="tickercontainer">
-                                <div class="mask">
-                                    <ul class="newsticker">
+                                    <ul id="" class="newsticker">
+                                        @foreach($syllabus as $rows)
                                         <li style="padding:0;min-height:20px">
                                             <a
-                                                href="read/cochin-shipyard-limited-graduate-technician-apprentice-online-form-2022.html">
-                                                <p style="margin:0">Cochin Shipyard Limited Graduate & Technician
-                                                    Apprentice Online Form 2 <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
+                                                href="{{url('read')}}/{{$rows->url}}">
+                                                <p style="margin:0">{{$rows->title}} <img
+                                                        src="{{asset('public/uploads/new-gif-image.gif')}}"
                                                         style="height:16px"></p>
                                             </a>
                                         </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="read/indian-navy-tradesman-online-form-2022-1.html">
-                                                <p style="margin:0">Indian Navy Tradesman Online Form 2022 <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
+                                        @endforeach
+                                    
+                                   
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="newsmain">
-                        <div class="catetab">Blogs <a href="blogs.html" class="btn btn-success pull-right btn-xs">View
-                                All</a></div>
+                        <div class="catetab">Important Links <a href="{{url('important-links')}}"
+                                class="btn btn-success pull-right btn-xs">View All</a> </div>
                         <div class="newscontent">
                             <div class="tickercontainer">
                                 <div class="mask">
-                                    <ul class="newsticker">
+                                    <ul id="" class="newsticker">
+                                        @foreach($importantlink as $rows)
                                         <li style="padding:0;min-height:20px">
-                                            <a href="read/complete-guidance.html">
-                                                <p style="margin:0">Complete Guidance <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
+                                            <a
+                                                href="{{url('read')}}/{{$rows->url}}">
+                                                <p style="margin:0">{{$rows->title}} <img
+                                                        src="{{asset('public/uploads/new-gif-image.gif')}}"
                                                         style="height:16px"></p>
                                             </a>
                                         </li>
+                                        @endforeach
+                                    
+                                   
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="newsmain">
-                        <div class="catetab">Live Test <a href="live-test.html"
-                                class="btn btn-success pull-right btn-xs">View All</a></div>
+                        <div class="catetab">Private Jobs <a href="{{url('private-job')}}"
+                                class="btn btn-success pull-right btn-xs">View All</a> </div>
                         <div class="newscontent">
                             <div class="tickercontainer">
                                 <div class="mask">
-                                    <ul class="newsticker">
+                                    <ul id="" class="newsticker">
+                                        @foreach($private_job as $rows)
                                         <li style="padding:0;min-height:20px">
-                                            <a href="site/userlogin.html">
-                                                <p style="margin:0">metro live test <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
+                                            <a
+                                                href="{{url('read')}}/{{$rows->url}}">
+                                                <p style="margin:0">{{$rows->title}} <img
+                                                        src="{{asset('public/uploads/new-gif-image.gif')}}"
                                                         style="height:16px"></p>
                                             </a>
                                         </li>
+                                        @endforeach
+                                    
+                                   
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="newsmain">
-                        <div class="catetab">Quiz <a href="quiz.html" class="btn btn-success pull-right btn-xs">View
-                                All</a></div>
+                        <div class="catetab">Blogs <a href="{{url('blogs')}}"
+                                class="btn btn-success pull-right btn-xs">View All</a> </div>
                         <div class="newscontent">
                             <div class="tickercontainer">
                                 <div class="mask">
-                                    <ul class="newsticker">
+                                    <ul id="" class="newsticker">
+                                        @foreach($blogs as $rows)
                                         <li style="padding:0;min-height:20px">
-                                            <a href="site/userlogin.html">
-                                                <p style="margin:0">Fitter Quiz : All Competitive Exam <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
+                                            <a
+                                                href="{{url('read')}}/{{$rows->url}}">
+                                                <p style="margin:0">{{$rows->title}} <img
+                                                        src="{{asset('public/uploads/new-gif-image.gif')}}"
                                                         style="height:16px"></p>
                                             </a>
                                         </li>
-                                        <li style="padding:0;min-height:20px">
-                                            <a href="site/userlogin.html">
-                                                <p style="margin:0">Electrician Quiz : All Competitive Exam <img
-                                                        src="{{asset('public/uploads/gallery/media/new-gif-image.gif')}}"
-                                                        style="height:16px"></p>
-                                            </a>
-                                        </li>
+                                        @endforeach
+                                    
+                                   
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="newsmain">
-                        <div class="catetab">Live Class <a href="liveclass.html"
-                                class="btn btn-success pull-right btn-xs">View All</a></div>
+                        <div class="catetab">Live Test <a href="{{url('live-test')}}"
+                                class="btn btn-success pull-right btn-xs">View All</a> </div>
                         <div class="newscontent">
                             <div class="tickercontainer">
                                 <div class="mask">
-                                    <ul class="newsticker">
+                                    <ul id="" class="newsticker">
+                                        @foreach($livetest as $rows)
+                                        <li style="padding:0;min-height:20px">
+                                            <a
+                                                href="{{url('course_details')}}/{{$rows->id}}">
+                                                <p style="margin:0">{{$rows->title}} <img
+                                                        src="{{asset('public/uploads/new-gif-image.gif')}}"
+                                                        style="height:16px"></p>
+                                            </a>
+                                        </li>
+                                        @endforeach
+                                    
+                                   
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="newsmain">
+                        <div class="catetab">Quize <a href="{{url('quize')}}"
+                                class="btn btn-success pull-right btn-xs">View All</a> </div>
+                        <div class="newscontent">
+                            <div class="tickercontainer">
+                                <div class="mask">
+                                    <ul id="" class="newsticker">
+                                        @foreach($quize as $rows)
+                                        <li style="padding:0;min-height:20px">
+                                            <a
+                                                href="{{url('course_details')}}/{{$rows->id}}">
+                                                <p style="margin:0">{{$rows->title}} <img
+                                                        src="{{asset('public/uploads/new-gif-image.gif')}}"
+                                                        style="height:16px"></p>
+                                            </a>
+                                        </li>
+                                        @endforeach
+                                    
+                                   
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="newsmain">
+                        <div class="catetab">Live Class <a href="{{url('live-test')}}"
+                                class="btn btn-success pull-right btn-xs">View All</a> </div>
+                        <div class="newscontent">
+                            <div class="tickercontainer">
+                                <div class="mask">
+                                    <ul id="" class="newsticker">
+                                        @foreach($liveclass as $rows)
+                                        <li style="padding:0;min-height:20px">
+                                            <a
+                                                href="{{url('course_details')}}/{{$rows->id}}">
+                                                <p style="margin:0">{{$rows->title}} <img
+                                                        src="{{asset('public/uploads/new-gif-image.gif')}}"
+                                                        style="height:16px"></p>
+                                            </a>
+                                        </li>
+                                        @endforeach
+                                    
+                                   
                                     </ul>
                                 </div>
                             </div>
