@@ -698,4 +698,8 @@ class Master extends Controller
         $data['class'] = DB::table('classes')->where('is_active', 'yes')->get();
         return view('fee/feemaster_assign', $data);
     }
+    public function calendar_events(Request $req)
+    {
+        return view ('admin.calendar_events');
+    }
 }

@@ -88,6 +88,8 @@ Route::match(['get','post'],'/general_settings',[Admin::class,'general_settings'
 Route::match(['get','post'],'/disable_reason',[Admin::class,'disable_reason']);
 Route::get('position',[Ajax::class,'position']);
 Route::match(['get','post'],'menu',[Admin::class,'menu']);
+Route::match(['get','post'],'submenu',[Admin::class,'submenu']);
+
 //end admin
 Route::get('course',[Course::class,'index']);
 Route::match(['get','post'],'addcourse',[Course::class,'addcourse']);
@@ -133,7 +135,7 @@ Route::group(['prefix'=>'master','middleware'=>'checkAdmin'],function(){
     Route::match(['get', 'post'],'/feediscount/assign/{id}',[Master::class,'feediscount_assign']);
     Route::match(['get', 'post'],'/feemaster',[Master::class,'feemaster']);
     Route::match(['get', 'post'],'/feemaster/assign/{id}',[Master::class,'feemaster_assign']);
- 
+    Route::match(['get','post'],'calendar/events',[Master::class,'calendar_events']);
 
 
 });

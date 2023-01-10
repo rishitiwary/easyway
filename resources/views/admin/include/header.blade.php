@@ -33,10 +33,10 @@
             <div class="pull-right">
 
                 <form id="header_search_form" class="navbar-form navbar-left search-form" role="search"
-                    action="admin/search" method="POST">
+                    action="{{url('student/search')}}" method="POST">
                     @csrf
                     <div class="input-group">
-                        <input type="text" value="" name="search_text1" id="search_text1"
+                        <input type="text" value="" name="search_text" id="search_text"
                             class="form-control search-form search-form3"
                             placeholder="Search By Student Name, Roll Number, Enroll Number, National Id, Local Id Etc.">
                         <span class="input-group-btn">
@@ -52,7 +52,7 @@
 
                     <ul class="nav navbar-nav headertopmenu">
                         <li class="cal15"><a data-placement="bottom" data-toggle="tooltip" title="Calendar"
-                                href="admin/calendar/events"><i class="fa fa-calendar"></i></a>
+                                href="{{url('master/calendar/events')}}"><i class="fa fa-calendar"></i></a>
 
                         </li>
                 

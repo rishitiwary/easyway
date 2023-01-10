@@ -46,11 +46,11 @@
                                                 <label for="trade">Trade</label><small class="req"> *</small>
                                                 <select class="form-control" name="trade" id="trade" required>
                                                     <option value="">Select</option>
-                                                    @if($res->id!='')   
+                                                    @if($res->id!='')
                                                     <?php
-                                                    
-                                                    $run=DB::table('trade')->where('id',$res->trade)->get()->first();
-                                                    
+
+                                                    $run = DB::table('trade')->where('id', $res->trade)->get()->first();
+
                                                     ?>
                                                     <option value="{{$run->id}}" selected>{{$run->name}}</option>
                                                     @endif
@@ -61,11 +61,11 @@
                                                 <label for="subject">Subject</label>
                                                 <select id="subject" name="subject" class="form-control" required>
                                                     <option value="">Select</option>
-                                                    @if($res->id!='')   
+                                                    @if($res->id!='')
                                                     <?php
-                                                    
-                                                    $run=DB::table('subject')->where('id',$res->subject)->get()->first();
-                                                    
+
+                                                    $run = DB::table('subject')->where('id', $res->subject)->get()->first();
+
                                                     ?>
                                                     <option value="{{$run->id}}" selected>{{$run->name}}</option>
                                                     @endif
@@ -76,11 +76,11 @@
                                                 <label for="chapter">Chapter</label><small class="req"> *</small>
                                                 <select class="form-control" name="chapter" id="chapter" required>
                                                     <option value="">Select</option>
-                                                    @if($res->id!='')   
+                                                    @if($res->id!='')
                                                     <?php
-                                                    
-                                                    $run=DB::table('chapter')->where('id',$res->chapter)->get()->first();
-                                                    
+
+                                                    $run = DB::table('chapter')->where('id', $res->chapter)->get()->first();
+
                                                     ?>
                                                     <option value="{{$run->id}}" selected>{{$run->name}}</option>
                                                     @endif
@@ -91,11 +91,11 @@
                                                 <label for="topic">Topic</label><small class="req"> *</small>
                                                 <select class="form-control" name="topic" id="topic" required>
                                                     <option value="">Select</option>
-                                                    @if($res->id!='')   
+                                                    @if($res->id!='')
                                                     <?php
-                                                    
-                                                    $run=DB::table('topics')->where('id',$res->topic)->get()->first();
-                                                    
+
+                                                    $run = DB::table('topics')->where('id', $res->topic)->get()->first();
+
                                                     ?>
                                                     <option value="{{$run->id}}" selected>{{$run->name}}</option>
                                                     @endif
@@ -109,8 +109,8 @@
                                                 <label for="exampleInputEmail1">Question</label>
                                                 <div class="form-group">
                                                     <textarea id="editor1" name="question" placeholder="" class="form-control ss" required>
-                                                        {{$res->question}}
-                                                                    </textarea>
+                                                    {{$res->question}}
+                                                    </textarea>
                                                     <span class="text-danger"></span>
                                                 </div>
                                                 <span class="text text-danger question_error"></span>
@@ -120,7 +120,7 @@
                                                 <div class="form-group">
                                                     <textarea id="editor2" name="option_a" placeholder="" class="form-control ss" required>
                                                     {{$res->opt_a}}
-                                                                    </textarea>
+                                                    </textarea>
                                                     <span class="text-danger"></span>
                                                 </div>
                                                 <span class="text text-danger question_error"></span>
@@ -129,7 +129,7 @@
                                                 <label for="exampleInputEmail1">Option B</label>
                                                 <div class="form-group">
                                                     <textarea id="editor3" name="option_b" placeholder="" class="form-control ss" required>
-                                                    {{$res->opt_b}}  </textarea>
+                                                    {{$res->opt_b}} </textarea>
                                                     <span class="text-danger"></span>
                                                 </div>
                                                 <span class="text text-danger question_error"></span>
@@ -147,7 +147,7 @@
                                                 <label for="exampleInputEmail1">Option D</label>
                                                 <div class="form-group">
                                                     <textarea id="editor5" name="option_d" placeholder="" " class=" form-control ss" required>
-                                                    {{$res->opt_d}}  </textarea>
+                                                    {{$res->opt_d}} </textarea>
                                                     <span class="text-danger"></span>
                                                 </div>
                                                 <span class="text text-danger question_error"></span>
@@ -179,7 +179,7 @@
                                                 <label for="exampleInputEmail1">Explanation</label>
                                                 <div class="form-group">
                                                     <textarea id="editor7" name="explanation" placeholder="" class="form-control" required>
-                                                                    {{$res->explanation}}</textarea>
+                                                    {{$res->explanation}}</textarea>
                                                     <span class="text-danger"></span>
                                                 </div>
                                                 <span class="text text-danger question_error"></span>
@@ -325,19 +325,19 @@
             });
         });
     </script>
-@if($view!='view')
+    @if($view!='view')
     <script>
         $("#form").on('submit', (function(e) {
             for (instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();
             }
-            
+
             e.preventDefault();
             if (CKEDITOR.instances.editor1.getData() == '' || CKEDITOR.instances.editor2.getData() == '' || CKEDITOR.instances.editor3.getData() == '' || CKEDITOR.instances.editor4.getData() == '' || CKEDITOR.instances.editor5.getData() == '') {
                 alert('Question and options are required....');
                 exit;
             }
-            let uid='{{$res->id}}';
+            let uid = '{{$res->id}}';
             $.ajax({
                 url: "{{url('exam/addquestion')}}",
                 type: "POST",
@@ -357,9 +357,9 @@
                     CKEDITOR.instances.editor5.setData('');
                     CKEDITOR.instances.editor6.setData('');
                     CKEDITOR.instances.editor7.setData('');
-                    if(uid!=''){
+                    if (uid != '') {
                         $('#message').html('<div class="alert alert-success" role="alert">Question updated succesfully...</div>').fadeIn();
-                        window.history.go(); 
+                        window.history.go();
                     }
                     $('#message').html(data).fadeIn();
 

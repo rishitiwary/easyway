@@ -775,6 +775,63 @@ class Admin extends Controller
    }
    public function menu(Request $req)
    {
-      return view('user.menu');
+      if($_SERVER['REQUEST_METHOD']=='POST'){
+      
+         $data=array(
+            'title'=>trim($req->input('title')),
+            'icon'=>trim($req->input('icon')),
+            'submenu'=>trim($req->input('submenu')),
+         );
+         if($req->input('uid')!=''){
+            $insert=DB::table("menu")->where("id",$req->input('uid'))->update($data);
+            $req->session()->flash('success', 'Updated Successfully...');
+         return redirect('admin/menu');
+         }else{
+            $insert=DB::table("menu")->insert($data);
+         }
+        
+         $req->session()->flash('success', 'Inserted Successfully...');
+         return redirect($_SERVER['HTTP_REFERER']);
+      }
+      if($req->input('id')!=''){
+         $data['res']=DB::table("menu")->where("id",$req->input('id'))->first();
+      }
+      $data['list']=DB::table("menu")->get();
+      return view('user.menu',$data);
+   }
+
+   public function submenu(Request $req)
+   {
+      if($_SERVER['REQUEST_METHOD']=='POST'){
+      
+         $data=array(
+            'menu_id'=>trim($req->input('menu_id')),
+            'title'=>trim($req->input('title')),
+            'icon'=>trim($req->input('icon')),
+            'link'=>trim($req->input('link')),
+         );
+         if($req->input('uid')!=''){
+            $insert=DB::table("submenu")->where("id",$req->input('uid'))->update($data);
+            echo '<div class="alert alert-success" role="alert">
+            Updated succesfully...
+           </div>';
+            
+            exit;
+         }else{
+            $insert=DB::table("submenu")->insert($data);
+            echo '<div class="alert alert-success" role="alert">
+           Inserted succesfully...
+          </div>';
+            exit;
+         }
+        
+        
+      }
+      if($req->input('id')!=''){
+         $data['res']=DB::table("submenu")->where("id",$req->input('id'))->first();
+      }
+      $data['menu']=DB::table("menu")->get();
+      $data['list']=DB::table("submenu")->get();
+      return view('user.submenu',$data);
    }
 }
